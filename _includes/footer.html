@@ -1,7 +1,7 @@
 <footer id="footer" class="site-footer">
   {% include footer-custom.html %}
 
-{%- if site.footer_links -%}
+  {%- if site.footer_links -%}
   <div class="social-links">
     {%- for footer_link in site.footer_links -%}
       {%- if footer_link.url contains "://" -%}
@@ -12,6 +12,7 @@
       <a class="social-link" href="{{ url }}" title="{{ footer_link.title }}" target="_blank" rel="noopener">
         {{ footer_link.title }}
       </a>
+      {%- unless forloop.last -%} | {%- endunless -%}
     {%- endfor -%}
   </div>
 {%- endif -%}
