@@ -2,32 +2,25 @@
   {% include footer-custom.html %}
 
 
-{% for link in site.footer_links %}
-  <a href="{{ link.url }}" title="{{ link.title }}" target="_blank" rel="noopener">
-    {% if link.icon contains '.png' %}
-      <img src="{{ link.icon | relative_url }}" alt="{{ link.title }}" >
-    {% else %}
-      <i class="{{ link.icon }}"></i>
-    {% endif %}
-  </a>
-{% endfor %}
-
-
-
-
-  
-  {%- if site.footer_links -%}
-    <div class="social-icons">
-      {%- for footer_link in site.footer_links -%}
-        {%- if footer_link.url contains "://" -%}
-          {%- assign url = footer_link.url -%}
+{%- if site.footer_links -%}
+  <div class="social-icons">
+    {%- for footer_link in site.footer_links -%}
+      {%- if footer_link.url contains "://" -%}
+        {%- assign url = footer_link.url -%}
+      {%- else -%}
+        {%- assign url = footer_link.url | relative_url -%}
+      {%- endif -%}
+      <a class="social-icon" href="{{ url }}" title="{{ footer_link.title }}" target="_blank" rel="noopener">
+        {%- if footer_link.icon contains '.png' -%}
+          <img src="{{ footer_link.icon | relative_url }}" alt="{{ footer_link.title }}" width="24" height="24" />
         {%- else -%}
-          {%- assign url = footer_link.url | relative_url -%}
+          <i class="{{ footer_link.icon | default: 'fas fa-link' }} fa-2x"></i>
         {%- endif -%}
-        <a class="social-icon" href="{{ url }}"><i class="{{ footer_link.icon | default: 'fas fa-link' }} fa-2x" title="{{ footer_link.title }}"></i></a>
-      {%- endfor -%}
-    </div>
-  {%- endif -%}
+      </a>
+    {%- endfor -%}
+  </div>
+{%- endif -%}
+
 
   <div class="copyright">
     {% if site.copyright %}
