@@ -1,0 +1,45 @@
+<footer id="footer" class="site-footer">
+  {% include footer-custom.html %}
+
+  {%- if site.footer_links -%}
+    <div class="social-icons">
+      {%- for footer_link in site.footer_links -%}
+        {%- if footer_link.url contains "://" -%}
+          {%- assign url = footer_link.url -%}
+        {%- else -%}
+          {%- assign url = footer_link.url | relative_url -%}
+        {%- endif -%}
+        <a class="social-icon" href="{{ url }}"><i class="{{ footer_link.icon | default: 'fas fa-link' }} fa-2x" title="{{ footer_link.title }}"></i></a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <div class="copyright">
+    {% if site.copyright %}
+      {{ site.copyright | markdownify }}
+    {% else %}
+      <p>&copy; {{ site.time | date: '%Y' }} {{ site.name | default: site.title }}. </p>
+    {% endif %}
+  </div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Busca el enlace del menú que diga "Theme"
+  var links = document.querySelectorAll('nav a, .nav a, .site-nav a, .navigation a');
+  links.forEach(function(link) {
+    if(link.textContent.trim() === "Theme") {
+      link.style.cursor = "pointer"; // Cambia el cursor
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkmode', document.body.classList.contains('dark-mode'));
+      });
+    }
+  });
+  // Mantener preferencia
+  if(localStorage.getItem('darkmode') === 'true') {
+    document.body.classList.add('dark-mode');
+  }
+});
+</script>
+  
+</footer>
