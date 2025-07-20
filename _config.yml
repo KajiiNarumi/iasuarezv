@@ -128,6 +128,7 @@ footer_links:
 - title: X
   url: https://x.com/iasuarezv
   icon: fab fa-x-twitter
-  - title: Feed
-    url: atom.xml
-    icon: fas fa-rss
+
+- title: Feed
+  url: atom.xml
+  icon: fas fa-rss
