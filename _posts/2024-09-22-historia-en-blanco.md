@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Ficción]
+categories: [Ficcion]
 tags: [cuento, alegoría, narrativa breve, conflicto, paz]
 title: "Historia en Blanco"
 date: 2024-09-22
