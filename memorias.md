@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Pensamientos"
+title: "Memorias"
 permalink: /asuntos/
 robots: noindex, nofollow
 ---
