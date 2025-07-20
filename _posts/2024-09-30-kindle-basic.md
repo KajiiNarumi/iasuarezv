@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Tecnología]
+categories: [Tecnologia]
 tags: [lectura, Kindle, tecnología, opinión, minimalismo]
 title: "¿Por qué elegí la Kindle Basic entre todas las opciones que hay?"
 date: 2024-09-30
