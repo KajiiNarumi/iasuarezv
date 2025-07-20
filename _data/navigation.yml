@@ -1,0 +1,19 @@
+# Sample site navigation bar links
+
+#- title: Casa
+#  url: https://kajiinarumi.com/
+- title: Memorias
+  url: /memorias
+# - title: Posts
+#  url: /posts/
+- title: Pensamientos
+  url: /pensamientos/
+- title: Categorías
+  url: /categories/
+# - title: Etiquetas
+#   url: /tags/
+- title: Buscar
+  url: /search/
+- title: Theme
+  url: "#"
+  id: theme-toggle

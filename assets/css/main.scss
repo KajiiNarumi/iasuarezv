@@ -1,0 +1,64 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+sitemap: false
+---
+
+@charset "utf-8";
+
+@import "so-simple";
+
+// --- Dark mode styles ---
+body.dark-mode {
+  background: #181818 !important;
+  color: #f6f6f6 !important;
+}
+
+body.dark-mode a { color: #fff !important; }
+body.dark-mode .site-header,
+body.dark-mode .site-footer {
+  background: #222 !important;
+}
+body.dark-mode .sidebar {
+  background: #232323 !important;
+}
+body.dark-mode .post,
+body.dark-mode .page,
+body.dark-mode .entry,
+body.dark-mode .archive {
+  background: #222 !important;  
+  color: #f6f6f6 !important;
+}
+
+/* Citas */
+body.dark-mode blockquote {
+  background: #000;
+  border-left: 4px solid #51a7ff;
+  color: #ddd;
+}
+// Personaliza aquí según tus necesidades.
+
+.page-image {
+  text-align: center;
+  margin-bottom: 2em;
+  margin-top: 2em;                // Espacio extra arriba para separar del menú
+}
+
+.page-image img.entry-feature-image {
+  width: 80% !important;          // Abarca el 50% del ancho del contenedor
+  max-width: 600px;               // (opcional) limitar tamaño máximo
+  aspect-ratio: 1 / 1;            // Mantiene siempre cuadrada la imagen
+  object-fit: cover;              // Recorta si la imagen es muy alargada o alta
+  border-radius: 10px;
+  margin: 1.5em auto 1em auto !important;
+  display: block;
+  box-shadow: none !important;
+}
+
+.post-author {
+  display: block;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 0.5em;
+}
+
+
