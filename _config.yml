@@ -115,19 +115,19 @@ footer_links:
 #    icon: fab fa-youtube
 - title: OnlyFans
   url: https://onlyfans.com/iasuarezv
-  icon: fas fa-link
+  icon: fab fa-onlyfans
 
 - title: Vero
   url: https://vero.co/iasuarezv
-  icon: fas fa-link
+  icon: fab fa-vero
 
 - title: Ko-fi
   url: https://ko-fi.com/iasuarezv
-  icon: fas fa-coffee
+  icon: fas fa-mug-hot
 
 - title: X
   url: https://x.com/iasuarezv
-  icon: fab fa-x-twitter
+  icon: fab fa-twitter
 
 - title: Feed
   url: atom.xml
