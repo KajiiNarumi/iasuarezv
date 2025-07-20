@@ -7,12 +7,12 @@
       {%- if footer_link.url contains "://" -%}
         {%- assign url = footer_link.url -%}
       {%- else -%}
-        {%- assign url = footer_link.url | relative_url -%}
+        {%- assign url = footer_link.url  |  relative_url -%}
       {%- endif -%}
       <a class="social-link" href="{{ url }}" title="{{ footer_link.title }}" target="_blank" rel="noopener">
         {{ footer_link.title }}
       </a>
-      {%- unless forloop.last -%} | {%- endunless -%}
+      {%- unless forloop.last -%}  |  {%- endunless -%}
     {%- endfor -%}
   </div>
 {%- endif -%}
