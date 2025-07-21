@@ -5,6 +5,7 @@ permalink: /testimonios/
 show_excerpts: true
 entries_layout: list
 ---
+# Testimonios
 
 <style>
 .formulario-minimal {
@@ -83,6 +84,8 @@ entries_layout: list
 
   <button type="submit">Enviar</button>
 </form>
+
+---
 
 ### **Kymi Chibi**  
 *Guía Oracular*  
