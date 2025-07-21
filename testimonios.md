@@ -6,6 +6,83 @@ show_excerpts: true
 entries_layout: list
 ---
 
+<style>
+.formulario-minimal {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  width: 90%;
+  font-family: sans-serif;
+}
+
+.formulario-minimal label {
+  display: block;
+  margin: 1.2rem 0 0.5rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.formulario-minimal input,
+.formulario-minimal select,
+.formulario-minimal textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem 0;
+  background: transparent;
+  font-size: 1rem;
+  color: #222;
+  outline: none;
+}
+
+.formulario-minimal input:focus,
+.formulario-minimal select:focus,
+.formulario-minimal textarea:focus {
+  border-bottom: 1px solid #000;
+}
+
+.formulario-minimal button {
+  margin-top: 2rem;
+  padding: 0.7rem 1.5rem;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.formulario-minimal button:hover {
+  background: #333;
+}
+</style>
+
+<form class="formulario-minimal" action="https://formsubmit.co/contacto@kajiinarumi.com" method="POST">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_next" value="https://blog.kajiinarumi.com/gracias/">
+  <input type="text" name="_honey" style="display:none">
+
+  <label for="name">Nombre o seudónimo:</label>
+  <input type="text" name="name" id="name" required>
+
+  <label for="email">Correo:</label>
+  <input type="email" name="email" id="email" required>
+
+  <label for="service">Servicio:</label>
+  <select name="service" id="service" required>
+    <option value="" disabled selected>Selecciona una opción</option>
+    <option value="Lectura oracular">Lectura oracular</option>
+    <option value="Soporte técnico">Soporte técnico</option>
+    <option value="Examen visual">Examen visual</option>
+    <option value="Conexión personal">Conexión personal</option>
+  </select>
+
+  <label for="message">Texto del correo:</label>
+  <textarea name="message" id="message" rows="5" required></textarea>
+
+  <button type="submit">Enviar</button>
+</form>
 
 ### **Kymi Chibi**  
 *Guía Oracular*  
