@@ -6,6 +6,8 @@ show_excerpts: true
 entries_layout: list
 ---
 # Testimonios
+## Escribe tu Testimonio
+
 
 <style>
 .formulario-minimal {
@@ -86,6 +88,8 @@ entries_layout: list
 </form>
 
 ---
+## Otros testimonios  
+
 
 ### **Kymi Chibi**  
 *Guía Oracular*  
