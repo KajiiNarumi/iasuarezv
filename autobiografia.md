@@ -1,3 +1,13 @@
+---
+layout: default
+title: "Autobiografía"
+permalink: /autobiografia/
+paginate: true
+show_excerpts: true
+entries_layout: list
+---
+
+
 <style>
 .autobiografia-container {
   display: flex;
