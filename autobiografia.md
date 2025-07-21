@@ -70,7 +70,7 @@ entries_layout: list
 
 <div class="autobiografia-wrapper">
   <h1 class="autobiografia-title">Autobiografía</h1>
-  <p><i>En nuestra vida hay sucesos que nos orillan a tomar ciertas decisiones. En mi caso tuve la dicha de tener familiares y amigos que me apoyaron en momentos duros y gracias a ellos, generé aficiones que hoy en día son mis mayores ventajas competitivas. Esto me lleva a no renegar de las tragedias que he vivido por que éstas me han generado muchas dichas que ahora son momentos muy apreciados.</i></p>
+  <p>En nuestra vida hay sucesos que nos orillan a tomar ciertas decisiones. En mi caso tuve la dicha de tener familiares y amigos que me apoyaron en momentos duros y gracias a ellos, generé aficiones que hoy en día son mis mayores ventajas competitivas. Esto me lleva a no renegar de las tragedias que he vivido por que éstas me han generado muchas dichas que ahora son momentos muy apreciados.</p>
   <div class="autobiografia-columns">
 
     <div class="autobiografia-col left">
