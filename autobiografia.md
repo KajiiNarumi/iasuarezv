@@ -23,14 +23,14 @@ entries_layout: list
 
 .autobiografia-columns {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
   gap: 2rem;
 }
 
 .autobiografia-col {
-  flex: 1 1 50%;
+  width: 48%;
   box-sizing: border-box;
-  padding: 1rem;
   font-family: Georgia, serif;
   line-height: 1.6;
 }
@@ -49,8 +49,21 @@ entries_layout: list
 }
 
 @media (max-width: 768px) {
+  .autobiografia-columns {
+    flex-direction: column;
+  }
+
   .autobiografia-col {
-    flex: 1 1 100%;
+    width: 100%;
+    text-align: inherit;
+  }
+
+  .left {
+    text-align: left;
+  }
+
+  .right {
+    text-align: right;
   }
 }
 </style>
@@ -62,13 +75,13 @@ entries_layout: list
     <div class="autobiografia-col left">
       <h2>Un poco sobre mí</h2>
       <p>Recuerdo con mucho cariño a un amigo que apareció en mi vida tras una tragedia familiar. A pesar de ser mucho mayor que yo, dedicó su tiempo a compartir su pasión por los astros...</p>
-      <!-- Todo el texto aquí -->
+      <!-- Aquí continúa el texto completo de esta columna -->
     </div>
 
     <div class="autobiografia-col right">
       <h2>Mi camino espiritual</h2>
       <p>Crecí en un hogar católico y, el día que hice mi primera comunión, una pregunta comenzó a rondar mi mente...</p>
-      <!-- Todo el texto aquí -->
+      <!-- Aquí continúa el texto completo de esta columna -->
     </div>
 
   </div>
