@@ -6,7 +6,6 @@ show_excerpts: true
 entries_layout: list
 ---
 # Testimonios
-## Escribe tu Testimonio
 
 
 <style>
@@ -75,13 +74,13 @@ entries_layout: list
   <label for="service">Servicio:</label>
   <select name="service" id="service" required>
     <option value="" disabled selected>Selecciona una opción</option>
-    <option value="Lectura oracular">Lectura oracular</option>
-    <option value="Soporte técnico">Soporte técnico</option>
-    <option value="Examen visual">Examen visual</option>
-    <option value="Conexión personal">Conexión personal</option>
+    <option value="Lectura oracular">Guía Oracular</option>
+    <option value="Soporte técnico">Asistencia informatica</option>
+    <option value="Examen visual">Prueba Visual</option>
+    <option value="Conexión personal">Bienestar Afectivo</option>
   </select>
 
-  <label for="message">Texto del correo:</label>
+  <label for="message">Escribe tu Testimonio:</label>
   <textarea name="message" id="message" rows="5" required></textarea>
 
   <button type="submit">Enviar</button>
