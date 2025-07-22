@@ -79,4 +79,8 @@ entries_layout: list
   </div>
 </section>
 
->[**Puedes leer lo que otras personas opinan**](https://iasuarezv.com/testimonios/)
+<p style="text-align: center; font-style: italic; margin-top: 4rem;">
+  Algunas experiencias marcan...<br>
+  y otras, simplemente no se olvidan.<br>
+  <a href="#testimonios" style="text-decoration: underline;">Sus palabras te lo contarán mejor que yo.</a>
+</p>
