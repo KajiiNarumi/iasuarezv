@@ -82,5 +82,5 @@ entries_layout: list
 <p style="text-align: center; font-style: italic; margin-top: 4rem;">
   Algunas experiencias marcan...<br>
   y otras, simplemente no se olvidan.<br>
-  <a href="#testimonios" style="text-decoration: underline;">Sus palabras te lo contarán mejor que yo.</a>
+  <a href="/testimonios/" style="text-decoration: underline;">Sus palabras te lo contarán mejor que yo.</a>
 </p>
