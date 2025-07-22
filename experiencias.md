@@ -47,7 +47,7 @@ entries_layout: list
     </div>
 
   </div>
-<div style="margin-top: 4rem;"></div>
+<div style="margin-bottom: 4rem;"></div>
   <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 4rem; margin-top: 3rem;">
 
     <div style="flex: 1 1 300px; max-width: 500px;">
@@ -78,3 +78,5 @@ entries_layout: list
     </ul>
   </div>
 </section>
+
+>[**Puedes leer lo que otras personas opinan**](https://iasuarezv.com/testimonios/)
