@@ -8,17 +8,18 @@ entries_layout: list
 
 <section class="catalogo-wrapper">
   <h1 style="text-align: center;">Catálogo de experiencias</h1>
+  <div style="margin-top: 2rem;"></div>
   <p style="text-align: center; font-style: italic;">Servicios personalizados y conexión real, estés donde estés.</p>
-
+<div style="margin-top: 2rem;"></div>
   <p style="text-align: center; max-width: 600px; margin: 0 auto;">
     Cada encuentro, ya sea físico o digital, es único. No trabajo con moldes, sino con personas reales.
     Tú eliges la experiencia, y yo me adapto a tu ritmo, tu espacio y tu energía.
     Lo esencial es un acuerdo mutuo, sincero y claro desde el inicio.
   </p>
-
+<div style="margin-top: 2rem;"></div>
   <h2 style="text-align: center; margin-top: 2rem;">🌹 Experiencias</h2>
   <p style="text-align: center; font-style: italic;">Añade momentos únicos a cualquier sesión</p>
-
+<div style="margin-top: 2rem;"></div>
   <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2rem;">
 
     <div style="max-width: 260px; text-align: center;">
@@ -46,7 +47,7 @@ entries_layout: list
     </div>
 
   </div>
-
+<div style="margin-top: 2rem;"></div>
   <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 4rem; margin-top: 3rem;">
 
     <div style="flex: 1 1 300px; max-width: 500px;">
