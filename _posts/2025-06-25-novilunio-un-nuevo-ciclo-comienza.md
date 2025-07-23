@@ -8,6 +8,7 @@ categories: [Revista]
 tags: [Diario Lunar, Editorial, Luna Nueva, Reflexión, Escritura]
 image:
   path: "/images/2025-06-25-novilunio-un-nuevo-ciclo-comienza.jpg"
+  caption: "Foto de Reign Abarintos en Unsplash"
   alt: "Cielo nocturno con luna nueva en paisaje oscuro. Foto de Reign Abarintos en Unsplash."
 excerpt: "Substack me bloqueó sin aviso, pero la webzine sigue viva. En esta edición de Diario Lunar, comparto los cambios, el nuevo hogar del proyecto y reflexiones para comenzar desde otro lugar."
 ---
