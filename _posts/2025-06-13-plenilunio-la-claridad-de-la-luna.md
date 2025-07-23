@@ -8,6 +8,7 @@ categories: [Revista]
 tags: [Diario Lunar, Editorial, Luna Llena, Tarot, Horóscopo, Reflexión]
 image:
   path: "/images/2025-06-13-plenilunio-la-claridad-de-la-luna.jpg"
+  caption: "Foto de Aron Visuals en Unsplash"
   alt: "Fotografía de la luna llena sobre un paisaje nocturno. Créditos: Aron Visuals en Unsplash."
 excerpt: "Con emoción presento Diario Lunar: una revista digital independiente que nace bajo la Luna llena. Reflexión, tarot y narrativa para leer con calma."
 ---
