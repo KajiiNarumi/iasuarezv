@@ -18,4 +18,18 @@ $(document).ready(function() {
 
 
 
+(function() {
+  let currentSize = 100; // porcentaje inicial
+  const html = document.documentElement;
+
+  document.getElementById('increase-font').addEventListener('click', () => {
+    currentSize += 10;
+    html.style.fontSize = currentSize + '%';
+  });
+
+  document.getElementById('decrease-font').addEventListener('click', () => {
+    currentSize -= 10;
+    html.style.fontSize = currentSize + '%';
+  });
+})();
 
