@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 
 document.addEventListener("DOMContentLoaded", function() {
-  // Tamaño de fuente: alterna entre grande y normal
+  // ACCESIBILIDAD: Botón de lupa (Aumentar/restaurar texto)
   const html = document.documentElement;
   const fontBtn = document.getElementById('font-toggle');
   const bigFont = 20; // px (ajusta si quieres más grande)
@@ -33,22 +33,20 @@ document.addEventListener("DOMContentLoaded", function() {
       big = !big;
       html.style.fontSize = (big ? bigFont : normalFont) + 'px';
       fontBtn.setAttribute('aria-pressed', big);
-      // Opcional: guarda preferencia en localStorage
       localStorage.setItem('fontBig', big ? '1' : '0');
     });
-    // Inicializa según preferencia
+    // Inicializa según preferencia guardada
     big = localStorage.getItem('fontBig') === '1';
     html.style.fontSize = (big ? bigFont : normalFont) + 'px';
     fontBtn.setAttribute('aria-pressed', big);
   }
 
-  // Tema (modo claro/oscuro)
+  // TEMA: Botón círculo (claro/oscuro)
   const themeBtn = document.getElementById('theme-toggle');
   if (themeBtn) {
     themeBtn.addEventListener('click', function() {
       document.body.classList.toggle('dark-mode');
       themeBtn.setAttribute('aria-pressed', document.body.classList.contains('dark-mode'));
-      // Opcional: guarda preferencia en localStorage
       localStorage.setItem('darkMode', document.body.classList.contains('dark-mode') ? '1' : '0');
     });
     // Inicializa tema según preferencia previa
