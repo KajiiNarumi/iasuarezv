@@ -14,12 +14,12 @@
 #   url: /tags/
 - title: Buscar
   url: /search/
-- title: "A+"
+- title: "+"
   url: "#"
   id: font-increase
 - title: Theme
   url: "#"
   id: theme-toggle
-- title: "A-"
+- title: "-"
   url: "#"
   id: font-decrease
