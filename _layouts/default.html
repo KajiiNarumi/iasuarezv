@@ -19,7 +19,46 @@
 
     {% include footer.html %}
     {% include scripts.html %}
+<script>
+(function() {
+  const html = document.documentElement;
+  const minScale = -2;
+  const maxScale = 3;
+  const baseSize = 16; // px, ajusta si tu sitio usa otro base
+  let scale = Number(localStorage.getItem('fontScale')) || 0;
 
+  function applyFontSize() {
+    html.style.fontSize = (baseSize + scale * 2) + 'px';
+  }
+
+  function saveScale() {
+    localStorage.setItem('fontScale', scale);
+  }
+
+  document.getElementById('increase-font').onclick = function() {
+    if (scale < maxScale) {
+      scale++;
+      applyFontSize();
+      saveScale();
+    }
+  };
+  document.getElementById('decrease-font').onclick = function() {
+    if (scale > minScale) {
+      scale--;
+      applyFontSize();
+      saveScale();
+    }
+  };
+  document.getElementById('reset-font').onclick = function() {
+    scale = 0;
+    applyFontSize();
+    saveScale();
+  };
+
+  // Inicializa al cargar la página
+  applyFontSize();
+})();
+</script>
 
   </body>
 
