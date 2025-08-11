@@ -61,3 +61,48 @@ body.dark-mode blockquote {
   margin-bottom: 0.5em;
 }
 
+
+
+// botones bonitos
+
+#utility-widget {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background: rgba(30, 30, 30, 0.88);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.17);
+  padding: 7px 12px;
+  z-index: 9999;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #fff;
+  font-family: inherit;
+}
+
+body:not(.dark-mode) #utility-widget {
+  background: rgba(250,250,250,0.92);
+  color: #222;
+}
+
+#utility-widget button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  cursor: pointer;
+}
+
+#utility-widget button:hover,
+#utility-widget button:focus {
+  background: rgba(120,120,120,0.16);
+  outline: none;
+}
