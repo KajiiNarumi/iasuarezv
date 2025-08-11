@@ -62,4 +62,26 @@ body.dark-mode blockquote {
 }
 
 
+//tamaño de fuente
+
+html {
+  font-size: 100%; /* base */
+}
+
+.font-controls {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(0,0,0,0.6);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.font-controls button {
+  margin: 0 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: white;
+  border: none;
+  cursor: pointer;
+}
 
