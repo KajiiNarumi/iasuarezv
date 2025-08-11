@@ -1,5 +1,5 @@
 (function () {
-  const STEP = 1.2; // 20% más
+  const STEP = 1.3; // Zoom del 30%
   const KEY_FONT = 'fontScale';
   const KEY_THEME = 'siteTheme';
   const KEY_PANEL = 'panelCollapsed';
@@ -8,6 +8,7 @@
 
   const applyScale = () => {
     document.documentElement.style.fontSize = (scale * 100) + '%';
+    document.getElementById('btn-font').textContent = (scale === 1) ? 'A+' : 'A-';
   };
   applyScale();
 
@@ -19,7 +20,7 @@
   const panel = document.getElementById('floating-controls');
   const btnToggle = document.getElementById('panel-toggle');
 
-  // Restaurar tema guardado
+  // Restaurar tema
   const savedTheme = localStorage.getItem(KEY_THEME);
   if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
@@ -27,7 +28,7 @@
     iconMoon.style.display = 'none';
   }
 
-  // Restaurar estado del panel
+  // Restaurar panel
   if (localStorage.getItem(KEY_PANEL) === 'false') {
     panel.classList.remove('collapsed');
     btnToggle.textContent = '>';
@@ -49,13 +50,7 @@
 
   // Botón fuente
   btnFont.addEventListener('click', () => {
-    if (scale === 1) {
-      scale = STEP;
-      btnFont.textContent = 'A-';
-    } else {
-      scale = 1;
-      btnFont.textContent = 'A+';
-    }
+    scale = (scale === 1) ? STEP : 1;
     applyScale();
     localStorage.setItem(KEY_FONT, scale);
   });
