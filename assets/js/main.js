@@ -18,42 +18,43 @@ $(document).ready(function() {
 
 
 
+
+
 document.addEventListener("DOMContentLoaded", function() {
+  // Tamaño de fuente: alterna entre grande y normal
   const html = document.documentElement;
-  const minScale = -2;
-  const maxScale = 3;
-  const baseSize = 16; // px
-  let scale = Number(localStorage.getItem('fontScale')) || 0;
+  const fontBtn = document.getElementById('font-toggle');
+  const bigFont = 20; // px (ajusta si quieres más grande)
+  const normalFont = 16; // px
+  let big = false;
 
-  function applyFontSize() {
-    html.style.fontSize = (baseSize + scale * 2) + 'px';
+  if (fontBtn) {
+    fontBtn.addEventListener('click', function() {
+      big = !big;
+      html.style.fontSize = (big ? bigFont : normalFont) + 'px';
+      fontBtn.setAttribute('aria-pressed', big);
+      // Opcional: guarda preferencia en localStorage
+      localStorage.setItem('fontBig', big ? '1' : '0');
+    });
+    // Inicializa según preferencia
+    big = localStorage.getItem('fontBig') === '1';
+    html.style.fontSize = (big ? bigFont : normalFont) + 'px';
+    fontBtn.setAttribute('aria-pressed', big);
   }
 
-  function saveScale() {
-    localStorage.setItem('fontScale', scale);
-  }
-
-  const inc = document.getElementById('font-increase');
-  const dec = document.getElementById('font-decrease');
-
-  if (inc && dec) {
-    inc.addEventListener('click', function(e) {
-      e.preventDefault();
-      if (scale < maxScale) {
-        scale++;
-        applyFontSize();
-        saveScale();
-      }
+  // Tema (modo claro/oscuro)
+  const themeBtn = document.getElementById('theme-toggle');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function() {
+      document.body.classList.toggle('dark-mode');
+      themeBtn.setAttribute('aria-pressed', document.body.classList.contains('dark-mode'));
+      // Opcional: guarda preferencia en localStorage
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode') ? '1' : '0');
     });
-    dec.addEventListener('click', function(e) {
-      e.preventDefault();
-      if (scale > minScale) {
-        scale--;
-        applyFontSize();
-        saveScale();
-      }
-    });
-    // Aplica la fuente al cargar la página
-    applyFontSize();
+    // Inicializa tema según preferencia previa
+    if (localStorage.getItem('darkMode') === '1') {
+      document.body.classList.add('dark-mode');
+      themeBtn.setAttribute('aria-pressed', 'true');
+    }
   }
 });
