@@ -20,42 +20,16 @@
     {% include footer.html %}
     {% include scripts.html %}
 
-<!-- Panel flotante minimalista -->
-<div id="floating-controls">
-  <!-- Botón subir -->
-  <button id="btn-top" title="Ir arriba" aria-label="Ir arriba">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="18 15 12 9 6 15"></polyline>
-    </svg>
-  </button>
-
-  <!-- Botón tema -->
+<div id="floating-controls" class="collapsed">
+  <button id="panel-toggle" title="Mostrar/Ocultar">&lt;</button>
+  <button id="btn-top" title="Ir arriba">↑</button>
   <button id="btn-theme" title="Cambiar tema" aria-label="Cambiar tema">
-    <!-- Sol por defecto -->
-    <svg id="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="5"></circle>
-      <line x1="12" y1="1" x2="12" y2="3"></line>
-      <line x1="12" y1="21" x2="12" y2="23"></line>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-      <line x1="1" y1="12" x2="3" y2="12"></line>
-      <line x1="21" y1="12" x2="23" y2="12"></line>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-    </svg>
-    <!-- Luna (oculta por defecto) -->
-    <svg id="icon-moon" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3
-               a7 7 0 0 0 9.79 9.79z"></path>
-    </svg>
+    <span id="icon-sun" style="display:none;">☀</span>
+    <span id="icon-moon">🌙</span>
   </button>
-
-  <!-- Botón fuente -->
-  <button id="btn-font" title="Ajustar fuente" aria-label="Ajustar fuente">A+</button>
+  <button id="btn-font" title="Ajustar fuente">A+</button>
 </div>
+
 
 
 <link rel="stylesheet" href="/assets/css/floating-controls.css">
