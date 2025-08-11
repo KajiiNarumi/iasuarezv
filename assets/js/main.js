@@ -16,7 +16,8 @@ $(document).ready(function() {
   $("a[href$='.jpg'], a[href$='.png'], a[href$='.gif']").attr("data-lity", "");
 });
 
-<script>
+
+
 (function() {
   const html = document.documentElement;
   const minScale = -2;
@@ -32,30 +33,28 @@ $(document).ready(function() {
     localStorage.setItem('fontScale', scale);
   }
 
-  // Busca los elementos por ID
-  const inc = document.getElementById('font-increase');
-  const dec = document.getElementById('font-decrease');
-
-  if (inc && dec) {
-    inc.addEventListener('click', function(e) {
-      e.preventDefault();
-      if (scale < maxScale) {
-        scale++;
-        applyFontSize();
-        saveScale();
-      }
-    });
-    dec.addEventListener('click', function(e) {
-      e.preventDefault();
-      if (scale > minScale) {
-        scale--;
-        applyFontSize();
-        saveScale();
-      }
-    });
-
-    // Aplica la fuente al cargar la página
-    applyFontSize();
-  }
+  document.addEventListener("DOMContentLoaded", function() {
+    const inc = document.getElementById('font-increase');
+    const dec = document.getElementById('font-decrease');
+    if (inc && dec) {
+      inc.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (scale < maxScale) {
+          scale++;
+          applyFontSize();
+          saveScale();
+        }
+      });
+      dec.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (scale > minScale) {
+          scale--;
+          applyFontSize();
+          saveScale();
+        }
+      });
+      // Aplica la fuente al cargar la página
+      applyFontSize();
+    }
+  });
 })();
-</script>
