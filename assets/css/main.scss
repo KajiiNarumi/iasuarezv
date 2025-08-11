@@ -5,22 +5,34 @@ sitemap: false
 
 @charset "utf-8";
 
+/* =====================
+   IMPORTA ESTILOS BASE DEL TEMA
+   ===================== */
 @import "so-simple";
 
-// --- Dark mode styles ---
+/* =====================
+   MODO OSCURO: colores de fondo y texto
+   ===================== */
 body.dark-mode {
   background: #181818 !important;
   color: #f6f6f6 !important;
 }
 
+/* Enlaces en modo oscuro */
 body.dark-mode a { color: #fff !important; }
+
+/* Encabezado y pie de página en modo oscuro */
 body.dark-mode .site-header,
 body.dark-mode .site-footer {
   background: #222 !important;
 }
+
+/* Barra lateral en modo oscuro */
 body.dark-mode .sidebar {
   background: #232323 !important;
 }
+
+/* Fondos y texto de posts, páginas y archivos en modo oscuro */
 body.dark-mode .post,
 body.dark-mode .page,
 body.dark-mode .entry,
@@ -29,31 +41,36 @@ body.dark-mode .archive {
   color: #f6f6f6 !important;
 }
 
-/* Citas */
+/* Citas en modo oscuro */
 body.dark-mode blockquote {
   background: #000;
   border-left: 4px solid #51a7ff;
   color: #ddd;
 }
-// Personaliza aquí según tus necesidades.
 
+/* =====================
+   IMÁGENES DESTACADAS DE PÁGINA
+   ===================== */
 .page-image {
   text-align: center;
   margin-bottom: 2em;
-  margin-top: 2em;                // Espacio extra arriba para separar del menú
+  margin-top: 2em;                /* Espacio extra arriba para separar del menú */
 }
 
 .page-image img.entry-feature-image {
-  width: 80% !important;          // Abarca el 50% del ancho del contenedor
-  max-width: 600px;               // (opcional) limitar tamaño máximo
-  aspect-ratio: 1 / 1;            // Mantiene siempre cuadrada la imagen
-  object-fit: cover;              // Recorta si la imagen es muy alargada o alta
+  width: 80% !important;          /* Abarca el 80% del ancho del contenedor */
+  max-width: 600px;               /* Limita tamaño máximo */
+  aspect-ratio: 1 / 1;            /* Imagen siempre cuadrada */
+  object-fit: cover;              /* Recorta si la imagen es alargada o alta */
   border-radius: 10px;
   margin: 1.5em auto 1em auto !important;
   display: block;
   box-shadow: none !important;
 }
 
+/* =====================
+   AUTOR DE POST
+   ===================== */
 .post-author {
   display: block;
   padding-bottom: 0.5em;
@@ -61,22 +78,53 @@ body.dark-mode blockquote {
   margin-bottom: 0.5em;
 }
 
-// tamaño de fuente 
+/* =====================
+   AJUSTE GLOBAL DE TAMAÑO DE FUENTE
+   =====================
+   Esto hace que los textos principales usen rem en vez de px.
+   Así, el cambio de font-size en html afecta todo el sitio.
+*/
+html {
+  font-size: 16px; /* Valor base para rem */
+}
+
+body,
+.site-header,
+.site-footer,
+.sidebar,
+.post,
+.page,
+.entry,
+.archive {
+  font-size: 1rem !important;
+}
+
+/* =====================
+   WIDGET FLOTANTE PARA TAMAÑO DE FUENTE
+   ===================== */
 #font-size-widget {
   position: fixed;
   right: 24px;
   bottom: 24px;
-  background: rgba(30, 30, 30, 0.85); /* Oscuro translúcido, cambia según tu paleta */
+  background: rgba(30, 30, 30, 0.87); /* Fondo oscuro translúcido */
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.15);
-  padding: 8px 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.17);
+  padding: 7px 12px;
   z-index: 9999;
   display: flex;
   gap: 6px;
   align-items: center;
   color: #fff; /* Texto blanco */
+  font-family: inherit;
 }
 
+/* Modo claro para el widget (cuando no hay dark-mode) */
+body:not(.dark-mode) #font-size-widget {
+  background: rgba(250,250,250,0.92);
+  color: #222;
+}
+
+/* Botones del widget */
 #font-size-widget button {
   background: transparent; 
   border: 1px solid #888;
@@ -88,7 +136,14 @@ body.dark-mode blockquote {
   cursor: pointer;
 }
 
+/* Hover en modo oscuro */
 #font-size-widget button:hover {
   background: #444;
   border-color: #fff;
+}
+
+/* Hover en modo claro */
+body:not(.dark-mode) #font-size-widget button:hover {
+  background: #eee;
+  border-color: #111;
 }
