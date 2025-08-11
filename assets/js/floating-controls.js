@@ -3,32 +3,33 @@
   const KEY_FONT = 'fontScale';
   const KEY_THEME = 'siteTheme';
   let scale = parseFloat(localStorage.getItem(KEY_FONT)) || 1;
+  let menuOpen = false;
 
   const applyScale = () => {
     document.documentElement.style.fontSize = (scale * 100) + '%';
-    document.getElementById('btn-font').textContent = (scale === 1) ? 'A+' : 'A-';
+    const fontBtn = document.getElementById('btn-font');
+    if (fontBtn) fontBtn.textContent = (scale === 1) ? 'A+' : 'A-';
   };
   applyScale();
 
-  // Crear panel flotante
   if (!document.getElementById('floating-controls')) {
     const panel = document.createElement('div');
     panel.id = 'floating-controls';
     panel.innerHTML = `
-      <button id="btn-top" title="Ir arriba" aria-label="Ir arriba">^</button>
-      <button id="btn-theme" title="Cambiar tema" aria-label="Cambiar tema">
-        <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        </svg>
-      </button>
-      <button id="btn-font" title="Ajustar fuente" aria-label="Ajustar fuente">A+</button>
+      <button id="btn-menu" title="Menú" aria-label="Menú">&lt;</button>
+      <div id="menu-items" class="hidden">
+        <button id="btn-top" title="Ir arriba" aria-label="Ir arriba">^</button>
+        <button id="btn-theme" title="Cambiar tema" aria-label="Cambiar tema">
+          <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+        <button id="btn-font" title="Ajustar fuente" aria-label="Ajustar fuente">A+</button>
+      </div>
     `;
     document.body.appendChild(panel);
   }
 
   const themeIcon = document.getElementById('theme-icon');
-
-  // Función para poner SVG de sol o luna
   const setThemeIcon = (isDark) => {
     themeIcon.innerHTML = isDark
       ? `<path d="M21 12.79A9 9 0 1 1 11.21 3
@@ -44,13 +45,20 @@
          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`; // sol
   };
 
-  // Restaurar tema guardado
+  // Restaurar tema
   const savedTheme = localStorage.getItem(KEY_THEME);
   const isDarkSaved = savedTheme === 'dark';
   if (isDarkSaved) document.body.classList.add('dark-mode');
   setThemeIcon(isDarkSaved);
 
-  // Botón tema
+  // Evento menú desplegable
+  document.getElementById('btn-menu').addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    document.getElementById('menu-items').classList.toggle('hidden', !menuOpen);
+    document.getElementById('btn-menu').innerHTML = menuOpen ? '&gt;' : '&lt;';
+  });
+
+  // Tema
   document.getElementById('btn-theme').addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     const isDark = document.body.classList.contains('dark-mode');
@@ -58,12 +66,12 @@
     setThemeIcon(isDark);
   });
 
-  // Botón arriba
+  // Subir
   document.getElementById('btn-top').addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // Botón fuente
+  // Fuente
   document.getElementById('btn-font').addEventListener('click', () => {
     scale = (scale === 1) ? STEP : 1;
     applyScale();
