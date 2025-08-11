@@ -14,12 +14,6 @@
 #   url: /tags/
 - title: Buscar
   url: /search/
-- title: "+"
-  url: "#"
-  id: font-increase
 - title: Theme
   url: "#"
   id: theme-toggle
-- title: "-"
-  url: "#"
-  id: font-decrease
