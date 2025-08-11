@@ -18,21 +18,17 @@ body.dark-mode {
   color: #f6f6f6 !important;
 }
 
-/* Enlaces en modo oscuro */
 body.dark-mode a { color: #fff !important; }
 
-/* Encabezado y pie de página en modo oscuro */
 body.dark-mode .site-header,
 body.dark-mode .site-footer {
   background: #222 !important;
 }
 
-/* Barra lateral en modo oscuro */
 body.dark-mode .sidebar {
   background: #232323 !important;
 }
 
-/* Fondos y texto de posts, páginas y archivos en modo oscuro */
 body.dark-mode .post,
 body.dark-mode .page,
 body.dark-mode .entry,
@@ -41,7 +37,6 @@ body.dark-mode .archive {
   color: #f6f6f6 !important;
 }
 
-/* Citas en modo oscuro */
 body.dark-mode blockquote {
   background: #000;
   border-left: 4px solid #51a7ff;
@@ -54,14 +49,14 @@ body.dark-mode blockquote {
 .page-image {
   text-align: center;
   margin-bottom: 2em;
-  margin-top: 2em;                /* Espacio extra arriba para separar del menú */
+  margin-top: 2em;
 }
 
 .page-image img.entry-feature-image {
-  width: 80% !important;          /* Abarca el 80% del ancho del contenedor */
-  max-width: 600px;               /* Limita tamaño máximo */
-  aspect-ratio: 1 / 1;            /* Imagen siempre cuadrada */
-  object-fit: cover;              /* Recorta si la imagen es alargada o alta */
+  width: 80% !important;
+  max-width: 600px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   border-radius: 10px;
   margin: 1.5em auto 1em auto !important;
   display: block;
@@ -80,12 +75,9 @@ body.dark-mode blockquote {
 
 /* =====================
    AJUSTE GLOBAL DE TAMAÑO DE FUENTE
-   =====================
-   Esto hace que los textos principales usen rem en vez de px.
-   Así, el cambio de font-size en html afecta todo el sitio.
-*/
+   ===================== */
 html {
-  font-size: 16px; /* Valor base para rem */
+  font-size: 16px;
 }
 
 body,
