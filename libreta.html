@@ -14,35 +14,34 @@ title: "Mi libreta"
       <a href="/bitacora/" title="Leer blog">Explorar el blog</a> | 
       <a href="/memorias/" title="Leer pensamientos">Descubrir pensamientos</a>
     </p>
+  </section>
 
-    <div class="libreta-listas">
+  <section class="bloque">
+    <h3>Cuentos en OnlyFans</h3>
+    <p>Historias íntimas y sensuales, exclusivas para quienes buscan una experiencia literaria que acaricie el alma y despierte emociones profundas.</p>
+    <ul>
+      <li><a href="https://onlyfans.com/iasuarezv/post1" target="_blank" rel="noopener">El susurro en la oscuridad</a></li>
+      <li><a href="https://onlyfans.com/iasuarezv/post2" target="_blank" rel="noopener">Luz entre sombras</a></li>
+      <li><a href="https://onlyfans.com/iasuarezv/post3" target="_blank" rel="noopener">El viaje invisible</a></li>
+    </ul>
+  </section>
 
-      <div class="lista cuentos">
-        <h3>Cuentos en OnlyFans</h3>
-        <ul>
-          <li><a href="https://onlyfans.com/iasuarezv/post1" target="_blank" rel="noopener">El susurro en la oscuridad</a></li>
-          <li><a href="https://onlyfans.com/iasuarezv/post2" target="_blank" rel="noopener">Luz entre sombras</a></li>
-          <li><a href="https://onlyfans.com/iasuarezv/post3" target="_blank" rel="noopener">El viaje invisible</a></li>
-        </ul>
-      </div>
+  <section class="bloque">
+    <h3>Podcasts en OnlyFans TV</h3>
+    <p>Voces que hablan de presencia, misterio y belleza, narradas con cariño para acompañarte en cada escucha y despertar tu imaginación.</p>
+    <ul>
+      <li><a href="https://onlyfans.com/iasuarezv/tv/post1" target="_blank" rel="noopener">Voces entre sombras – Episodio 1</a></li>
+      <li><a href="https://onlyfans.com/iasuarezv/tv/post2" target="_blank" rel="noopener">El arte de la presencia – Episodio 2</a></li>
+    </ul>
+  </section>
 
-      <div class="lista podcast">
-        <h3>Podcasts en OnlyFans TV</h3>
-        <ul>
-          <li><a href="https://onlyfans.com/iasuarezv/tv/post1" target="_blank" rel="noopener">Voces entre sombras – Episodio 1</a></li>
-          <li><a href="https://onlyfans.com/iasuarezv/tv/post2" target="_blank" rel="noopener">El arte de la presencia – Episodio 2</a></li>
-        </ul>
-      </div>
-
-      <div class="lista revista">
-        <h3>Revista en Ko-fi</h3>
-        <ul>
-          <li><a href="https://ko-fi.com/iasuarezv/shop/plenilunio" target="_blank" rel="noopener">Plenilunio – Edición junio 2025</a></li>
-          <li><a href="https://ko-fi.com/iasuarezv/shop/novilunio" target="_blank" rel="noopener">Novilunio – Edición mayo 2025</a></li>
-        </ul>
-      </div>
-
-    </div>
+  <section class="bloque">
+    <h3>Revista en Ko-fi</h3>
+    <p>Una mirada lunar y profunda, con reflexiones, tarot y relatos que invitan a la calma y la conexión interior.</p>
+    <ul>
+      <li><a href="https://ko-fi.com/iasuarezv/shop/plenilunio" target="_blank" rel="noopener">Plenilunio – Edición junio 2025</a></li>
+      <li><a href="https://ko-fi.com/iasuarezv/shop/novilunio" target="_blank" rel="noopener">Novilunio – Edición mayo 2025</a></li>
+    </ul>
   </section>
 
 </main>
@@ -60,43 +59,38 @@ title: "Mi libreta"
 
   .bloque {
     border-top: 1px solid #444;
-    padding-top: 2rem;
-    margin-bottom: 4rem;
+    padding-top: 2.5rem;
+    margin-bottom: 3.5rem;
   }
 
-  .libreta-listas {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 1.5rem;
-  }
-
-  .libreta-listas .lista {
-    min-width: 180px;
-    max-width: 220px;
-    text-align: left;
-  }
-
-  .libreta-listas h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
+  h2, h3 {
     font-weight: 600;
-    border-bottom: 1px solid #666;
-    padding-bottom: 0.3rem;
+    margin-bottom: 1rem;
   }
 
-  .libreta-listas ul {
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  p {
+    margin-bottom: 1.2rem;
+    line-height: 1.5;
+  }
+
+  ul {
     list-style: none;
-    padding: 0;
-    margin: 0;
+    padding-left: 0;
   }
 
-  .libreta-listas li {
-    margin-bottom: 0.6rem;
+  ul li {
+    margin-bottom: 0.5rem;
   }
 
-  .libreta-listas a {
+  a {
     color: inherit;
     text-decoration: underline;
     font-weight: 500;
@@ -104,15 +98,5 @@ title: "Mi libreta"
 
   p > a {
     margin: 0 0.5rem;
-  }
-
-  @media (max-width: 600px) {
-    .libreta-listas {
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .libreta-listas .lista {
-      max-width: 100%;
-    }
   }
 </style>
