@@ -66,7 +66,7 @@ body.dark-mode blockquote {
   position: fixed;
   right: 24px;
   bottom: 24px;
-  background: #fff;
+  background: rgba(30, 30, 30, 0.85); /* Oscuro translúcido, cambia según tu paleta */
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,.15);
   padding: 8px 12px;
@@ -74,19 +74,21 @@ body.dark-mode blockquote {
   display: flex;
   gap: 6px;
   align-items: center;
+  color: #fff; /* Texto blanco */
 }
+
 #font-size-widget button {
-  background: #f5f5f5;
-  border: none;
+  background: transparent; 
+  border: 1px solid #888;
+  color: inherit;
   border-radius: 6px;
   padding: 6px 12px;
   font-size: 1.1em;
-  transition: background 0.15s;
+  transition: background 0.15s, border-color 0.15s;
   cursor: pointer;
 }
+
 #font-size-widget button:hover {
-  background: #ececec;
-}
-#font-size-widget button:hover {
-  background: #ececec;
+  background: #444;
+  border-color: #fff;
 }
