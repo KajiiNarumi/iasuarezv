@@ -14,6 +14,6 @@
 #   url: /tags/
 - title: Buscar
   url: /search/
-- title: "Theme"
-  url: "#"
-  id: theme-toggle
+#- title: "Theme"
+#  url: "#"
+#  id: theme-toggle
