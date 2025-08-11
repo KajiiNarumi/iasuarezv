@@ -6,6 +6,8 @@
 #  url: /posts/
 # - title: Etiquetas
 #   url: /tags/
+#- title: Buscar
+#  url: /search/
 #- title: "Theme"
 #  url: "#"
 #  id: theme-toggle
@@ -15,6 +17,4 @@
   url: /memorias
 - title: Experiencias
   url: /experiencias/
-- title: Buscar
-  url: /search/
 
