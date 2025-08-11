@@ -1,19 +1,21 @@
-/* === Panel flotante === */
+/* === Panel flotante horizontal === */
 #floating-controls {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  right: 10px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
   background: var(--panel-bg, rgba(0,0,0,0.1));
-  padding: 8px;
+  padding: 6px 8px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease, width 0.3s ease;
+  transition: width 0.3s ease, gap 0.3s ease, padding 0.3s ease;
   z-index: 9999;
 }
 
+/* Botones */
 #floating-controls button {
   background: none;
   border: none;
@@ -21,7 +23,9 @@
   font-size: 18px;
   color: inherit;
   padding: 6px;
-  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #floating-controls button:hover {
@@ -31,9 +35,9 @@
 
 /* Botón toggle del panel */
 #panel-toggle {
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.15);
   border-radius: 6px;
-  padding: 4px;
+  font-size: 14px;
 }
 
 /* Estado contraído */
@@ -41,7 +45,7 @@
   display: none;
 }
 
-/* Tema claro/oscuro del panel */
+/* Tema oscuro */
 body.dark-mode #floating-controls {
   --panel-bg: rgba(255,255,255,0.05);
 }
