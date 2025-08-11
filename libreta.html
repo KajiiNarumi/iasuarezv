@@ -12,35 +12,46 @@ title: "Mi libreta"
 
     <p>
       <a href="/bitacora/" title="Leer blog">Explorar el blog</a> | 
-      <a href="/memorias/" title="Leer pensamientos">Descubrir pensamientos</a>
+      <a href="/memorias/" title="Descubrir pensamientos">Descubrir pensamientos</a>
     </p>
   </section>
 
-  <section class="bloque">
+  <section class="bloque text-left">
     <h3>Cuentos en OnlyFans</h3>
     <p>Historias íntimas y sensuales, exclusivas para quienes buscan una experiencia literaria que acaricie el alma y despierte emociones profundas.</p>
     <ul>
-      <li><a href="https://onlyfans.com/iasuarezv/post1" target="_blank" rel="noopener">El susurro en la oscuridad</a></li>
-      <li><a href="https://onlyfans.com/iasuarezv/post2" target="_blank" rel="noopener">Luz entre sombras</a></li>
-      <li><a href="https://onlyfans.com/iasuarezv/post3" target="_blank" rel="noopener">El viaje invisible</a></li>
+      {% for cuento in site.data.libreta.cuentos %}
+        <li>
+          <a href="{{ cuento.url }}" target="_blank" rel="noopener">{{ cuento.title }}</a><br>
+          <small>{{ cuento.desc }}</small>
+        </li>
+      {% endfor %}
     </ul>
   </section>
 
-  <section class="bloque">
+  <section class="bloque text-right">
     <h3>Podcasts en OnlyFans TV</h3>
     <p>Voces que hablan de presencia, misterio y belleza, narradas con cariño para acompañarte en cada escucha y despertar tu imaginación.</p>
     <ul>
-      <li><a href="https://onlyfans.com/iasuarezv/tv/post1" target="_blank" rel="noopener">Voces entre sombras – Episodio 1</a></li>
-      <li><a href="https://onlyfans.com/iasuarezv/tv/post2" target="_blank" rel="noopener">El arte de la presencia – Episodio 2</a></li>
+      {% for podcast in site.data.libreta.podcasts %}
+        <li>
+          <a href="{{ podcast.url }}" target="_blank" rel="noopener">{{ podcast.title }}</a><br>
+          <small>{{ podcast.desc }}</small>
+        </li>
+      {% endfor %}
     </ul>
   </section>
 
-  <section class="bloque">
+  <section class="bloque text-center">
     <h3>Revista en Ko-fi</h3>
     <p>Una mirada lunar y profunda, con reflexiones, tarot y relatos que invitan a la calma y la conexión interior.</p>
     <ul>
-      <li><a href="https://ko-fi.com/iasuarezv/shop/plenilunio" target="_blank" rel="noopener">Plenilunio – Edición junio 2025</a></li>
-      <li><a href="https://ko-fi.com/iasuarezv/shop/novilunio" target="_blank" rel="noopener">Novilunio – Edición mayo 2025</a></li>
+      {% for revista in site.data.libreta.revista %}
+        <li>
+          <a href="{{ revista.url }}" target="_blank" rel="noopener">{{ revista.title }}</a><br>
+          <small>{{ revista.desc }}</small>
+        </li>
+      {% endfor %}
     </ul>
   </section>
 
@@ -53,14 +64,22 @@ title: "Mi libreta"
     padding: 2rem 1rem;
   }
 
-  .text-center {
-    text-align: center;
-  }
-
   .bloque {
     border-top: 1px solid #444;
     padding-top: 2.5rem;
     margin-bottom: 3.5rem;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-left {
+    text-align: left;
+  }
+
+  .text-right {
+    text-align: right;
   }
 
   h2, h3 {
@@ -87,13 +106,20 @@ title: "Mi libreta"
   }
 
   ul li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.7rem;
   }
 
   a {
     color: inherit;
     text-decoration: underline;
     font-weight: 500;
+  }
+
+  small {
+    display: block;
+    font-style: italic;
+    opacity: 0.7;
+    margin-top: 0.15rem;
   }
 
   p > a {
