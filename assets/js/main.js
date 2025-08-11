@@ -18,7 +18,7 @@ $(document).ready(function() {
 
 
 
-(function() {
+document.addEventListener("DOMContentLoaded", function() {
   const html = document.documentElement;
   const minScale = -2;
   const maxScale = 3;
@@ -33,28 +33,27 @@ $(document).ready(function() {
     localStorage.setItem('fontScale', scale);
   }
 
-  document.addEventListener("DOMContentLoaded", function() {
-    const inc = document.getElementById('font-increase');
-    const dec = document.getElementById('font-decrease');
-    if (inc && dec) {
-      inc.addEventListener('click', function(e) {
-        e.preventDefault();
-        if (scale < maxScale) {
-          scale++;
-          applyFontSize();
-          saveScale();
-        }
-      });
-      dec.addEventListener('click', function(e) {
-        e.preventDefault();
-        if (scale > minScale) {
-          scale--;
-          applyFontSize();
-          saveScale();
-        }
-      });
-      // Aplica la fuente al cargar la página
-      applyFontSize();
-    }
-  });
-})();
+  const inc = document.getElementById('font-increase');
+  const dec = document.getElementById('font-decrease');
+
+  if (inc && dec) {
+    inc.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (scale < maxScale) {
+        scale++;
+        applyFontSize();
+        saveScale();
+      }
+    });
+    dec.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (scale > minScale) {
+        scale--;
+        applyFontSize();
+        saveScale();
+      }
+    });
+    // Aplica la fuente al cargar la página
+    applyFontSize();
+  }
+});
