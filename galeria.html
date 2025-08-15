@@ -91,6 +91,7 @@ title: "Galería"
   color: white;
   cursor: pointer;
   user-select: none;
+  display: none;
 }
 
 .modal-arrow {
@@ -102,15 +103,11 @@ title: "Galería"
   user-select: none;
   transform: translateY(-50%);
   z-index: 1001;
+  display: none;
 }
 
-.modal-prev {
-  left: 20px;
-}
-
-.modal-next {
-  right: 20px;
-}
+.modal-prev { left: 20px; }
+.modal-next { right: 20px; }
 </style>
 
 <script>
@@ -147,7 +144,6 @@ document.addEventListener("DOMContentLoaded", function() {
   const imagePaths = Array.from(links).map(link => link.dataset.src);
   let currentIndex = 0;
 
-  // Variables para drag
   let isDragging = false;
   let startX, startY;
   let currentX = 0, currentY = 0;
@@ -156,18 +152,23 @@ document.addEventListener("DOMContentLoaded", function() {
   function showModal(index) {
     currentIndex = index;
     modalImg.src = imagePaths[currentIndex];
-    modal.style.display = 'flex';
-    prev.style.display = 'block';
-    next.style.display = 'block';
+
+    // Reiniciar transform
     scale = 1;
     currentX = 0;
     currentY = 0;
     modalImg.style.transform = `translate(0px, 0px) scale(1)`;
+
+    modal.style.display = 'flex';
+    closeBtn.style.display = 'block';
+    prev.style.display = 'block';
+    next.style.display = 'block';
   }
 
   function hideModal() {
     modal.style.display = 'none';
     modalImg.src = '';
+    closeBtn.style.display = 'none';
     prev.style.display = 'none';
     next.style.display = 'none';
   }
@@ -212,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  // Drag events
+  // Drag
   container.addEventListener('mousedown', function(e){
     isDragging = true;
     startX = e.clientX - currentX;
