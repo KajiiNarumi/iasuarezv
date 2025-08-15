@@ -11,7 +11,7 @@ title: "Galería"
     {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | sort: "name" | reverse %}
     {% for img in images %}
       <div class="galeria-item">
-        <a href="{{ img.path }}" class="modal-link">
+        <a href="{{ img.path }}" class="modal-link" data-index="{{ forloop.index0 }}">
           <div class="foto-cuadrada" style="background-image: url('{{ img.path }}');"></div>
         </a>
       </div>
@@ -44,7 +44,7 @@ title: "Galería"
 
 .foto-cuadrada {
   width: 100%;
-  padding-top: 100%; /* Mantiene proporción cuadrada */
+  padding-top: 100%;
   background-size: cover;
   background-position: center;
   border-radius: 6px;
@@ -66,12 +66,27 @@ title: "Galería"
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  flex-direction: column;
 }
 
 .modal-overlay img {
   max-width: 90%;
   max-height: 90%;
   border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.modal-controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+}
+
+.modal-controls span {
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  user-select: none;
 }
 </style>
 
@@ -80,21 +95,72 @@ document.addEventListener("DOMContentLoaded", function() {
   const links = document.querySelectorAll('.modal-link');
   const modal = document.createElement('div');
   modal.className = 'modal-overlay';
+
   const modalImg = document.createElement('img');
+  const controls = document.createElement('div');
+  controls.className = 'modal-controls';
+  const prev = document.createElement('span');
+  prev.innerHTML = '&#10094;'; // flecha izquierda
+  const next = document.createElement('span');
+  next.innerHTML = '&#10095;'; // flecha derecha
+  controls.appendChild(prev);
+  controls.appendChild(next);
+
   modal.appendChild(modalImg);
+  modal.appendChild(controls);
   document.body.appendChild(modal);
 
-  links.forEach(link => {
+  const imagePaths = Array.from(links).map(link => link.href);
+  let currentIndex = 0;
+
+  function showModal(index) {
+    currentIndex = index;
+    modalImg.src = imagePaths[currentIndex];
+    modal.style.display = 'flex';
+  }
+
+  function hideModal() {
+    modal.style.display = 'none';
+    modalImg.src = '';
+  }
+
+  function showNext() {
+    currentIndex = (currentIndex + 1) % imagePaths.length;
+    modalImg.src = imagePaths[currentIndex];
+  }
+
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + imagePaths.length) % imagePaths.length;
+    modalImg.src = imagePaths[currentIndex];
+  }
+
+  links.forEach((link, idx) => {
     link.addEventListener('click', function(e) {
       e.preventDefault();
-      modalImg.src = link.href;
-      modal.style.display = 'flex';
+      showModal(idx);
     });
   });
 
-  modal.addEventListener('click', function() {
-    modal.style.display = 'none';
-    modalImg.src = '';
+  prev.addEventListener('click', function(e){
+    e.stopPropagation();
+    showPrev();
+  });
+
+  next.addEventListener('click', function(e){
+    e.stopPropagation();
+    showNext();
+  });
+
+  modal.addEventListener('click', function(e){
+    if(e.target === modal) hideModal();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(modal.style.display === 'flex'){
+      if(e.key === 'ArrowRight') showNext();
+      if(e.key === 'ArrowLeft') showPrev();
+      if(e.key === 'Escape') hideModal();
+    }
   });
 });
 </script>
