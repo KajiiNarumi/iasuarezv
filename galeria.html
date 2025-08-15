@@ -143,12 +143,10 @@ document.addEventListener("DOMContentLoaded", function() {
   let currentIndex = 0;
 
   let scale = 1;
-  let originX = 0;
-  let originY = 0;
-  let startX = 0;
-  let startY = 0;
   let translateX = 0;
   let translateY = 0;
+  let startX = 0;
+  let startY = 0;
   let isDragging = false;
 
   function showModal(index) {
@@ -162,6 +160,9 @@ document.addEventListener("DOMContentLoaded", function() {
     translateX = 0;
     translateY = 0;
     modalImg.style.transform = `translate(0px, 0px) scale(1)`;
+    modalImg.onload = function(){
+      centerImage();
+    }
   }
 
   function hideModal() {
@@ -224,13 +225,12 @@ document.addEventListener("DOMContentLoaded", function() {
     scale += delta;
     if(scale < 1) scale = 1;
     if(scale > 5) scale = 5;
-    // ajustar translate para que el zoom se centre donde está el puntero
     translateX -= (offsetX - rect.width / 2) * (scale - prevScale) / scale;
     translateY -= (offsetY - rect.height / 2) * (scale - prevScale) / scale;
     applyTransform();
   });
 
-  // Drag
+  // Drag solo mientras se mantiene presionado
   modalImg.addEventListener('mousedown', function(e){
     if(scale <= 1) return;
     isDragging = true;
@@ -253,7 +253,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   function applyTransform(){
-    // limitar movimiento
     const rect = modalImg.getBoundingClientRect();
     const parentRect = modal.getBoundingClientRect();
     const maxX = Math.max(0, (rect.width - parentRect.width)/2);
@@ -262,8 +261,14 @@ document.addEventListener("DOMContentLoaded", function() {
     if(translateX < -maxX) translateX = -maxX;
     if(translateY > maxY) translateY = maxY;
     if(translateY < -maxY) translateY = -maxY;
-
     modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+  }
+
+  function centerImage(){
+    scale = 1;
+    translateX = 0;
+    translateY = 0;
+    modalImg.style.transform = `translate(0px,0px) scale(1)`;
   }
 
 });
