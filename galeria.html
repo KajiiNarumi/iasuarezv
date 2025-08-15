@@ -5,11 +5,10 @@ title: "Galería"
 
 <main class="galeria-perfil">
 
-  <h2 class="text-center">Mi Galería</h2>
-  <p>Disparos SOOC (Straight Out of Camera)</p>
+  <h2 class="text-center">Disparos SOOC (Straight Out of Camera)</h2>
 
   <div class="galeria-grid">
-    {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | reverse %}
+    {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | sort: "modified_time" | reverse %}
     {% for img in images %}
       <div class="galeria-item">
         <a href="{{ img.path }}" class="modal-link">
@@ -37,7 +36,7 @@ title: "Galería"
 
 .galeria-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
 
