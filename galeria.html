@@ -79,7 +79,8 @@ title: "Galería"
 .modal-controls {
   display: flex;
   justify-content: space-between;
-  width: 100px;
+  width: 120px;
+  margin-bottom: 1rem;
 }
 
 .modal-controls span {
@@ -88,28 +89,52 @@ title: "Galería"
   cursor: pointer;
   user-select: none;
 }
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const links = document.querySelectorAll('.modal-link');
+
+  // Revisar si ya existe modal y eliminarlo
+  let existingModal = document.querySelector('.modal-overlay');
+  if(existingModal) existingModal.remove();
+
+  // Crear modal único
   const modal = document.createElement('div');
   modal.className = 'modal-overlay';
 
   const modalImg = document.createElement('img');
+
+  // Flechas
   const controls = document.createElement('div');
   controls.className = 'modal-controls';
   const prev = document.createElement('span');
-  prev.innerHTML = '&#10094;'; // flecha izquierda
+  prev.innerHTML = '&#10094;';
   const next = document.createElement('span');
-  next.innerHTML = '&#10095;'; // flecha derecha
+  next.innerHTML = '&#10095;';
   controls.appendChild(prev);
   controls.appendChild(next);
 
+  // Botón X
+  const closeBtn = document.createElement('span');
+  closeBtn.className = 'modal-close';
+  closeBtn.innerHTML = '&times;';
+
   modal.appendChild(modalImg);
   modal.appendChild(controls);
+  modal.appendChild(closeBtn);
   document.body.appendChild(modal);
 
+  const links = document.querySelectorAll('.modal-link');
   const imagePaths = Array.from(links).map(link => link.href);
   let currentIndex = 0;
 
@@ -151,6 +176,8 @@ document.addEventListener("DOMContentLoaded", function() {
     showNext();
   });
 
+  closeBtn.addEventListener('click', hideModal);
+
   modal.addEventListener('click', function(e){
     if(e.target === modal) hideModal();
   });
@@ -162,5 +189,6 @@ document.addEventListener("DOMContentLoaded", function() {
       if(e.key === 'Escape') hideModal();
     }
   });
+
 });
 </script>
