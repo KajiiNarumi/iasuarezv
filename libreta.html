@@ -6,53 +6,61 @@ title: "Mi libreta"
 <main class="perfil">
 
   <section class="text-center bloque">
-    <h2>Mi libreta</h2>
-    <p>Entre páginas y susurros, guardo historias, ideas y fragmentos de vida.<br>
-    Cada palabra, un pequeño refugio para quien la busca.</p>
+    <div class="contenido-limitado">
+      <h2>Mi libreta</h2>
+      <p>Entre páginas y susurros, guardo historias, ideas y fragmentos de vida.<br>
+      Cada palabra, un pequeño refugio para quien la busca.</p>
 
-    <p>
-      <a href="/bitacora/" title="Leer blog">Explorar el blog</a> | 
-      <a href="/memorias/" title="Descubrir pensamientos">Descubrir pensamientos</a>
-    </p>
+      <p>
+        <a href="/bitacora/" title="Leer blog">Explorar el blog</a> | 
+        <a href="/memorias/" title="Descubrir pensamientos">Descubrir pensamientos</a>
+      </p>
+    </div>
   </section>
 
   <section class="bloque text-left">
-    <h3>Cuentos en OnlyFans</h3>
-    <p>Relatos íntimos y sinceros que exploran la complejidad del ser humano: el amor, el dolor, la esperanza y la búsqueda de identidad. Fragmentos que entrelazan cuerpo, mente y espíritu a través de historias poéticas, reales y conmovedoras.</p>
-    <ul>
-      {% for cuento in site.data.libreta.cuentos %}
-        <li>
-          <a href="{{ cuento.url }}" target="_blank" rel="noopener">{{ cuento.title }}</a><br>
-          <small>{{ cuento.desc }}</small>
-        </li>
-      {% endfor %}
-    </ul>
+    <div class="contenido-limitado">
+      <h3>Cuentos en OnlyFans</h3>
+      <p>Relatos íntimos y sinceros que exploran la complejidad del ser humano: el amor, el dolor, la esperanza y la búsqueda de identidad. Fragmentos que entrelazan cuerpo, mente y espíritu a través de historias poéticas, reales y conmovedoras.</p>
+      <ul>
+        {% for cuento in site.data.libreta.cuentos %}
+          <li>
+            <a href="{{ cuento.url }}" target="_blank" rel="noopener">{{ cuento.title }}</a><br>
+            <small>{{ cuento.desc }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
   </section>
 
   <section class="bloque text-right">
-    <h3>Podcasts en OnlyFans</h3>
-    <p>Espacios de reflexión crítica, humor y análisis sobre la vida cotidiana, la sociedad y los conceptos que moldean nuestro entendimiento. Voces que cuestionan y acompañan con ironía, profundidad y una mirada auténtica.</p>
-    <ul>
-      {% for podcast in site.data.libreta.podcasts %}
-        <li>
-          <a href="{{ podcast.url }}" target="_blank" rel="noopener">{{ podcast.title }}</a><br>
-          <small>{{ podcast.desc }}</small>
-        </li>
-      {% endfor %}
-    </ul>
+    <div class="contenido-limitado">
+      <h3>Podcasts en OnlyFans</h3>
+      <p>Espacios de reflexión crítica, humor y análisis sobre la vida cotidiana, la sociedad y los conceptos que moldean nuestro entendimiento. Voces que cuestionan y acompañan con ironía, profundidad y una mirada auténtica.</p>
+      <ul>
+        {% for podcast in site.data.libreta.podcasts %}
+          <li>
+            <a href="{{ podcast.url }}" target="_blank" rel="noopener">{{ podcast.title }}</a><br>
+            <small>{{ podcast.desc }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
   </section>
 
   <section class="bloque text-center">
-    <h3>Revista en Ko-fi</h3>
-    <p>Publicación mensual que acompaña los ciclos lunares con reflexiones, narrativa simbólica, lecturas de tarot y relatos introspectivos. Un viaje íntimo y provocador para quienes buscan conexión y autoconocimiento.</p>
-    <ul>
-      {% for revista in site.data.libreta.revista %}
-        <li>
-          <a href="{{ revista.url }}" target="_blank" rel="noopener">{{ revista.title }}</a><br>
-          <small>{{ revista.desc }}</small>
-        </li>
-      {% endfor %}
-    </ul>
+    <div class="contenido-limitado">
+      <h3>Revista en Ko-fi</h3>
+      <p>Publicación mensual que acompaña los ciclos lunares con reflexiones, narrativa simbólica, lecturas de tarot y relatos introspectivos. Un viaje íntimo y provocador para quienes buscan conexión y autoconocimiento.</p>
+      <ul>
+        {% for revista in site.data.libreta.revista %}
+          <li>
+            <a href="{{ revista.url }}" target="_blank" rel="noopener">{{ revista.title }}</a><br>
+            <small>{{ revista.desc }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
   </section>
 
 </main>
@@ -61,7 +69,6 @@ title: "Mi libreta"
   .perfil {
     max-width: 700px;
     margin: 0 auto;
-    padding: 1rem 1.5rem; /* margen superior reducido y más espacio lateral */
   }
 
   .bloque {
@@ -70,68 +77,13 @@ title: "Mi libreta"
     margin-bottom: 3rem;
   }
 
-  /* Que el primer bloque no tenga línea arriba */
   .bloque:first-of-type {
     border-top: none;
     padding-top: 0;
   }
 
-  .text-center {
-    text-align: center;
-  }
-
-  .text-left {
-    text-align: left;
-    padding-left: 0.5rem;
-  }
-
-  .text-right {
-    text-align: right;
-    padding-right: 0.5rem;
-  }
-
-  h2, h3 {
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-
-  h2 {
-    font-size: 1.7rem;
-  }
-
-  h3 {
-    font-size: 1.3rem;
-  }
-
-  p {
-    margin-bottom: 1.2rem;
-    line-height: 1.6;
-  }
-
-  ul {
-    list-style: none;
-    padding-left: 0;
-  }
-
-  ul li {
-    margin-bottom: 0.8rem;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: underline;
-    font-weight: 500;
-  }
-
-  small {
-    display: block;
-    font-style: italic;
-    opacity: 0.7;
-    margin-top: 0.15rem;
-    line-height: 1.4;
-  }
-
-  p > a {
-    margin: 0 0.5rem;
+  .contenido-limitado {
+    max-width: 90%;
+    margin: 0 auto;
   }
 </style>
