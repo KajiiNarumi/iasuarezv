@@ -95,6 +95,7 @@ title: "Galería"
   cursor: pointer;
   user-select: none;
   z-index: 1001;
+  display: none;
 }
 
 .modal-arrow {
@@ -106,6 +107,7 @@ title: "Galería"
   user-select: none;
   transform: translateY(-50%);
   z-index: 1001;
+  display: none;
 }
 
 .modal-prev {
@@ -161,8 +163,8 @@ document.addEventListener("DOMContentLoaded", function() {
     currentIndex = index;
     modalImg.src = imagePaths[currentIndex];
     scale = 1;
-    modalImg.style.transform = `translate(0px,0px) scale(1)`;
     originX = 0; originY = 0;
+    modalImg.style.transform = `translate(0px,0px) scale(1)`;
     modal.style.display = 'flex';
     closeBtn.style.display = 'block';
     prev.style.display = 'block';
