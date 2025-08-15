@@ -5,90 +5,118 @@ title: "Galería"
 
 <main class="galeria-perfil">
 
-  <h2 class="text-center">Mi Galería</h2>
+  <section class="text-center bloque">
+    <h2>Galería</h2>
+    <p>Un recorrido visual por mis imágenes. Haz clic en cada foto para verla en detalle.</p>
+  </section>
 
-  <div class="galeria-grid">
-    {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" %}
-    {% for img in images %}
+  <section class="galeria-grid">
+    {% assign thumbs = site.static_files | where_exp: "file", "file.path contains '/galeria/' and file.path contains '-thumb.'" %}
+    {% for thumb in thumbs %}
       <div class="galeria-item">
-        <a href="{{ img.path }}" class="modal-link">
-          <img src="{{ img.path | replace: '.jpg', '-thumb.jpg' }}" alt="Fotografía {{ forloop.index }}">
+        <a href="{{ thumb.path | remove: '-thumb' }}" class="modal-link">
+          <img src="{{ thumb.path }}" alt="Fotografía {{ forloop.index }}">
         </a>
       </div>
     {% endfor %}
-  </div>
+  </section>
 
 </main>
 
+<!-- Modal -->
+<div id="modal" class="modal">
+  <span class="modal-close">&times;</span>
+  <img class="modal-content" id="modal-img">
+</div>
+
 <style>
-.galeria-perfil {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
+  .galeria-perfil {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
 
-.text-center {
-  text-align: center;
-  margin-bottom: 2rem;
-}
+  .bloque {
+    margin-bottom: 2rem;
+  }
 
-.galeria-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
+  .galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
 
-.galeria-item img {
-  width: 100%;
-  display: block;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: transform 0.3s ease;
-}
+  .galeria-item img {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: transform 0.3s;
+  }
 
-.galeria-item img:hover {
-  transform: scale(1.03);
-}
+  .galeria-item img:hover {
+    transform: scale(1.03);
+  }
 
-/* Modal */
-.modal-overlay {
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(0,0,0,0.8);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.85);
+  }
 
-.modal-overlay img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 6px;
-}
+  .modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 6px;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .modal-close:hover {
+    color: #bbb;
+  }
 </style>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const links = document.querySelectorAll('.modal-link');
-  const modal = document.createElement('div');
-  modal.className = 'modal-overlay';
-  const modalImg = document.createElement('img');
-  modal.appendChild(modalImg);
-  document.body.appendChild(modal);
+  const modal = document.getElementById('modal');
+  const modalImg = document.getElementById('modal-img');
+  const modalClose = document.getElementsByClassName('modal-close')[0];
 
-  links.forEach(link => {
-    link.addEventListener('click', function(e) {
+  document.querySelectorAll('.modal-link').forEach(link => {
+    link.addEventListener('click', e => {
       e.preventDefault();
+      modal.style.display = "block";
       modalImg.src = link.href;
-      modal.style.display = 'flex';
     });
   });
 
-  modal.addEventListener('click', function() {
-    modal.style.display = 'none';
-    modalImg.src = '';
-  });
-});
+  modalClose.onclick = () => {
+    modal.style.display = "none";
+    modalImg.src = "";
+  }
+
+  window.onclick = e => {
+    if (e.target == modal) {
+      modal.style.display = "none";
+      modalImg.src = "";
+    }
+  }
 </script>
