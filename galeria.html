@@ -8,13 +8,11 @@ title: "Galería"
   <h2 class="text-center">Disparos SOOC (Straight Out of Camera)</h2>
 
   <div class="galeria-grid">
-    {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | sort: "modified_time" | reverse %}
+    {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | sort: "name" | reverse %}
     {% for img in images %}
       <div class="galeria-item">
         <a href="{{ img.path }}" class="modal-link">
-          <div class="galeria-thumb">
-            <img src="{{ img.path }}" alt="Fotografía {{ forloop.index }}">
-          </div>
+          <div class="foto-cuadrada" style="background-image: url('{{ img.path }}');"></div>
         </a>
       </div>
     {% endfor %}
@@ -44,27 +42,18 @@ title: "Galería"
   width: 100%;
 }
 
-.galeria-thumb {
+.foto-cuadrada {
   width: 100%;
-  padding-top: 100%; /* contenedor cuadrado */
-  position: relative;
-  overflow: hidden;
+  padding-top: 100%; /* Mantiene proporción cuadrada */
+  background-size: cover;
+  background-position: center;
   border-radius: 6px;
-}
-
-.galeria-thumb img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
 
-.galeria-thumb img:hover {
-  transform: scale(1.05);
+.foto-cuadrada:hover {
+  transform: scale(1.03);
 }
 
 /* Modal */
@@ -72,7 +61,7 @@ title: "Galería"
   position: fixed;
   top:0; left:0;
   width:100%; height:100%;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.85);
   display: none;
   align-items: center;
   justify-content: center;
