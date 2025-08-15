@@ -8,11 +8,13 @@ title: "Galería"
   <h2 class="text-center">Mi Galería</h2>
 
   <div class="galeria-grid">
-    {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" %}
+    {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | reverse %}
     {% for img in images %}
       <div class="galeria-item">
         <a href="{{ img.path }}" class="modal-link">
-          <img src="{{ img.path | replace: '.jpg', '-thumb.jpg' }}" alt="Fotografía {{ forloop.index }}">
+          <div class="galeria-thumb">
+            <img src="{{ img.path }}" alt="Fotografía {{ forloop.index }}">
+          </div>
         </a>
       </div>
     {% endfor %}
@@ -38,16 +40,31 @@ title: "Galería"
   gap: 1rem;
 }
 
-.galeria-item img {
+.galeria-item {
   width: 100%;
-  display: block;
-  cursor: pointer;
+}
+
+.galeria-thumb {
+  width: 100%;
+  padding-top: 100%; /* contenedor cuadrado */
+  position: relative;
+  overflow: hidden;
   border-radius: 6px;
+}
+
+.galeria-thumb img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
   transition: transform 0.3s ease;
 }
 
-.galeria-item img:hover {
-  transform: scale(1.03);
+.galeria-thumb img:hover {
+  transform: scale(1.05);
 }
 
 /* Modal */
