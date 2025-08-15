@@ -72,6 +72,13 @@ title: "Galería"
   max-width: 90%;
   max-height: 90%;
   border-radius: 6px;
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+}
+
+.modal-overlay img.zoomed {
+  transform: scale(2);
+  cursor: zoom-out;
 }
 
 .modal-close {
@@ -93,11 +100,15 @@ title: "Galería"
   user-select: none;
   transform: translateY(-50%);
   z-index: 1001;
-  display: none; /* Ocultar inicialmente */
 }
 
-.modal-prev { left: 20px; }
-.modal-next { right: 20px; }
+.modal-prev {
+  left: 20px;
+}
+
+.modal-next {
+  right: 20px;
+}
 </style>
 
 <script>
@@ -133,6 +144,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function showModal(index) {
     currentIndex = index;
     modalImg.src = imagePaths[currentIndex];
+    modalImg.classList.remove('zoomed');
     modal.style.display = 'flex';
     prev.style.display = 'block';
     next.style.display = 'block';
@@ -148,11 +160,13 @@ document.addEventListener("DOMContentLoaded", function() {
   function showNext() {
     currentIndex = (currentIndex + 1) % imagePaths.length;
     modalImg.src = imagePaths[currentIndex];
+    modalImg.classList.remove('zoomed');
   }
 
   function showPrev() {
     currentIndex = (currentIndex - 1 + imagePaths.length) % imagePaths.length;
     modalImg.src = imagePaths[currentIndex];
+    modalImg.classList.remove('zoomed');
   }
 
   links.forEach((link, idx) => {
@@ -160,6 +174,11 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
       showModal(idx);
     });
+  });
+
+  // Zoom al hacer clic sobre la imagen
+  modalImg.addEventListener('click', function(e){
+    modalImg.classList.toggle('zoomed');
   });
 
   closeBtn.addEventListener('click', hideModal);
