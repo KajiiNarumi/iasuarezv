@@ -11,9 +11,9 @@ title: "Galería"
     {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | sort: "name" | reverse %}
     {% for img in images %}
       <div class="galeria-item">
-        <a href="{{ img.path }}" class="modal-link" data-index="{{ forloop.index0 }}">
+        <div class="modal-link" data-src="{{ img.path }}" data-index="{{ forloop.index0 }}">
           <div class="foto-cuadrada" style="background-image: url('{{ img.path }}');"></div>
-        </a>
+        </div>
       </div>
     {% endfor %}
   </div>
@@ -84,15 +84,16 @@ title: "Galería"
   user-select: none;
 }
 
-.modal-prev, .modal-next {
+.modal-arrow {
   position: fixed;
   top: 50%;
-  transform: translateY(-50%);
   font-size: 3rem;
   color: white;
   cursor: pointer;
   user-select: none;
-  z-index: 1100;
+  transform: translateY(-50%);
+  z-index: 1001;
+  display: none; /* Ocultar inicialmente */
 }
 
 .modal-prev { left: 20px; }
@@ -101,35 +102,32 @@ title: "Galería"
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  // Solo crear un modal
-  let existingModal = document.querySelector('.modal-overlay');
-  if(existingModal) existingModal.remove();
 
-  const modal = document.createElement('div');
+  // Crear modal único
+  let modal = document.createElement('div');
   modal.className = 'modal-overlay';
 
-  const modalImg = document.createElement('img');
+  let modalImg = document.createElement('img');
   modal.appendChild(modalImg);
 
-  const closeBtn = document.createElement('span');
+  let closeBtn = document.createElement('span');
   closeBtn.className = 'modal-close';
   closeBtn.innerHTML = '&times;';
   modal.appendChild(closeBtn);
 
-  const prev = document.createElement('span');
-  prev.className = 'modal-prev';
+  let prev = document.createElement('span');
+  prev.className = 'modal-arrow modal-prev';
   prev.innerHTML = '&#10094;';
-  document.body.appendChild(prev);
-
-  const next = document.createElement('span');
-  next.className = 'modal-next';
+  let next = document.createElement('span');
+  next.className = 'modal-arrow modal-next';
   next.innerHTML = '&#10095;';
-  document.body.appendChild(next);
 
   document.body.appendChild(modal);
+  document.body.appendChild(prev);
+  document.body.appendChild(next);
 
   const links = document.querySelectorAll('.modal-link');
-  const imagePaths = Array.from(links).map(link => link.href);
+  const imagePaths = Array.from(links).map(link => link.dataset.src);
   let currentIndex = 0;
 
   function showModal(index) {
@@ -169,8 +167,15 @@ document.addEventListener("DOMContentLoaded", function() {
     if(e.target === modal) hideModal();
   });
 
-  prev.addEventListener('click', showPrev);
-  next.addEventListener('click', showNext);
+  prev.addEventListener('click', function(e){
+    e.stopPropagation();
+    showPrev();
+  });
+
+  next.addEventListener('click', function(e){
+    e.stopPropagation();
+    showNext();
+  });
 
   document.addEventListener('keydown', function(e){
     if(modal.style.display === 'flex'){
@@ -180,8 +185,5 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  // Inicialmente ocultar flechas
-  prev.style.display = 'none';
-  next.style.display = 'none';
 });
 </script>
