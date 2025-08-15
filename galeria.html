@@ -66,15 +66,24 @@ title: "Galería"
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  overflow: hidden;
 }
 
-.modal-overlay img {
+.modal-inner {
+  position: relative;
   max-width: 90%;
   max-height: 90%;
-  border-radius: 6px;
+  overflow: hidden;
   cursor: grab;
-  position: relative;
-  transition: transform 0.1s ease;
+}
+
+.modal-inner img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  transform-origin: center center;
+  user-select: none;
+  pointer-events: none;
 }
 
 .modal-close {
@@ -85,6 +94,7 @@ title: "Galería"
   color: white;
   cursor: pointer;
   user-select: none;
+  z-index: 1001;
 }
 
 .modal-arrow {
@@ -110,16 +120,21 @@ title: "Galería"
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
+  // Crear modal único
   let modal = document.createElement('div');
   modal.className = 'modal-overlay';
 
+  let modalInner = document.createElement('div');
+  modalInner.className = 'modal-inner';
+
   let modalImg = document.createElement('img');
-  modal.appendChild(modalImg);
+  modalInner.appendChild(modalImg);
+
+  modal.appendChild(modalInner);
 
   let closeBtn = document.createElement('span');
   closeBtn.className = 'modal-close';
   closeBtn.innerHTML = '&times;';
-  modal.appendChild(closeBtn);
 
   let prev = document.createElement('span');
   prev.className = 'modal-arrow modal-prev';
@@ -129,54 +144,47 @@ document.addEventListener("DOMContentLoaded", function() {
   next.innerHTML = '&#10095;';
 
   document.body.appendChild(modal);
+  document.body.appendChild(closeBtn);
   document.body.appendChild(prev);
   document.body.appendChild(next);
-
-  prev.style.display = 'none';
-  next.style.display = 'none';
 
   const links = document.querySelectorAll('.modal-link');
   const imagePaths = Array.from(links).map(link => link.dataset.src);
   let currentIndex = 0;
-  let scale = 1;
-  let isDragging = false;
-  let startX, startY;
-  let translateX = 0, translateY = 0;
 
-  function resetTransform() {
-    scale = 1;
-    translateX = 0;
-    translateY = 0;
-    modalImg.style.transform = 'translate(-50%, -50%) scale(1)';
-  }
+  let scale = 1;
+  let originX = 0, originY = 0;
+  let startX = 0, startY = 0;
+  let isDragging = false;
 
   function showModal(index) {
     currentIndex = index;
     modalImg.src = imagePaths[currentIndex];
+    scale = 1;
+    modalImg.style.transform = `translate(0px,0px) scale(1)`;
+    originX = 0; originY = 0;
     modal.style.display = 'flex';
+    closeBtn.style.display = 'block';
     prev.style.display = 'block';
     next.style.display = 'block';
-    resetTransform();
   }
 
   function hideModal() {
     modal.style.display = 'none';
     modalImg.src = '';
+    closeBtn.style.display = 'none';
     prev.style.display = 'none';
     next.style.display = 'none';
-    resetTransform();
   }
 
   function showNext() {
     currentIndex = (currentIndex + 1) % imagePaths.length;
-    modalImg.src = imagePaths[currentIndex];
-    resetTransform();
+    showModal(currentIndex);
   }
 
   function showPrev() {
     currentIndex = (currentIndex - 1 + imagePaths.length) % imagePaths.length;
-    modalImg.src = imagePaths[currentIndex];
-    resetTransform();
+    showModal(currentIndex);
   }
 
   links.forEach((link, idx) => {
@@ -209,41 +217,35 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  // Zoom con rueda
-  modalImg.addEventListener('wheel', function(e){
+  // Zoom con rueda del ratón
+  modalInner.addEventListener('wheel', function(e){
     e.preventDefault();
-    const delta = e.deltaY > 0 ? -0.1 : 0.1;
-    scale = Math.min(Math.max(1, scale + delta), 5);
-    modalImg.style.transform = `translate(-50%, -50%) scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+    let delta = e.deltaY > 0 ? -0.1 : 0.1;
+    scale += delta;
+    if(scale < 1) scale = 1;
+    if(scale > 5) scale = 5;
+    modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
   });
 
-  // Drag
-  modalImg.addEventListener('mousedown', function(e){
-    if(scale <= 1) return;
+  // Arrastrar imagen
+  modalInner.addEventListener('mousedown', function(e){
+    e.preventDefault();
     isDragging = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    modalImg.style.cursor = 'grabbing';
-    e.preventDefault();
+    startX = e.clientX - originX;
+    startY = e.clientY - originY;
+    modalInner.style.cursor = 'grabbing';
   });
 
-  window.addEventListener('mousemove', function(e){
+  document.addEventListener('mousemove', function(e){
     if(!isDragging) return;
-    const dx = (e.clientX - startX) / scale;
-    const dy = (e.clientY - startY) / scale;
-    const newX = translateX + dx;
-    const newY = translateY + dy;
-    modalImg.style.transform = `translate(-50%, -50%) scale(${scale}) translate(${newX}px, ${newY}px)`;
+    originX = e.clientX - startX;
+    originY = e.clientY - startY;
+    modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
   });
 
-  window.addEventListener('mouseup', function(){
-    if(isDragging){
-      isDragging = false;
-      const matrix = new WebKitCSSMatrix(modalImg.style.transform);
-      translateX = matrix.m41 / scale;
-      translateY = matrix.m42 / scale;
-      modalImg.style.cursor = 'grab';
-    }
+  document.addEventListener('mouseup', function(){
+    isDragging = false;
+    modalInner.style.cursor = 'grab';
   });
 
 });
