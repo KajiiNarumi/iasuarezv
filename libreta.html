@@ -59,15 +59,21 @@ title: "Mi libreta"
 
 <style>
   .perfil {
-    max-width: 640px;
+    max-width: 700px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 1rem 1.5rem; /* margen superior reducido y más espacio lateral */
   }
 
   .bloque {
     border-top: 1px solid #444;
-    padding-top: 2.5rem;
-    margin-bottom: 3.5rem;
+    padding-top: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  /* Que el primer bloque no tenga línea arriba */
+  .bloque:first-of-type {
+    border-top: none;
+    padding-top: 0;
   }
 
   .text-center {
@@ -76,10 +82,12 @@ title: "Mi libreta"
 
   .text-left {
     text-align: left;
+    padding-left: 0.5rem;
   }
 
   .text-right {
     text-align: right;
+    padding-right: 0.5rem;
   }
 
   h2, h3 {
@@ -88,16 +96,16 @@ title: "Mi libreta"
   }
 
   h2 {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
   }
 
   h3 {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
   }
 
   p {
     margin-bottom: 1.2rem;
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   ul {
@@ -106,7 +114,7 @@ title: "Mi libreta"
   }
 
   ul li {
-    margin-bottom: 0.7rem;
+    margin-bottom: 0.8rem;
   }
 
   a {
@@ -119,6 +127,8 @@ title: "Mi libreta"
     display: block;
     font-style: italic;
     opacity: 0.7;
+    margin-top: 0.15rem;
+    line-height: 1.4;
   }
 
   p > a {
