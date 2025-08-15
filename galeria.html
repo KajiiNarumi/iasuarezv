@@ -6,6 +6,7 @@ title: "Galería"
 <main class="galeria-perfil">
 
   <h2 class="text-center">Mi Galería</h2>
+  <p>Disparos SOOC (Straight Out of Camera)</p>
 
   <div class="galeria-grid">
     {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | reverse %}
