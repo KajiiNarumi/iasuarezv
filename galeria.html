@@ -69,14 +69,18 @@ title: "Galería"
   overflow: hidden;
 }
 
+.modal-img-container {
+  position: relative;
+  cursor: grab;
+}
+
 .modal-overlay img {
   max-width: 90%;
   max-height: 90%;
   border-radius: 6px;
-  cursor: grab;
   user-select: none;
   transform-origin: center center;
-  transition: transform 0.1s ease;
+  transition: transform 0.2s ease;
 }
 
 .modal-close {
@@ -113,20 +117,25 @@ title: "Galería"
 document.addEventListener("DOMContentLoaded", function() {
 
   // Crear modal único
-  const modal = document.createElement('div');
+  let modal = document.createElement('div');
   modal.className = 'modal-overlay';
-  const modalImg = document.createElement('img');
-  modal.appendChild(modalImg);
 
-  const closeBtn = document.createElement('span');
+  let container = document.createElement('div');
+  container.className = 'modal-img-container';
+
+  let modalImg = document.createElement('img');
+  container.appendChild(modalImg);
+  modal.appendChild(container);
+
+  let closeBtn = document.createElement('span');
   closeBtn.className = 'modal-close';
   closeBtn.innerHTML = '&times;';
   modal.appendChild(closeBtn);
 
-  const prev = document.createElement('span');
+  let prev = document.createElement('span');
   prev.className = 'modal-arrow modal-prev';
   prev.innerHTML = '&#10094;';
-  const next = document.createElement('span');
+  let next = document.createElement('span');
   next.className = 'modal-arrow modal-next';
   next.innerHTML = '&#10095;';
 
@@ -134,20 +143,15 @@ document.addEventListener("DOMContentLoaded", function() {
   document.body.appendChild(prev);
   document.body.appendChild(next);
 
-  prev.style.display = 'none';
-  next.style.display = 'none';
-  closeBtn.style.display = 'none';
-
   const links = document.querySelectorAll('.modal-link');
   const imagePaths = Array.from(links).map(link => link.dataset.src);
   let currentIndex = 0;
 
-  let scale = 1;
-  let translateX = 0;
-  let translateY = 0;
-  let startX = 0;
-  let startY = 0;
+  // Variables para drag
   let isDragging = false;
+  let startX, startY;
+  let currentX = 0, currentY = 0;
+  let scale = 1;
 
   function showModal(index) {
     currentIndex = index;
@@ -155,14 +159,10 @@ document.addEventListener("DOMContentLoaded", function() {
     modal.style.display = 'flex';
     prev.style.display = 'block';
     next.style.display = 'block';
-    closeBtn.style.display = 'block';
     scale = 1;
-    translateX = 0;
-    translateY = 0;
+    currentX = 0;
+    currentY = 0;
     modalImg.style.transform = `translate(0px, 0px) scale(1)`;
-    modalImg.onload = function(){
-      centerImage();
-    }
   }
 
   function hideModal() {
@@ -170,7 +170,6 @@ document.addEventListener("DOMContentLoaded", function() {
     modalImg.src = '';
     prev.style.display = 'none';
     next.style.display = 'none';
-    closeBtn.style.display = 'none';
   }
 
   function showNext() {
@@ -213,63 +212,35 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
+  // Drag events
+  container.addEventListener('mousedown', function(e){
+    isDragging = true;
+    startX = e.clientX - currentX;
+    startY = e.clientY - currentY;
+    container.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mousemove', function(e){
+    if(!isDragging) return;
+    currentX = e.clientX - startX;
+    currentY = e.clientY - startY;
+    modalImg.style.transform = `translate(${currentX}px, ${currentY}px) scale(${scale})`;
+  });
+
+  window.addEventListener('mouseup', function(){
+    isDragging = false;
+    container.style.cursor = 'grab';
+  });
+
   // Zoom con rueda
-  modal.addEventListener('wheel', function(e){
-    if(modal.style.display !== 'flex') return;
+  container.addEventListener('wheel', function(e){
     e.preventDefault();
-    const rect = modalImg.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
-    const delta = e.deltaY > 0 ? -0.1 : 0.1;
-    const prevScale = scale;
+    let delta = e.deltaY > 0 ? -0.1 : 0.1;
     scale += delta;
     if(scale < 1) scale = 1;
     if(scale > 5) scale = 5;
-    translateX -= (offsetX - rect.width / 2) * (scale - prevScale) / scale;
-    translateY -= (offsetY - rect.height / 2) * (scale - prevScale) / scale;
-    applyTransform();
+    modalImg.style.transform = `translate(${currentX}px, ${currentY}px) scale(${scale})`;
   });
-
-  // Drag solo mientras se mantiene presionado
-  modalImg.addEventListener('mousedown', function(e){
-    if(scale <= 1) return;
-    isDragging = true;
-    startX = e.clientX - translateX;
-    startY = e.clientY - translateY;
-    modalImg.style.cursor = 'grabbing';
-  });
-
-  document.addEventListener('mousemove', function(e){
-    if(!isDragging) return;
-    translateX = e.clientX - startX;
-    translateY = e.clientY - startY;
-    applyTransform();
-  });
-
-  document.addEventListener('mouseup', function(){
-    if(!isDragging) return;
-    isDragging = false;
-    modalImg.style.cursor = 'grab';
-  });
-
-  function applyTransform(){
-    const rect = modalImg.getBoundingClientRect();
-    const parentRect = modal.getBoundingClientRect();
-    const maxX = Math.max(0, (rect.width - parentRect.width)/2);
-    const maxY = Math.max(0, (rect.height - parentRect.height)/2);
-    if(translateX > maxX) translateX = maxX;
-    if(translateX < -maxX) translateX = -maxX;
-    if(translateY > maxY) translateY = maxY;
-    if(translateY < -maxY) translateY = -maxY;
-    modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-  }
-
-  function centerImage(){
-    scale = 1;
-    translateX = 0;
-    translateY = 0;
-    modalImg.style.transform = `translate(0px,0px) scale(1)`;
-  }
 
 });
 </script>
