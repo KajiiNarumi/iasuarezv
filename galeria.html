@@ -72,8 +72,9 @@ title: "Galería"
   max-width: 90%;
   max-height: 90%;
   border-radius: 6px;
-  cursor: pointer;
+  cursor: grab;
   position: relative;
+  transition: transform 0.1s ease;
 }
 
 .modal-close {
@@ -103,17 +104,6 @@ title: "Galería"
 
 .modal-next {
   right: 20px;
-}
-
-/* Zoom y arrastre */
-.modal-overlay.zoomed img {
-  transform: scale(2) translate(0px,0px);
-  cursor: grab;
-  transition: transform 0.1s ease;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform-origin: center center;
 }
 </style>
 
@@ -148,12 +138,17 @@ document.addEventListener("DOMContentLoaded", function() {
   const links = document.querySelectorAll('.modal-link');
   const imagePaths = Array.from(links).map(link => link.dataset.src);
   let currentIndex = 0;
-  let zoomed = false;
-
-  // Posición de arrastre
+  let scale = 1;
   let isDragging = false;
   let startX, startY;
   let translateX = 0, translateY = 0;
+
+  function resetTransform() {
+    scale = 1;
+    translateX = 0;
+    translateY = 0;
+    modalImg.style.transform = 'translate(-50%, -50%) scale(1)';
+  }
 
   function showModal(index) {
     currentIndex = index;
@@ -161,11 +156,7 @@ document.addEventListener("DOMContentLoaded", function() {
     modal.style.display = 'flex';
     prev.style.display = 'block';
     next.style.display = 'block';
-    zoomed = false;
-    modalImg.style.transform = 'none';
-    translateX = 0;
-    translateY = 0;
-    modal.classList.remove('zoomed');
+    resetTransform();
   }
 
   function hideModal() {
@@ -173,31 +164,19 @@ document.addEventListener("DOMContentLoaded", function() {
     modalImg.src = '';
     prev.style.display = 'none';
     next.style.display = 'none';
-    zoomed = false;
-    modalImg.style.transform = 'none';
-    translateX = 0;
-    translateY = 0;
-    modal.classList.remove('zoomed');
+    resetTransform();
   }
 
   function showNext() {
     currentIndex = (currentIndex + 1) % imagePaths.length;
     modalImg.src = imagePaths[currentIndex];
-    zoomed = false;
-    modalImg.style.transform = 'none';
-    translateX = 0;
-    translateY = 0;
-    modal.classList.remove('zoomed');
+    resetTransform();
   }
 
   function showPrev() {
     currentIndex = (currentIndex - 1 + imagePaths.length) % imagePaths.length;
     modalImg.src = imagePaths[currentIndex];
-    zoomed = false;
-    modalImg.style.transform = 'none';
-    translateX = 0;
-    translateY = 0;
-    modal.classList.remove('zoomed');
+    resetTransform();
   }
 
   links.forEach((link, idx) => {
@@ -230,22 +209,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  // Zoom al hacer clic
-  modalImg.addEventListener('click', function(e){
-    zoomed = !zoomed;
-    if(zoomed){
-      modal.classList.add('zoomed');
-      translateX = 0;
-      translateY = 0;
-    } else {
-      modal.classList.remove('zoomed');
-      modalImg.style.transform = 'none';
-    }
+  // Zoom con rueda
+  modalImg.addEventListener('wheel', function(e){
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    scale = Math.min(Math.max(1, scale + delta), 5);
+    modalImg.style.transform = `translate(-50%, -50%) scale(${scale}) translate(${translateX}px, ${translateY}px)`;
   });
 
   // Drag
   modalImg.addEventListener('mousedown', function(e){
-    if(!zoomed) return;
+    if(scale <= 1) return;
     isDragging = true;
     startX = e.clientX;
     startY = e.clientY;
@@ -255,19 +229,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
   window.addEventListener('mousemove', function(e){
     if(!isDragging) return;
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
+    const dx = (e.clientX - startX) / scale;
+    const dy = (e.clientY - startY) / scale;
     const newX = translateX + dx;
     const newY = translateY + dy;
-    modalImg.style.transform = `scale(2) translate(${newX}px, ${newY}px)`;
+    modalImg.style.transform = `translate(-50%, -50%) scale(${scale}) translate(${newX}px, ${newY}px)`;
   });
 
   window.addEventListener('mouseup', function(){
     if(isDragging){
       isDragging = false;
       const matrix = new WebKitCSSMatrix(modalImg.style.transform);
-      translateX = matrix.m41;
-      translateY = matrix.m42;
+      translateX = matrix.m41 / scale;
+      translateY = matrix.m42 / scale;
       modalImg.style.cursor = 'grab';
     }
   });
