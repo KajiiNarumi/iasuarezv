@@ -82,8 +82,22 @@ title: "Mi libreta"
     padding-top: 0;
   }
 
-  .contenido-limitado {
-    max-width: 80%;
-    margin: 0 auto;
+  /* Ajuste del límite según alineación */
+  .text-left .contenido-limitado {
+    max-width: 90%;
+    margin-left: 0;
+    margin-right: 10%;
+  }
+
+  .text-right .contenido-limitado {
+    max-width: 90%;
+    margin-left: 10%;
+    margin-right: 0;
+  }
+
+  .text-center .contenido-limitado {
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
   }
 </style>
