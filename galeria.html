@@ -66,6 +66,8 @@ title: "Galería"
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  flex-direction: column;
+  overflow: auto;
 }
 
 .modal-overlay img {
@@ -76,9 +78,9 @@ title: "Galería"
   cursor: zoom-in;
 }
 
-.modal-overlay img.zoomed {
+.modal-overlay.zoomed img {
   transform: scale(2);
-  cursor: zoom-out;
+  cursor: grab;
 }
 
 .modal-close {
@@ -89,10 +91,11 @@ title: "Galería"
   color: white;
   cursor: pointer;
   user-select: none;
+  z-index: 1001;
 }
 
 .modal-arrow {
-  position: fixed;
+  position: absolute;
   top: 50%;
   font-size: 3rem;
   color: white;
@@ -115,70 +118,79 @@ title: "Galería"
 document.addEventListener("DOMContentLoaded", function() {
 
   // Crear modal único
-  let modal = document.createElement('div');
+  const modal = document.createElement('div');
   modal.className = 'modal-overlay';
 
-  let modalImg = document.createElement('img');
+  const modalImg = document.createElement('img');
   modal.appendChild(modalImg);
 
-  let closeBtn = document.createElement('span');
+  const closeBtn = document.createElement('span');
   closeBtn.className = 'modal-close';
   closeBtn.innerHTML = '&times;';
   modal.appendChild(closeBtn);
 
-  let prev = document.createElement('span');
+  const prev = document.createElement('span');
   prev.className = 'modal-arrow modal-prev';
   prev.innerHTML = '&#10094;';
-  let next = document.createElement('span');
+  modal.appendChild(prev);
+
+  const next = document.createElement('span');
   next.className = 'modal-arrow modal-next';
   next.innerHTML = '&#10095;';
+  modal.appendChild(next);
 
   document.body.appendChild(modal);
-  document.body.appendChild(prev);
-  document.body.appendChild(next);
 
   const links = document.querySelectorAll('.modal-link');
   const imagePaths = Array.from(links).map(link => link.dataset.src);
   let currentIndex = 0;
+  let zoomed = false;
 
   function showModal(index) {
     currentIndex = index;
     modalImg.src = imagePaths[currentIndex];
-    modalImg.classList.remove('zoomed');
     modal.style.display = 'flex';
-    prev.style.display = 'block';
-    next.style.display = 'block';
+    modal.classList.remove('zoomed');
+    zoomed = false;
   }
 
   function hideModal() {
     modal.style.display = 'none';
     modalImg.src = '';
-    prev.style.display = 'none';
-    next.style.display = 'none';
+    modal.classList.remove('zoomed');
+    zoomed = false;
   }
 
   function showNext() {
     currentIndex = (currentIndex + 1) % imagePaths.length;
     modalImg.src = imagePaths[currentIndex];
-    modalImg.classList.remove('zoomed');
+    modal.classList.remove('zoomed');
+    zoomed = false;
   }
 
   function showPrev() {
     currentIndex = (currentIndex - 1 + imagePaths.length) % imagePaths.length;
     modalImg.src = imagePaths[currentIndex];
-    modalImg.classList.remove('zoomed');
+    modal.classList.remove('zoomed');
+    zoomed = false;
   }
+
+  // Zoom toggle al hacer clic en la imagen
+  modalImg.addEventListener('click', function(e) {
+    e.stopPropagation();
+    zoomed = !zoomed;
+    if(zoomed){
+      modal.classList.add('zoomed');
+    } else {
+      modal.classList.remove('zoomed');
+    }
+  });
 
   links.forEach((link, idx) => {
     link.addEventListener('click', function(e) {
       e.preventDefault();
       showModal(idx);
     });
-  });
-
-  // Zoom al hacer clic sobre la imagen
-  modalImg.addEventListener('click', function(e){
-    modalImg.classList.toggle('zoomed');
   });
 
   closeBtn.addEventListener('click', hideModal);
