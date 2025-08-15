@@ -67,7 +67,7 @@ title: "Galería"
   justify-content: center;
   z-index: 1000;
   flex-direction: column;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .modal-overlay img {
@@ -76,6 +76,8 @@ title: "Galería"
   border-radius: 6px;
   transition: transform 0.3s ease;
   cursor: zoom-in;
+  user-select: none;
+  position: relative;
 }
 
 .modal-overlay.zoomed img {
@@ -117,7 +119,6 @@ title: "Galería"
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
-  // Crear modal único
   const modal = document.createElement('div');
   modal.className = 'modal-overlay';
 
@@ -146,12 +147,19 @@ document.addEventListener("DOMContentLoaded", function() {
   let currentIndex = 0;
   let zoomed = false;
 
+  let isDragging = false;
+  let startX, startY, scrollLeft, scrollTop;
+
   function showModal(index) {
     currentIndex = index;
     modalImg.src = imagePaths[currentIndex];
     modal.style.display = 'flex';
     modal.classList.remove('zoomed');
     zoomed = false;
+
+    // Reset scroll
+    modal.scrollLeft = 0;
+    modal.scrollTop = 0;
   }
 
   function hideModal() {
@@ -166,6 +174,8 @@ document.addEventListener("DOMContentLoaded", function() {
     modalImg.src = imagePaths[currentIndex];
     modal.classList.remove('zoomed');
     zoomed = false;
+    modal.scrollLeft = 0;
+    modal.scrollTop = 0;
   }
 
   function showPrev() {
@@ -173,9 +183,11 @@ document.addEventListener("DOMContentLoaded", function() {
     modalImg.src = imagePaths[currentIndex];
     modal.classList.remove('zoomed');
     zoomed = false;
+    modal.scrollLeft = 0;
+    modal.scrollTop = 0;
   }
 
-  // Zoom toggle al hacer clic en la imagen
+  // Zoom toggle
   modalImg.addEventListener('click', function(e) {
     e.stopPropagation();
     zoomed = !zoomed;
@@ -183,6 +195,33 @@ document.addEventListener("DOMContentLoaded", function() {
       modal.classList.add('zoomed');
     } else {
       modal.classList.remove('zoomed');
+    }
+  });
+
+  // Drag para mover imagen en zoom
+  modalImg.addEventListener('mousedown', function(e){
+    if(!zoomed) return;
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    scrollLeft = modal.scrollLeft;
+    scrollTop = modal.scrollTop;
+    modalImg.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', function(e){
+    if(!isDragging) return;
+    const x = e.clientX - startX;
+    const y = e.clientY - startY;
+    modal.scrollLeft = scrollLeft - x;
+    modal.scrollTop = scrollTop - y;
+  });
+
+  window.addEventListener('mouseup', function(){
+    if(isDragging){
+      isDragging = false;
+      modalImg.style.cursor = 'grab';
     }
   });
 
