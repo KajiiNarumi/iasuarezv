@@ -162,9 +162,17 @@ document.addEventListener("DOMContentLoaded", function() {
   function showModal(index) {
     currentIndex = index;
     modalImg.src = imagePaths[currentIndex];
-    scale = 1;
-    originX = 0; originY = 0;
-    modalImg.style.transform = `translate(0px,0px) scale(1)`;
+
+    // Ajuste inicial para ver toda la imagen
+    modalImg.onload = function() {
+      let containerRatio = modalInner.clientWidth / modalInner.clientHeight;
+      let imgRatio = modalImg.naturalWidth / modalImg.naturalHeight;
+      scale = imgRatio > containerRatio ? 1 : modalInner.clientHeight / modalImg.naturalHeight;
+      originX = 0;
+      originY = 0;
+      modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+    };
+
     modal.style.display = 'flex';
     closeBtn.style.display = 'block';
     prev.style.display = 'block';
@@ -224,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function() {
     e.preventDefault();
     let delta = e.deltaY > 0 ? -0.1 : 0.1;
     scale += delta;
-    if(scale < 1) scale = 1;
+    if(scale < 0.1) scale = 0.1;
     if(scale > 5) scale = 5;
     modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
   });
@@ -252,4 +260,3 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 </script>
-
