@@ -13,10 +13,10 @@
 #  id: theme-toggle
 - title: Libreta
   url: /libreta/
-- title: Bitácora
-  url: /bitacora/
-- title: Memorias
-  url: /memorias
+- title: Blog
+  url: /blog/
+- title: Pensamientos
+  url: /pensamientos
 - title: Experiencias
   url: /experiencias/
 
