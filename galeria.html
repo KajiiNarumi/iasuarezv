@@ -5,7 +5,7 @@ title: "Galería"
 
 <main class="galeria-perfil">
 
-  <h2 class="text-center">Disparos SOOC (Straight Out of Camera)</h2>
+  <h2 class="text-center">Disparos Directamente de la Cámara “SOOC”</h2> <p class="text-center"><em>(Straight Out of Camera)</em></p> <p class="text-center">Imágenes al natural, sin retoque, mostrando la esencia de cada instante.</p>
 
   <div class="galeria-grid">
     {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | sort: "name" | reverse %}
