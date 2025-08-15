@@ -69,20 +69,14 @@ title: "Galería"
   overflow: hidden;
 }
 
-.modal-inner {
-  position: relative;
+.modal-overlay img {
   max-width: 90%;
   max-height: 90%;
-}
-
-.modal-overlay img {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
   border-radius: 6px;
   cursor: grab;
   user-select: none;
-  transition: transform 0.2s ease;
+  transform-origin: center center;
+  transition: transform 0.1s ease;
 }
 
 .modal-close {
@@ -93,7 +87,6 @@ title: "Galería"
   color: white;
   cursor: pointer;
   user-select: none;
-  display: none;
 }
 
 .modal-arrow {
@@ -105,7 +98,6 @@ title: "Galería"
   user-select: none;
   transform: translateY(-50%);
   z-index: 1001;
-  display: none;
 }
 
 .modal-prev {
@@ -119,26 +111,22 @@ title: "Galería"
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+
   // Crear modal único
-  let modal = document.createElement('div');
+  const modal = document.createElement('div');
   modal.className = 'modal-overlay';
+  const modalImg = document.createElement('img');
+  modal.appendChild(modalImg);
 
-  let modalInner = document.createElement('div');
-  modalInner.className = 'modal-inner';
-  modal.appendChild(modalInner);
-
-  let modalImg = document.createElement('img');
-  modalInner.appendChild(modalImg);
-
-  let closeBtn = document.createElement('span');
+  const closeBtn = document.createElement('span');
   closeBtn.className = 'modal-close';
   closeBtn.innerHTML = '&times;';
   modal.appendChild(closeBtn);
 
-  let prev = document.createElement('span');
+  const prev = document.createElement('span');
   prev.className = 'modal-arrow modal-prev';
   prev.innerHTML = '&#10094;';
-  let next = document.createElement('span');
+  const next = document.createElement('span');
   next.className = 'modal-arrow modal-next';
   next.innerHTML = '&#10095;';
 
@@ -146,52 +134,42 @@ document.addEventListener("DOMContentLoaded", function() {
   document.body.appendChild(prev);
   document.body.appendChild(next);
 
+  prev.style.display = 'none';
+  next.style.display = 'none';
+  closeBtn.style.display = 'none';
+
   const links = document.querySelectorAll('.modal-link');
   const imagePaths = Array.from(links).map(link => link.dataset.src);
   let currentIndex = 0;
 
-  // Zoom y arrastre
-  let scale = 1, originX = 0, originY = 0;
-  let isDragging = false, startX, startY;
-
-  function updateTransform() {
-    modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-  }
+  let scale = 1;
+  let originX = 0;
+  let originY = 0;
+  let startX = 0;
+  let startY = 0;
+  let translateX = 0;
+  let translateY = 0;
+  let isDragging = false;
 
   function showModal(index) {
     currentIndex = index;
     modalImg.src = imagePaths[currentIndex];
-
-    modalImg.onload = function() {
-      // Resetear transformaciones
-      scale = 1;
-      originX = 0;
-      originY = 0;
-
-      // Ajustar para que la imagen se vea completa inicialmente
-      const imgRatio = modalImg.naturalWidth / modalImg.naturalHeight;
-      const containerRatio = modalInner.clientWidth / modalInner.clientHeight;
-
-      if(imgRatio > containerRatio){
-        scale = modalInner.clientWidth / modalImg.naturalWidth;
-      } else {
-        scale = modalInner.clientHeight / modalImg.naturalHeight;
-      }
-      updateTransform();
-    }
-
     modal.style.display = 'flex';
-    closeBtn.style.display = 'block';
     prev.style.display = 'block';
     next.style.display = 'block';
+    closeBtn.style.display = 'block';
+    scale = 1;
+    translateX = 0;
+    translateY = 0;
+    modalImg.style.transform = `translate(0px, 0px) scale(1)`;
   }
 
   function hideModal() {
     modal.style.display = 'none';
     modalImg.src = '';
-    closeBtn.style.display = 'none';
     prev.style.display = 'none';
     next.style.display = 'none';
+    closeBtn.style.display = 'none';
   }
 
   function showNext() {
@@ -220,6 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
     e.stopPropagation();
     showPrev();
   });
+
   next.addEventListener('click', function(e){
     e.stopPropagation();
     showNext();
@@ -233,32 +212,59 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  // Zoom con rueda del ratón
-  modalInner.addEventListener('wheel', function(e){
+  // Zoom con rueda
+  modal.addEventListener('wheel', function(e){
+    if(modal.style.display !== 'flex') return;
     e.preventDefault();
-    const delta = -e.deltaY * 0.0015;
-    scale = Math.min(Math.max(0.1, scale + delta), 5);
-    updateTransform();
+    const rect = modalImg.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const offsetY = e.clientY - rect.top;
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    const prevScale = scale;
+    scale += delta;
+    if(scale < 1) scale = 1;
+    if(scale > 5) scale = 5;
+    // ajustar translate para que el zoom se centre donde está el puntero
+    translateX -= (offsetX - rect.width / 2) * (scale - prevScale) / scale;
+    translateY -= (offsetY - rect.height / 2) * (scale - prevScale) / scale;
+    applyTransform();
   });
 
-  // Arrastrar imagen
+  // Drag
   modalImg.addEventListener('mousedown', function(e){
+    if(scale <= 1) return;
     isDragging = true;
-    startX = e.clientX - originX;
-    startY = e.clientY - originY;
+    startX = e.clientX - translateX;
+    startY = e.clientY - translateY;
     modalImg.style.cursor = 'grabbing';
   });
-  window.addEventListener('mouseup', function(){
+
+  document.addEventListener('mousemove', function(e){
+    if(!isDragging) return;
+    translateX = e.clientX - startX;
+    translateY = e.clientY - startY;
+    applyTransform();
+  });
+
+  document.addEventListener('mouseup', function(){
+    if(!isDragging) return;
     isDragging = false;
     modalImg.style.cursor = 'grab';
   });
-  window.addEventListener('mousemove', function(e){
-    if(isDragging){
-      originX = e.clientX - startX;
-      originY = e.clientY - startY;
-      updateTransform();
-    }
-  });
+
+  function applyTransform(){
+    // limitar movimiento
+    const rect = modalImg.getBoundingClientRect();
+    const parentRect = modal.getBoundingClientRect();
+    const maxX = Math.max(0, (rect.width - parentRect.width)/2);
+    const maxY = Math.max(0, (rect.height - parentRect.height)/2);
+    if(translateX > maxX) translateX = maxX;
+    if(translateX < -maxX) translateX = -maxX;
+    if(translateY > maxY) translateY = maxY;
+    if(translateY < -maxY) translateY = -maxY;
+
+    modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+  }
 
 });
 </script>
