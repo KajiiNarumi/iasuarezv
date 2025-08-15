@@ -71,6 +71,9 @@ title: "Galería"
 
 .modal-inner {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   max-width: 90%;
   max-height: 90%;
   overflow: hidden;
@@ -88,8 +91,8 @@ title: "Galería"
 
 .modal-close {
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 10px;
+  right: 10px;
   font-size: 2rem;
   color: white;
   cursor: pointer;
@@ -132,11 +135,12 @@ document.addEventListener("DOMContentLoaded", function() {
   let modalImg = document.createElement('img');
   modalInner.appendChild(modalImg);
 
-  modal.appendChild(modalInner);
-
   let closeBtn = document.createElement('span');
   closeBtn.className = 'modal-close';
   closeBtn.innerHTML = '&times;';
+  modalInner.appendChild(closeBtn); // La X ahora está dentro del modalInner
+
+  modal.appendChild(modalInner);
 
   let prev = document.createElement('span');
   prev.className = 'modal-arrow modal-prev';
@@ -146,7 +150,6 @@ document.addEventListener("DOMContentLoaded", function() {
   next.innerHTML = '&#10095;';
 
   document.body.appendChild(modal);
-  document.body.appendChild(closeBtn);
   document.body.appendChild(prev);
   document.body.appendChild(next);
 
@@ -163,8 +166,8 @@ document.addEventListener("DOMContentLoaded", function() {
     currentIndex = index;
     modalImg.src = imagePaths[currentIndex];
 
-    // Ajuste inicial para ver toda la imagen
     modalImg.onload = function() {
+      // Ajuste inicial para ver toda la imagen centrada
       let containerRatio = modalInner.clientWidth / modalInner.clientHeight;
       let imgRatio = modalImg.naturalWidth / modalImg.naturalHeight;
       scale = imgRatio > containerRatio ? 1 : modalInner.clientHeight / modalImg.naturalHeight;
