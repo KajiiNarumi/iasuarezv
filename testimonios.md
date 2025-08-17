@@ -62,7 +62,7 @@ entries_layout: list
 
 <form class="formulario-minimal" action="https://formsubmit.co/contacto@kajiinarumi.com" method="POST">
   <input type="hidden" name="_captcha" value="false">
-  <input type="hidden" name="_next" value="https://blog.kajiinarumi.com/gracias/">
+  <input type="hidden" name="_next" value="https://iasuarezv.com/testimonios">
   <input type="text" name="_honey" style="display:none">
 
   <label for="name">Nombre o seudónimo:</label>
