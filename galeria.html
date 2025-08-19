@@ -5,9 +5,9 @@ title: "Galería"
 
 <main class="galeria-perfil">
 
-  <h2 class="text-center">Disparos Directamente de la Cámara “SOOC”</h2> 
-  <p class="text-center"><em>(Straight Out of Camera)</em></p> 
-  <p class="text-center">Imágenes al natural, sin <b>retoque</b>, mostrando la esencia de cada instante.</p>
+  <h2 class="text-center">Disparos Directamente de la Cámara "SOOC"</h2>
+  <p class="text-center"><em>(Straight Out of Camera)</em></p>
+  <p class="text-center">Imágenes al natural, sin retoque, mostrando la esencia de cada instante.</p>
 
   <div class="galeria-grid">
     {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | sort: "name" | reverse %}
@@ -76,16 +76,16 @@ title: "Galería"
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 95vw;
-  max-height: 90vh;
+  max-width: 95%;
+  max-height: 95%;
   overflow: hidden;
   cursor: grab;
 }
 
 .modal-inner img {
   display: block;
-  max-width: 95vw;
-  max-height: 90vh;
+  max-width: 100%;
+  max-height: 100%;
   transform-origin: center center;
   user-select: none;
   pointer-events: none;
@@ -159,9 +159,25 @@ document.addEventListener("DOMContentLoaded", function() {
   const imagePaths = Array.from(links).map(link => link.dataset.src);
   let currentIndex = 0;
 
+  let scale = 1;
+  let originX = 0, originY = 0;
+  let startX = 0, startY = 0;
+  let isDragging = false;
+
   function showModal(index) {
     currentIndex = index;
     modalImg.src = imagePaths[currentIndex];
+
+    modalImg.onload = function() {
+      // Ajuste inicial para ver toda la imagen centrada
+      let containerRatio = modalInner.clientWidth / modalInner.clientHeight;
+      let imgRatio = modalImg.naturalWidth / modalImg.naturalHeight;
+      scale = imgRatio > containerRatio ? modalInner.clientWidth / modalImg.naturalWidth : modalInner.clientHeight / modalImg.naturalHeight;
+      originX = 0;
+      originY = 0;
+      modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+    };
+
     modal.style.display = 'flex';
     closeBtn.style.display = 'block';
     prev.style.display = 'block';
@@ -214,6 +230,61 @@ document.addEventListener("DOMContentLoaded", function() {
       if(e.key === 'ArrowLeft') showPrev();
       if(e.key === 'Escape') hideModal();
     }
+  });
+
+  // Zoom con rueda del ratón y gesto táctil
+  function applyZoom(delta) {
+    scale += delta;
+    if(scale < 0.1) scale = 0.1;
+    if(scale > 5) scale = 5;
+    modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+  }
+
+  modalInner.addEventListener('wheel', function(e){
+    e.preventDefault();
+    let delta = e.deltaY > 0 ? -0.1 : 0.1;
+    applyZoom(delta);
+  }, { passive: false });
+
+  // Arrastrar imagen
+  modalInner.addEventListener('mousedown', function(e){
+    e.preventDefault();
+    isDragging = true;
+    startX = e.clientX - originX;
+    startY = e.clientY - originY;
+    modalInner.style.cursor = 'grabbing';
+  });
+
+  document.addEventListener('mousemove', function(e){
+    if(!isDragging) return;
+    originX = e.clientX - startX;
+    originY = e.clientY - startY;
+    modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+  });
+
+  document.addEventListener('mouseup', function(){
+    isDragging = false;
+    modalInner.style.cursor = 'grab';
+  });
+
+  // Soporte táctil para arrastrar
+  modalInner.addEventListener('touchstart', function(e){
+    if(e.touches.length === 1){
+      isDragging = true;
+      startX = e.touches[0].clientX - originX;
+      startY = e.touches[0].clientY - originY;
+    }
+  });
+
+  modalInner.addEventListener('touchmove', function(e){
+    if(!isDragging) return;
+    originX = e.touches[0].clientX - startX;
+    originY = e.touches[0].clientY - startY;
+    modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+  });
+
+  modalInner.addEventListener('touchend', function(){
+    isDragging = false;
   });
 
 });
