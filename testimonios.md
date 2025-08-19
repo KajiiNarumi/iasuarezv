@@ -74,10 +74,10 @@ entries_layout: list
   <label for="service">Servicio:</label>
   <select name="service" id="service" required>
     <option value="" disabled selected>Selecciona una opción</option>
-    <option value="Lectura oracular">Guía Oracular</option>
-    <option value="Soporte técnico">Asistencia informatica</option>
-    <option value="Examen visual">Prueba Visual</option>
-    <option value="Conexión personal">Bienestar Afectivo</option>
+    <option value="Lectura oracular">Lectura oracular</option>
+    <option value="Asistencia informatica">Asistencia informatica</option>
+    <option value="Prueba Visual">Prueba Visual</option>
+    <option value="Bienestar Afectivo">Bienestar Afectivo</option>
   </select>
 
   <label for="message">Escribe tu Testimonio:</label>
