@@ -7,7 +7,7 @@ title: "Galería"
 
   <h2 class="text-center">Disparos Directamente de la Cámara "SOOC"</h2>
   <p class="text-center"><em>(Straight Out of Camera)</em></p>
-  <p class="text-center">Imágenes al natural, sin retoque, mostrando la esencia de cada instante.</p>
+  <p class="text-center">Imágenes al natural, <b>sin retoque</b>, mostrando la esencia de cada instante.</p>
 
   <div class="galeria-grid">
     {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | sort: "name" | reverse %}
@@ -69,6 +69,7 @@ title: "Galería"
   justify-content: center;
   z-index: 1000;
   overflow: hidden;
+  flex-direction: column;
 }
 
 .modal-inner {
@@ -77,7 +78,7 @@ title: "Galería"
   align-items: center;
   justify-content: center;
   max-width: 95%;
-  max-height: 95%;
+  max-height: 80%;
   overflow: hidden;
   cursor: grab;
 }
@@ -122,6 +123,29 @@ title: "Galería"
 .modal-next {
   right: 20px;
 }
+
+/* Zoom buttons */
+.zoom-controls {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.zoom-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.zoom-btn:hover {
+  background: rgba(255,255,255,0.4);
+}
 </style>
 
 <script>
@@ -151,6 +175,20 @@ document.addEventListener("DOMContentLoaded", function() {
   next.className = 'modal-arrow modal-next';
   next.innerHTML = '&#10095;';
 
+  // Botones de zoom
+  let zoomControls = document.createElement('div');
+  zoomControls.className = 'zoom-controls';
+  let zoomIn = document.createElement('button');
+  zoomIn.className = 'zoom-btn';
+  zoomIn.innerHTML = '+';
+  let zoomOut = document.createElement('button');
+  zoomOut.className = 'zoom-btn';
+  zoomOut.innerHTML = '−';
+  zoomControls.appendChild(zoomOut);
+  zoomControls.appendChild(zoomIn);
+
+  modal.appendChild(zoomControls);
+
   document.body.appendChild(modal);
   document.body.appendChild(prev);
   document.body.appendChild(next);
@@ -169,10 +207,7 @@ document.addEventListener("DOMContentLoaded", function() {
     modalImg.src = imagePaths[currentIndex];
 
     modalImg.onload = function() {
-      // Ajuste inicial para ver toda la imagen centrada
-      let containerRatio = modalInner.clientWidth / modalInner.clientHeight;
-      let imgRatio = modalImg.naturalWidth / modalImg.naturalHeight;
-      scale = imgRatio > containerRatio ? modalInner.clientWidth / modalImg.naturalWidth : modalInner.clientHeight / modalImg.naturalHeight;
+      scale = 1;
       originX = 0;
       originY = 0;
       modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
@@ -182,6 +217,7 @@ document.addEventListener("DOMContentLoaded", function() {
     closeBtn.style.display = 'block';
     prev.style.display = 'block';
     next.style.display = 'block';
+    zoomControls.style.display = 'flex';
   }
 
   function hideModal() {
@@ -190,6 +226,7 @@ document.addEventListener("DOMContentLoaded", function() {
     closeBtn.style.display = 'none';
     prev.style.display = 'none';
     next.style.display = 'none';
+    zoomControls.style.display = 'none';
   }
 
   function showNext() {
@@ -232,7 +269,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  // Zoom con rueda del ratón y gesto táctil
   function applyZoom(delta) {
     scale += delta;
     if(scale < 0.1) scale = 0.1;
@@ -240,11 +276,8 @@ document.addEventListener("DOMContentLoaded", function() {
     modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
   }
 
-  modalInner.addEventListener('wheel', function(e){
-    e.preventDefault();
-    let delta = e.deltaY > 0 ? -0.1 : 0.1;
-    applyZoom(delta);
-  }, { passive: false });
+  zoomIn.addEventListener('click', function(){ applyZoom(0.2); });
+  zoomOut.addEventListener('click', function(){ applyZoom(-0.2); });
 
   // Arrastrar imagen
   modalInner.addEventListener('mousedown', function(e){
