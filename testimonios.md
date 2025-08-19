@@ -89,8 +89,8 @@ entries_layout: list
 ---
 ## Otros testimonios  
 
-### **Karo**
-*Lectura oracular*
+### **Karo**  
+*Lectura oracular*  
 He tenido la oportunidad de recibir lecturas gratuitas de Kajii en Twitch y también consultas completas pagadas, y puedo decir con total sinceridad que es una persona muy acertada y profesional. En mi experiencia, alrededor del 90% de lo que me han mostrado las cartas con él se ha cumplido. Además de la precisión, transmite confianza y claridad en cada lectura, lo cual hace que la guía que recibo sea realmente valiosa para mi.
 
 ### **Kymi Chibi**  
