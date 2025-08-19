@@ -5,16 +5,16 @@ title: "Galería"
 
 <main class="galeria-perfil">
 
-  <h2 class="text-center">Disparos Directamente de la Cámara "SOOC"</h2>
+  <h2 class="text-center">Disparos Directamente de la Cámara “SOOC”</h2>
   <p class="text-center"><em>(Straight Out of Camera)</em></p>
-  <p class="text-center">Imágenes al natural, <b>sin retoque</b>, mostrando la esencia de cada instante.</p>
+  <p class="text-center">Imágenes al natural, sin retoque, mostrando la esencia de cada instante.</p>
 
   <div class="galeria-grid">
     {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | sort: "name" | reverse %}
     {% for img in images %}
       <div class="galeria-item">
         <div class="modal-link" data-src="{{ img.path }}" data-index="{{ forloop.index0 }}">
-          <div class="foto-cuadrada" style="background-image: url('{{ img.path }}');"></div>
+          <img src="{{ img.path }}" loading="lazy" decoding="async" class="foto-cuadrada" alt="Foto {{ forloop.index }}" />
         </div>
       </div>
     {% endfor %}
@@ -31,7 +31,7 @@ title: "Galería"
 
 .text-center {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .galeria-grid {
@@ -40,68 +40,69 @@ title: "Galería"
   gap: 1rem;
 }
 
-.galeria-item {
-  width: 100%;
+@media (max-width: 900px){
+  .galeria-grid { grid-template-columns: repeat(2, 1fr); }
 }
+@media (max-width: 560px){
+  .galeria-grid { grid-template-columns: 1fr; }
+}
+
+.galeria-item { width: 100%; }
 
 .foto-cuadrada {
   width: 100%;
-  padding-top: 100%;
-  background-size: cover;
-  background-position: center;
+  aspect-ratio: 1 / 1; /* mantiene miniaturas cuadradas */
+  object-fit: cover;   /* recorte elegante */
   border-radius: 6px;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
-
-.foto-cuadrada:hover {
-  transform: scale(1.03);
-}
+.foto-cuadrada:hover { transform: scale(1.03); }
 
 /* Modal */
 .modal-overlay {
   position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
+  inset: 0;
+  width: 100vw; height: 100vh;
   background: rgba(0,0,0,0.85);
-  display: none;
+  display: none;                 /* oculto por defecto */
   align-items: center;
   justify-content: center;
   z-index: 1000;
   overflow: hidden;
-  flex-direction: column;
 }
 
 .modal-inner {
   position: relative;
+  width: min(92vw, 1200px);
+  height: 92vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 95%;
-  max-height: 80%;
   overflow: hidden;
   cursor: grab;
+  touch-action: none; /* evita gestos por defecto en móvil para drag/pinch */
 }
 
 .modal-inner img {
   display: block;
-  max-width: 100%;
-  max-height: 100%;
+  max-width: none;  /* gestionamos escalado con transform */
+  max-height: none;
   transform-origin: center center;
   user-select: none;
-  pointer-events: none;
+  pointer-events: none; /* el drag se capta en el contenedor */
 }
 
 .modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px;
+  right: 12px;
   font-size: 2rem;
   color: white;
   cursor: pointer;
   user-select: none;
-  z-index: 1001;
-  display: none;
+  z-index: 1002;
+  display: none; /* se muestra solo al abrir */
 }
 
 .modal-arrow {
@@ -113,154 +114,190 @@ title: "Galería"
   user-select: none;
   transform: translateY(-50%);
   z-index: 1001;
-  display: none;
+  display: none; /* se muestran solo al abrir */
 }
+.modal-prev { left: 20px; }
+.modal-next { right: 20px; }
 
-.modal-prev {
-  left: 20px;
-}
-
-.modal-next {
-  right: 20px;
-}
-
-/* Zoom buttons */
+/* Controles de zoom (+ / -) */
 .zoom-controls {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  display: none;   /* se muestran solo al abrir */
   gap: 10px;
+  z-index: 1002;
 }
-
-.zoom-btn {
-  background: rgba(255,255,255,0.2);
+.zoom-controls button {
+  font-size: 1.25rem;
+  padding: .5rem .9rem;
   border: none;
-  color: white;
-  font-size: 1.5rem;
-  padding: 0.5rem 1rem;
   border-radius: 6px;
+  background: rgba(255,255,255,0.28);
+  color: #fff;
   cursor: pointer;
-  transition: background 0.3s;
 }
-
-.zoom-btn:hover {
-  background: rgba(255,255,255,0.4);
-}
+.zoom-controls button:active { transform: scale(0.98); }
+.zoom-controls button:hover  { background: rgba(255,255,255,0.45); }
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-
-  // Crear modal único
-  let modal = document.createElement('div');
+  // ---- Crear modal único ----
+  const modal = document.createElement('div');
   modal.className = 'modal-overlay';
 
-  let modalInner = document.createElement('div');
+  const modalInner = document.createElement('div');
   modalInner.className = 'modal-inner';
 
-  let modalImg = document.createElement('img');
+  const modalImg = document.createElement('img');
   modalInner.appendChild(modalImg);
 
-  let closeBtn = document.createElement('span');
+  const closeBtn = document.createElement('span');
   closeBtn.className = 'modal-close';
   closeBtn.innerHTML = '&times;';
   modalInner.appendChild(closeBtn);
 
+  // Controles de zoom
+  const zoomControls = document.createElement('div');
+  zoomControls.className = 'zoom-controls';
+  const zoomInBtn = document.createElement('button');
+  zoomInBtn.type = 'button';
+  zoomInBtn.textContent = '+';
+  const zoomOutBtn = document.createElement('button');
+  zoomOutBtn.type = 'button';
+  zoomOutBtn.textContent = '−';
+  zoomControls.appendChild(zoomOutBtn);
+  zoomControls.appendChild(zoomInBtn);
+  modalInner.appendChild(zoomControls);
+
   modal.appendChild(modalInner);
 
-  let prev = document.createElement('span');
+  const prev = document.createElement('span');
   prev.className = 'modal-arrow modal-prev';
   prev.innerHTML = '&#10094;';
-  let next = document.createElement('span');
+  const next = document.createElement('span');
   next.className = 'modal-arrow modal-next';
   next.innerHTML = '&#10095;';
-
-  // Botones de zoom
-  let zoomControls = document.createElement('div');
-  zoomControls.className = 'zoom-controls';
-  let zoomIn = document.createElement('button');
-  zoomIn.className = 'zoom-btn';
-  zoomIn.innerHTML = '+';
-  let zoomOut = document.createElement('button');
-  zoomOut.className = 'zoom-btn';
-  zoomOut.innerHTML = '−';
-  zoomControls.appendChild(zoomOut);
-  zoomControls.appendChild(zoomIn);
-
-  modal.appendChild(zoomControls);
 
   document.body.appendChild(modal);
   document.body.appendChild(prev);
   document.body.appendChild(next);
 
+  // ---- Datos y estado ----
   const links = document.querySelectorAll('.modal-link');
   const imagePaths = Array.from(links).map(link => link.dataset.src);
   let currentIndex = 0;
 
   let scale = 1;
+  let fitScale = 1; // escala para "ajustar" la imagen completa
   let originX = 0, originY = 0;
   let startX = 0, startY = 0;
   let isDragging = false;
 
-  function showModal(index) {
-    currentIndex = index;
-    modalImg.src = imagePaths[currentIndex];
+  // Pinch zoom (móvil)
+  let pinchActive = false;
+  let pinchStartDist = 0;
+  let pinchStartScale = 1;
 
-    modalImg.onload = function() {
-      scale = 1;
-      originX = 0;
-      originY = 0;
-      modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-    };
+  // ---- Utilidades ----
+  function clamp(val, min, max){ return Math.min(Math.max(val, min), max); }
 
+  function distanceTouches(t1, t2){
+    const dx = t2.clientX - t1.clientX;
+    const dy = t2.clientY - t1.clientY;
+    return Math.hypot(dx, dy);
+  }
+
+  function applyTransform(){
+    // limitar desplazamiento para no "perder" la imagen
+    const contW = modalInner.clientWidth;
+    const contH = modalInner.clientHeight;
+
+    const scaledW = modalImg.naturalWidth * scale;
+    const scaledH = modalImg.naturalHeight * scale;
+
+    const maxOffsetX = Math.max(0, (scaledW - contW) / 2);
+    const maxOffsetY = Math.max(0, (scaledH - contH) / 2);
+
+    originX = clamp(originX, -maxOffsetX, maxOffsetX);
+    originY = clamp(originY, -maxOffsetY, maxOffsetY);
+
+    modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+  }
+
+  function openUI(){
     modal.style.display = 'flex';
     closeBtn.style.display = 'block';
     prev.style.display = 'block';
     next.style.display = 'block';
     zoomControls.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
   }
-
-  function hideModal() {
+  function closeUI(){
     modal.style.display = 'none';
-    modalImg.src = '';
     closeBtn.style.display = 'none';
     prev.style.display = 'none';
     next.style.display = 'none';
     zoomControls.style.display = 'none';
+    document.body.style.overflow = '';
   }
 
-  function showNext() {
+  // ---- Mostrar/Ocultar ----
+  function showModal(index){
+    currentIndex = index;
+    modalImg.src = imagePaths[currentIndex];
+
+    modalImg.onload = function(){
+      // Escala inicial: ajustar imagen completa centrada
+      const contW = modalInner.clientWidth;
+      const contH = modalInner.clientHeight;
+      const nw = modalImg.naturalWidth;
+      const nh = modalImg.naturalHeight;
+
+      fitScale = Math.min(contW / nw, contH / nh);
+      scale = fitScale;
+      originX = 0;
+      originY = 0;
+      applyTransform();
+    };
+
+    openUI();
+  }
+
+  function hideModal(){
+    modalImg.src = '';
+    closeUI();
+  }
+
+  function showNext(){
     currentIndex = (currentIndex + 1) % imagePaths.length;
     showModal(currentIndex);
   }
-
-  function showPrev() {
+  function showPrev(){
     currentIndex = (currentIndex - 1 + imagePaths.length) % imagePaths.length;
     showModal(currentIndex);
   }
 
+  // ---- Eventos de la galería ----
   links.forEach((link, idx) => {
-    link.addEventListener('click', function(e) {
+    link.addEventListener('click', function(e){
       e.preventDefault();
       showModal(idx);
-    });
+    }, { passive: true });
   });
 
-  closeBtn.addEventListener('click', hideModal);
+  // Cerrar al click fuera
   modal.addEventListener('click', function(e){
     if(e.target === modal) hideModal();
   });
 
-  prev.addEventListener('click', function(e){
-    e.stopPropagation();
-    showPrev();
-  });
+  closeBtn.addEventListener('click', hideModal);
+  prev.addEventListener('click', function(e){ e.stopPropagation(); showPrev(); });
+  next.addEventListener('click', function(e){ e.stopPropagation(); showNext(); });
 
-  next.addEventListener('click', function(e){
-    e.stopPropagation();
-    showNext();
-  });
-
+  // Teclas
   document.addEventListener('keydown', function(e){
     if(modal.style.display === 'flex'){
       if(e.key === 'ArrowRight') showNext();
@@ -269,17 +306,27 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  function applyZoom(delta) {
-    scale += delta;
-    if(scale < 0.1) scale = 0.1;
-    if(scale > 5) scale = 5;
-    modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-  }
+  // ---- Zoom (+ / -) ----
+  zoomInBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    scale = clamp(scale + 0.2, fitScale, 5);
+    applyTransform();
+  });
+  zoomOutBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    scale = clamp(scale - 0.2, fitScale, 5);
+    applyTransform();
+  });
 
-  zoomIn.addEventListener('click', function(){ applyZoom(0.2); });
-  zoomOut.addEventListener('click', function(){ applyZoom(-0.2); });
+  // Rueda del ratón (PC)
+  modalInner.addEventListener('wheel', function(e){
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    scale = clamp(scale + delta, fitScale, 5);
+    applyTransform();
+  }, { passive: false });
 
-  // Arrastrar imagen
+  // ---- Arrastrar (mouse) ----
   modalInner.addEventListener('mousedown', function(e){
     e.preventDefault();
     isDragging = true;
@@ -292,7 +339,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if(!isDragging) return;
     originX = e.clientX - startX;
     originY = e.clientY - startY;
-    modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+    applyTransform();
   });
 
   document.addEventListener('mouseup', function(){
@@ -300,25 +347,45 @@ document.addEventListener("DOMContentLoaded", function() {
     modalInner.style.cursor = 'grab';
   });
 
-  // Soporte táctil para arrastrar
+  // ---- Touch (móvil) ----
   modalInner.addEventListener('touchstart', function(e){
     if(e.touches.length === 1){
+      // drag con un dedo
       isDragging = true;
-      startX = e.touches[0].clientX - originX;
-      startY = e.touches[0].clientY - originY;
+      const t = e.touches[0];
+      startX = t.clientX - originX;
+      startY = t.clientY - originY;
+    } else if(e.touches.length === 2){
+      // pinch con dos dedos
+      pinchActive = true;
+      isDragging = false;
+      pinchStartDist = distanceTouches(e.touches[0], e.touches[1]);
+      pinchStartScale = scale;
     }
-  });
+  }, { passive: true });
 
   modalInner.addEventListener('touchmove', function(e){
-    if(!isDragging) return;
-    originX = e.touches[0].clientX - startX;
-    originY = e.touches[0].clientY - startY;
-    modalImg.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-  });
+    if(pinchActive && e.touches.length === 2){
+      e.preventDefault();
+      const newDist = distanceTouches(e.touches[0], e.touches[1]);
+      const factor = newDist / pinchStartDist;
+      scale = clamp(pinchStartScale * factor, fitScale, 5);
+      applyTransform();
+    } else if(isDragging && e.touches.length === 1){
+      e.preventDefault();
+      const t = e.touches[0];
+      originX = t.clientX - startX;
+      originY = t.clientY - startY;
+      applyTransform();
+    }
+  }, { passive: false });
 
-  modalInner.addEventListener('touchend', function(){
-    isDragging = false;
+  modalInner.addEventListener('touchend', function(e){
+    if(e.touches.length < 2) pinchActive = false;
+    if(e.touches.length === 0){
+      isDragging = false;
+      modalInner.style.cursor = 'grab';
+    }
   });
-
 });
 </script>
