@@ -42,7 +42,7 @@ entries_layout: list
     <p><a href="/libreta/">Leer libreta</a> | <a href="/blog/">Leer blog</a> | <a href="/pensamientos/">Leer pensamientos</a></p>
   </section>
 
-  <section class="galeria-aleatoria">
+  <section class="galeria-aleatoria" class="full-width-section">
     <div class="galeria-bg"></div>
     <div class="galeria-overlay"></div>
     <div class="galeria-texto">
@@ -84,7 +84,7 @@ entries_layout: list
     Y si te quedas cerca, te enterarás cuando sea el momento.</p>
   </section>
 
-  <section class="kajii text-center">
+  <section class="kajii" class="full-width-section black-background" text-center">
     <h2>Kajii Narumi</h2>
     <p>Es el lado práctico de mi universo.<br>
     Cursos, tutoriales y herramientas reales para mentes inquietas.<br>
@@ -135,7 +135,6 @@ a { text-decoration: underline; }
 .bloque { border-top: 1px solid #444; padding-top: 2rem; }
 
 .galeria-aleatoria {
-  width: 100%;
   position: relative;
   width: 100%;
   height: 400px;
@@ -199,4 +198,18 @@ a { text-decoration: underline; }
   padding: 2rem 1rem;
 }
 .kajii a { color: #fff; text-decoration: underline; }
+
+/* La nueva regla para el div con la imagen y el div negro */
+.full-width-section {
+  width: 100%;
+  /* Anula los márgenes globales, asegurando que se extienda de borde a borde */
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Asegúrate de que las imágenes dentro de estos divs también se estiren */
+.full-width-section img {
+  width: 100%;
+  display: block; /* Para evitar espacios en blanco no deseados debajo de la imagen */
+}
 </style>
