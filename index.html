@@ -52,14 +52,6 @@ entries_layout: list
     </div>
   </section>
 
-  <section class="text-right bloque">
-    <h2>Testimonios</h2>
-    <p>Nada habla mejor de mí que quienes ya han compartido algo conmigo.<br>
-    Sus palabras están aquí.<br>
-    Y la tuya también puede estarlo.</p>
-    <p><a href="/testimonios/">Leer o dejar un testimonio</a></p>
-  </section>
-
   <section class="text-center bloque">
     <h2>Un espacio para descubrir</h2>
     <p>Palabras, imágenes y susurros se entrelazan para quienes desean acercarse. Cuentos, conversaciones y momentos exclusivos en OnlyFans; instantes, reflexiones y visiones en Vero. Un lugar para sentir, explorar y dejarse envolver.</p>
@@ -68,6 +60,17 @@ entries_layout: list
   <section class="text-center">
     <p class="enlaces"><a href="https://vero.co/iasuarezv">Vero</a> | <a href="https://onlyfans.com/iasuarezv">OnlyFans</a></p>
   </section>
+  
+
+  <section class="text-right bloque">
+    <h2>Testimonios</h2>
+    <p>Nada habla mejor de mí que quienes ya han compartido algo conmigo.<br>
+    Sus palabras están aquí.<br>
+    Y la tuya también puede estarlo.</p>
+    <p><a href="/testimonios/">Leer o dejar un testimonio</a></p>
+  </section>
+
+
 
   <section class="text-center bloque">
     <h2>Un poco más de mí</h2>
@@ -84,12 +87,14 @@ entries_layout: list
     Y si te quedas cerca, te enterarás cuando sea el momento.</p>
   </section>
 
-  <section class="text-left bloque kajii">
-    <h2>Kajii Narumi</h2>
-    <p>Es el lado práctico de mi universo.<br>
-    Cursos, tutoriales y herramientas reales para mentes inquietas.<br>
-    Es otro tono. Pero sigue siendo yo.</p>
-    <p><a href="https://kajiinarumi.com/">Ir a KajiiNarumi.com</a></p>
+  <section class="kajii">
+    <div class="perfil">
+      <h2>Kajii Narumi</h2>
+      <p>Es el lado práctico de mi universo.<br>
+      Cursos, tutoriales y herramientas reales para mentes inquietas.<br>
+      Es otro tono. Pero sigue siendo yo.</p>
+      <p><a href="https://kajiinarumi.com/">Ir a KajiiNarumi.com</a></p>
+    </div>
   </section>
 
 <script>
@@ -106,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function() {
   if(images.length > 0) {
     const randomIndex = Math.floor(Math.random() * images.length);
     galeriaBg.style.backgroundImage = `url('${images[randomIndex]}')`;
-    galeriaBg.style.opacity = '0.9'; // opacidad de la imagen
+    galeriaBg.style.opacity = '1'; // Imagen más visible
   }
 });
 </script>
@@ -160,10 +165,10 @@ a { text-decoration: underline; }
   transition: background-image 0.5s ease-in-out;
   z-index: 1;
   border-radius: 0;
-  opacity: 0.9;
+  opacity: 1;
 
-  /* Marco fundido transparente a la imagen */
-  box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+  /* Marco/fundido más agresivo */
+  box-shadow: inset 0 0 150px rgba(0,0,0,0.7);
 }
 
 .galeria-texto {
@@ -174,6 +179,7 @@ a { text-decoration: underline; }
   top: 50%;
   transform: translateY(-50%);
   padding: 0 1rem;
+  text-shadow: 0 0 8px rgba(0,0,0,0.7);
 }
 
 .boton-galeria {
@@ -193,11 +199,12 @@ a { text-decoration: underline; }
   border-color: #fff;
 }
 
-/* Sección Kajii Narumi siempre negro */
+/* Kajii Narumi ocupa todo el ancho */
 .kajii {
   background-color: #000;
   color: #fff;
-  padding: 2rem 1rem;
+  width: 100%;
+  padding: 2rem 0;
 }
 
 .kajii a {
