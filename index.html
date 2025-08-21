@@ -53,13 +53,14 @@ entries_layout: list
     <p><a href="/testimonios/">Leer o dejar un testimonio</a></p>
   </section>
 
-<div class="banner-sooc">
+<section class="banner-sooc">
   <div class="banner-text">
-    <h2>Descubre mis disparos SOOC</h2>
-    <p>Imágenes al natural, sin edición. Explora la galería completa.</p>
+    <h2>Descubre la Galería SOOC</h2>
+    <p>Imágenes al natural, sin retoque, mostrando la esencia de cada instante.</p>
     <p><a class="btn-galeria" href="/galeria/">Ir a la Galería</a></p>
   </div>
-</div>
+</section>
+
   
 
   <section class="text-center bloque">
@@ -176,19 +177,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-.banner-sooc::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.7) 100%);
-  z-index: 1;
-}
-  
 .banner-sooc {
-  width: 100%;
-  height: 500px;
   position: relative;
+  width: 100%;
+  height: 500px; /* o el alto que quieras */
+  background-image: url('/ruta/a/tu/imagen-aleatoria.jpg');
   background-size: cover;
   background-position: center;
   display: flex;
@@ -201,32 +194,33 @@ document.addEventListener("DOMContentLoaded", function() {
 .banner-sooc::before {
   content: "";
   position: absolute;
-  top: 0; left: 0;
+  top:0; left:0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5); /* filtro oscuro */
-  z-index: 1;
+  background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.6) 100%);
+  z-index: 1; /* sobre la imagen */
 }
 
 .banner-text {
   position: relative;
+  z-index: 2; /* sobre el viñeteado */
   text-align: center;
-  z-index: 2;
 }
 
-  .btn-galeria {
+.btn-galeria {
   display: inline-block;
   padding: 0.6rem 1.2rem;
-  background: white;
-  color: black;
+  border: 2px solid white;
+  color: white;
   font-weight: 600;
   border-radius: 6px;
   text-decoration: none;
+  background: transparent;
   transition: background 0.3s, color 0.3s;
 }
 
 .btn-galeria:hover {
-  background: #eee;
-  color: #111;
+  background: white;
+  color: black;
 }
 
   
