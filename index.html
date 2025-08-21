@@ -8,8 +8,6 @@ entries_layout: list
 
 <main class="perfil">
 
-
-
   <section class="text-left">
     <p>Soy I. Antoine Suárez V.<br>
     A veces Antuan.<br>
@@ -29,20 +27,29 @@ entries_layout: list
     o que quieren averiguarlo.</p>
   </section>
 
-  <section class="text-center bloque">
-    <h2>Mi pluma</h2>
-    <p>Siempre estoy escribiendo algo.<br>
-    Un nuevo cuento, una revista, una idea.<br>
-    Aquí, donde las palabras se vuelven caricias para el alma.</p>
-    <p><a href="/libreta/">Leer libreta</a> | <a href="/bitacora/">Leer blog</a> | <a href="/memorias/"> Leer pensamientos</a></p>
-  </section>
-
   <section class="text-left bloque">
     <h2>Servicios como consultor</h2>
     <p>Hay momentos que se sienten.<br>
     Y otros que se eligen.</p>
     <p>Ofrezco experiencias íntimas y acompañamiento presenciales o a distancia, emocionales, sensuales o espirituales.</p>
     <p><a href="/experiencias/">Ver experiencias</a></p>
+  </section>
+
+  <section class="text-center bloque">
+    <h2>Mi pluma</h2>
+    <p>Siempre estoy escribiendo algo.<br>
+    Un nuevo cuento, una revista, una idea.<br>
+    Aquí, donde las palabras se vuelven caricias para el alma.</p>
+    <p><a href="/libreta/">Leer libreta</a> | <a href="/bitacora/">Leer blog</a> | <a href="/memorias/">Leer pensamientos</a></p>
+  </section>
+
+  <section class="galeria-aleatoria">
+    <div class="galeria-bg"></div>
+    <div class="galeria-texto">
+      <h2>Descubre la Galería SOOC</h2>
+      <p>Imágenes al natural, sin retoque, mostrando la esencia de cada instante.</p>
+      <a href="/galeria/" class="boton-galeria">Visitar Galería</a>
+    </div>
   </section>
 
   <section class="text-right bloque">
@@ -53,16 +60,23 @@ entries_layout: list
     <p><a href="/testimonios/">Leer o dejar un testimonio</a></p>
   </section>
 
-<section class="galeria-aleatoria">
-  <div class="galeria-bg"></div>
-  <div class="galeria-texto">
-    <h2>Descubre la Galería SOOC</h2>
-    <p>Imágenes al natural, sin retoque, mostrando la esencia de cada instante.</p>
-    <a href="/galeria/" class="boton-galeria">Visitar Galería</a>
-  </div>
-</section>
+  <section class="galeria-aleatoria">
+    <div class="galeria-bg"></div>
+    <div class="galeria-texto">
+      <h2>Descubre la Galería SOOC</h2>
+      <p>Imágenes al natural, sin retoque, mostrando la esencia de cada instante.</p>
+      <a href="/galeria/" class="boton-galeria">Visitar Galería</a>
+    </div>
+  </section>
 
-  
+  <section class="text-center bloque">
+    <h2>Un espacio para descubrir</h2>
+    <p>Palabras, imágenes y susurros se entrelazan para quienes desean acercarse. Cuentos, conversaciones y momentos exclusivos en OnlyFans; instantes, reflexiones y visiones en Vero. Un lugar para sentir, explorar y dejarse envolver.</p>
+  </section>
+
+  <section class="text-center">
+    <p class="enlaces"><a href="https://vero.co/iasuarezv">Vero</a> | <a href="https://onlyfans.com/iasuarezv">OnlyFans</a></p>
+  </section>
 
   <section class="text-center bloque">
     <h2>Un poco más de mí</h2>
@@ -72,19 +86,6 @@ entries_layout: list
     <p><a href="/autobiografia/">Ver mi autobiografía</a></p>
   </section>
 
-
-
-  <section class="text-center bloque">
-        <h2>Un espacio para descubrir</h2>
-    <p>Palabras, imágenes y susurros se entrelazan para quienes desean acercarse. Cuentos, conversaciones y momentos exclusivos en OnlyFans; instantes, reflexiones y visiones en Vero. Un lugar para sentir, explorar y dejarse envolver.</p>
-  </section>
-
-  <section class="text-center">
-    <p class="enlaces"><a href="https://vero.co/iasuarezv">Vero</a> | <a href="https://onlyfans.com/iasuarezv">OnlyFans</a>
-  </section>
-  
-
-
   <section class="text-center bloque">
     <h2>Y algo más está creciendo…</h2>
     <p>No diré mucho, solo esto:<br>
@@ -92,19 +93,17 @@ entries_layout: list
     Y si te quedas cerca, te enterarás cuando sea el momento.</p>
   </section>
 
-    <section class="text-left bloque">
+  <section class="text-left bloque">
     <h2>Kajii Narumi</h2>
-    <p>Es el lado práctico de mi universo.
-Cursos, tutoriales y herramientas reales para mentes inquietas.
-Es otro tono. Pero sigue siendo yo..</p>
+    <p>Es el lado práctico de mi universo.<br>
+    Cursos, tutoriales y herramientas reales para mentes inquietas.<br>
+    Es otro tono. Pero sigue siendo yo.</p>
     <p><a href="https://kajiinarumi.com/">Ir a KajiiNarumi.com</a></p>
   </section>
 
-
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const galeriaBg = document.querySelector('.galeria-bg');
+  const galeriaBg = document.querySelectorAll('.galeria-bg');
 
   const images = [
     {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | sort: "name" | reverse %}
@@ -114,70 +113,58 @@ document.addEventListener("DOMContentLoaded", function() {
   ];
 
   if(images.length > 0) {
-    const randomIndex = Math.floor(Math.random() * images.length);
-    galeriaBg.style.backgroundImage = `url('${images[randomIndex]}')`;
+    galeriaBg.forEach(bg => {
+      const randomIndex = Math.floor(Math.random() * images.length);
+      bg.style.backgroundImage = `url('${images[randomIndex]}')`;
+    });
   }
 });
 </script>
 
-  
 </main>
 
 <style>
-  .perfil {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
+.perfil {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
 
-  .perfil section {
-    margin-bottom: 4rem;
-  }
+.perfil section {
+  margin-bottom: 4rem;
+}
 
-  .text-center {
-    text-align: center;
-  }
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
 
-  .text-left {
-    text-align: left;
-  }
+.enlaces {
+  font-style: italic;
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
 
-  .text-right {
-    text-align: right;
-  }
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
 
-  .enlaces {
-    font-style: italic;
-    font-size: 0.95rem;
-    opacity: 0.8;
-  }
+p {
+  margin: 0.75rem 0;
+  line-height: 1.6;
+}
 
-  h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-  }
+a { text-decoration: underline; }
 
-  h2 {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-  }
-
-  p {
-    margin: 0.75rem 0;
-    line-height: 1.6;
-  }
-
-  a {
-    text-decoration: underline;
-  }
-
-  .bloque {
-    border-top: 1px solid #444;
-    padding-top: 2rem;
-  }
-
-
+.bloque {
+  border-top: 1px solid #444;
+  padding-top: 2rem;
+}
 
 .galeria-aleatoria {
   position: relative;
@@ -198,16 +185,17 @@ document.addEventListener("DOMContentLoaded", function() {
   transition: background-image 0.5s ease-in-out;
   z-index: 1;
   border-radius: 0;
+  opacity: 1;
 
-  /* Viñeteado transparente que se funde con el fondo */
-  mask-image: radial-gradient(circle, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
-  mask-repeat: no-repeat;
-  mask-position: center;
-  mask-size: cover;
-  -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+  /* Viñeteado fundido transparente */
+  -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
   -webkit-mask-size: cover;
+  mask-image: radial-gradient(circle, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: cover;
 }
 
 .galeria-texto {
@@ -226,6 +214,7 @@ document.addEventListener("DOMContentLoaded", function() {
   padding: 0.5rem 1.2rem;
   color: #fff;
   border: 2px solid #fff;
+  background: transparent;
   text-decoration: none;
   font-weight: 600;
   transition: 0.3s;
@@ -235,6 +224,4 @@ document.addEventListener("DOMContentLoaded", function() {
   background: rgba(255,255,255,0.1);
   border-color: #fff;
 }
-  
-  
 </style>
