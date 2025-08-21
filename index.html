@@ -85,13 +85,11 @@ entries_layout: list
   </section>
 
   <section class="kajii text-center">
-    <div class="kajii-inner">
-      <h2>Kajii Narumi</h2>
-      <p>Es el lado práctico de mi universo.<br>
-      Cursos, tutoriales y herramientas reales para mentes inquietas.<br>
-      Es otro tono. Pero sigue siendo yo.</p>
-      <p><a href="https://kajiinarumi.com/">Ir a KajiiNarumi.com</a></p>
-    </div>
+    <h2>Kajii Narumi</h2>
+    <p>Es el lado práctico de mi universo.<br>
+    Cursos, tutoriales y herramientas reales para mentes inquietas.<br>
+    Es otro tono. Pero sigue siendo yo.</p>
+    <p><a href="https://kajiinarumi.com/">Ir a KajiiNarumi.com</a></p>
   </section>
 
 <script>
@@ -108,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
   if(images.length > 0) {
     const randomIndex = Math.floor(Math.random() * images.length);
     galeriaBg.style.backgroundImage = `url('${images[randomIndex]}')`;
-    galeriaBg.style.opacity = '0.6'; // opacidad para texto legible
+    galeriaBg.style.opacity = '0.5'; // opacidad para texto blanco legible
   }
 });
 </script>
@@ -128,11 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 
-.enlaces {
-  font-style: italic;
-  font-size: 0.95rem;
-  opacity: 0.8;
-}
+.enlaces { font-style: italic; font-size: 0.95rem; opacity: 0.8; }
 
 h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
 h2 { font-size: 1.4rem; margin-bottom: 1rem; font-weight: 600; }
@@ -157,9 +151,8 @@ a { text-decoration: underline; }
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: background-image 0.5s ease-in-out;
+  opacity: 0.5;
   z-index: 1;
-  opacity: 0.6; /* más visible para leer texto */
 }
 
 .galeria-texto {
@@ -170,10 +163,6 @@ a { text-decoration: underline; }
   top: 50%;
   transform: translateY(-50%);
   padding: 1rem;
-  background: rgba(0,0,0,0.4); /* fondo semi-transparente detrás del texto */
-  display: inline-block;
-  border-radius: 6px;
-  text-shadow: 0 0 6px rgba(0,0,0,0.8);
 }
 
 .boton-galeria {
@@ -193,22 +182,11 @@ a { text-decoration: underline; }
   border-color: #fff;
 }
 
-/* Kajii Narumi full width sin scroll */
+/* Kajii Narumi solo fondo negro de la sección */
 .kajii {
   background-color: #000;
   color: #fff;
-  width: 100%;
-  padding: 2rem 0;
-  overflow-x: hidden;
+  padding: 2rem 1rem;
 }
-
-.kajii-inner {
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-.kajii a {
-  color: #fff;
-  text-decoration: underline;
-}
+.kajii a { color: #fff; text-decoration: underline; }
 </style>
