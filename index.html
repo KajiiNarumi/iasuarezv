@@ -53,6 +53,14 @@ entries_layout: list
     <p><a href="/testimonios/">Leer o dejar un testimonio</a></p>
   </section>
 
+<div class="banner-sooc">
+  <div class="banner-text">
+    <h2>Descubre nuestros Disparos SOOC</h2>
+    <p>Imágenes al natural, sin edición. Explora la galería completa.</p>
+  </div>
+</div>
+  
+
   <section class="text-center bloque">
     <h2>Un poco más de mí</h2>
     <p>Si quieres conocerme mejor, sin filtros ni poses:<br>
@@ -89,6 +97,26 @@ Es otro tono. Pero sigue siendo yo..</p>
     <p><a href="https://kajiinarumi.com/">Ir a KajiiNarumi.com</a></p>
   </section>
 
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const images = [
+    {% assign imgs = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | sort: "name" %}
+    {% for img in imgs %}
+      "{{ img.path }}"{% if forloop.last == false %},{% endif %}
+    {% endfor %}
+  ];
+
+  if(images.length > 0) {
+    const randomIndex = Math.floor(Math.random() * images.length);
+    const banner = document.querySelector('.banner-sooc');
+    banner.style.backgroundImage = `url('${images[randomIndex]}')`;
+  }
+});
+</script>
+
+  
 </main>
 
 <style>
@@ -144,4 +172,35 @@ Es otro tono. Pero sigue siendo yo..</p>
     border-top: 1px solid #444;
     padding-top: 2rem;
   }
+
+.banner-sooc {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  overflow: hidden;
+}
+
+.banner-sooc::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); /* filtro oscuro */
+  z-index: 1;
+}
+
+.banner-text {
+  position: relative;
+  text-align: center;
+  z-index: 2;
+}
+
+  
+  
 </style>
