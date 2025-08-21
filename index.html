@@ -106,7 +106,6 @@ Es otro tono. Pero sigue siendo yo..</p>
 document.addEventListener("DOMContentLoaded", function() {
   const galeriaBg = document.querySelector('.galeria-bg');
 
-  // Tomar imágenes de la galería SOOC
   const images = [
     {% assign images = site.static_files | where_exp: "file", "file.path contains '/galeria/'" | sort: "name" | reverse %}
     {% for img in images %}
@@ -114,7 +113,6 @@ document.addEventListener("DOMContentLoaded", function() {
     {% endfor %}
   ];
 
-  // Elegir una imagen aleatoria
   if(images.length > 0) {
     const randomIndex = Math.floor(Math.random() * images.length);
     galeriaBg.style.backgroundImage = `url('${images[randomIndex]}')`;
@@ -197,23 +195,24 @@ document.addEventListener("DOMContentLoaded", function() {
   height: 100%;
   background-size: cover;
   background-position: center;
-  filter: brightness(0.4); /* oscurece para que el texto resalte */
   transition: background-image 0.5s ease-in-out;
   z-index: 1;
   border-radius: 0;
-}
 
-.galeria-aleatoria::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, #000 100%);
-  z-index: 2;
+  /* Viñeteado transparente que se funde con el fondo */
+  mask-image: radial-gradient(circle, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: cover;
+  -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: cover;
 }
 
 .galeria-texto {
   position: relative;
-  z-index: 3;
+  z-index: 2;
   color: #fff;
   text-align: center;
   top: 50%;
