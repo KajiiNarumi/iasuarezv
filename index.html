@@ -85,11 +85,13 @@ entries_layout: list
   </section>
 
   <section class="kajii text-center">
-    <h2>Kajii Narumi</h2>
-    <p>Es el lado práctico de mi universo.<br>
-    Cursos, tutoriales y herramientas reales para mentes inquietas.<br>
-    Es otro tono. Pero sigue siendo yo.</p>
-    <p><a href="https://kajiinarumi.com/">Ir a KajiiNarumi.com</a></p>
+    <div class="kajii-inner">
+      <h2>Kajii Narumi</h2>
+      <p>Es el lado práctico de mi universo.<br>
+      Cursos, tutoriales y herramientas reales para mentes inquietas.<br>
+      Es otro tono. Pero sigue siendo yo.</p>
+      <p><a href="https://kajiinarumi.com/">Ir a KajiiNarumi.com</a></p>
+    </div>
   </section>
 
 <script>
@@ -106,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
   if(images.length > 0) {
     const randomIndex = Math.floor(Math.random() * images.length);
     galeriaBg.style.backgroundImage = `url('${images[randomIndex]}')`;
-    galeriaBg.style.opacity = '1';
+    galeriaBg.style.opacity = '0.6'; // opacidad para texto legible
   }
 });
 </script>
@@ -157,7 +159,7 @@ a { text-decoration: underline; }
   background-position: center;
   transition: background-image 0.5s ease-in-out;
   z-index: 1;
-  opacity: 1;
+  opacity: 0.6; /* más visible para leer texto */
 }
 
 .galeria-texto {
@@ -167,8 +169,11 @@ a { text-decoration: underline; }
   text-align: center;
   top: 50%;
   transform: translateY(-50%);
-  padding: 0 1rem;
-  text-shadow: 0 0 8px rgba(0,0,0,0.7);
+  padding: 1rem;
+  background: rgba(0,0,0,0.4); /* fondo semi-transparente detrás del texto */
+  display: inline-block;
+  border-radius: 6px;
+  text-shadow: 0 0 6px rgba(0,0,0,0.8);
 }
 
 .boton-galeria {
@@ -188,12 +193,18 @@ a { text-decoration: underline; }
   border-color: #fff;
 }
 
-/* Kajii Narumi ocupa todo el ancho */
+/* Kajii Narumi full width sin scroll */
 .kajii {
   background-color: #000;
   color: #fff;
-  width: 100vw;
+  width: 100%;
   padding: 2rem 0;
+  overflow-x: hidden;
+}
+
+.kajii-inner {
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 .kajii a {
