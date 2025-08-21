@@ -45,6 +45,7 @@ entries_layout: list
 
   <section class="galeria-aleatoria">
     <div class="galeria-bg"></div>
+    <div class="galeria-overlay"></div>
     <div class="galeria-texto">
       <h2>Descubre la Galería SOOC</h2>
       <p>Imágenes al natural, sin retoque, mostrando la esencia de cada instante.</p>
@@ -106,7 +107,6 @@ document.addEventListener("DOMContentLoaded", function() {
   if(images.length > 0) {
     const randomIndex = Math.floor(Math.random() * images.length);
     galeriaBg.style.backgroundImage = `url('${images[randomIndex]}')`;
-    galeriaBg.style.opacity = '0.5'; // opacidad para texto blanco legible
   }
 });
 </script>
@@ -151,13 +151,22 @@ a { text-decoration: underline; }
   height: 100%;
   background-size: cover;
   background-position: center;
-  opacity: 0.5;
   z-index: 1;
+}
+
+.galeria-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5); /* Oscuro para que el texto blanco se lea */
+  z-index: 2;
 }
 
 .galeria-texto {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   color: #fff;
   text-align: center;
   top: 50%;
