@@ -60,7 +60,6 @@ entries_layout: list
   <section class="text-center">
     <p class="enlaces"><a href="https://vero.co/iasuarezv">Vero</a> | <a href="https://onlyfans.com/iasuarezv">OnlyFans</a></p>
   </section>
-  
 
   <section class="text-right bloque">
     <h2>Testimonios</h2>
@@ -70,8 +69,6 @@ entries_layout: list
     <p><a href="/testimonios/">Leer o dejar un testimonio</a></p>
   </section>
 
-
-
   <section class="text-center bloque">
     <h2>Un poco más de mí</h2>
     <p>Si quieres conocerme mejor, sin filtros ni poses:<br>
@@ -80,21 +77,19 @@ entries_layout: list
     <p><a href="/autobiografia/">Ver mi autobiografía</a></p>
   </section>
 
-  <section class="text-center bloque">
+  <section class="text-left bloque">
     <h2>Y algo más está creciendo…</h2>
     <p>No diré mucho, solo esto:<br>
     estoy escribiendo algo importante.<br>
     Y si te quedas cerca, te enterarás cuando sea el momento.</p>
   </section>
 
-  <section class="kajii">
-    <div class="perfil">
-      <h2>Kajii Narumi</h2>
-      <p>Es el lado práctico de mi universo.<br>
-      Cursos, tutoriales y herramientas reales para mentes inquietas.<br>
-      Es otro tono. Pero sigue siendo yo.</p>
-      <p><a href="https://kajiinarumi.com/">Ir a KajiiNarumi.com</a></p>
-    </div>
+  <section class="kajii text-center">
+    <h2>Kajii Narumi</h2>
+    <p>Es el lado práctico de mi universo.<br>
+    Cursos, tutoriales y herramientas reales para mentes inquietas.<br>
+    Es otro tono. Pero sigue siendo yo.</p>
+    <p><a href="https://kajiinarumi.com/">Ir a KajiiNarumi.com</a></p>
   </section>
 
 <script>
@@ -111,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
   if(images.length > 0) {
     const randomIndex = Math.floor(Math.random() * images.length);
     galeriaBg.style.backgroundImage = `url('${images[randomIndex]}')`;
-    galeriaBg.style.opacity = '1'; // Imagen más visible
+    galeriaBg.style.opacity = '1';
   }
 });
 </script>
@@ -125,9 +120,7 @@ document.addEventListener("DOMContentLoaded", function() {
   padding: 2rem 1rem;
 }
 
-.perfil section {
-  margin-bottom: 4rem;
-}
+.perfil section { margin-bottom: 4rem; }
 
 .text-center { text-align: center; }
 .text-left { text-align: left; }
@@ -164,11 +157,7 @@ a { text-decoration: underline; }
   background-position: center;
   transition: background-image 0.5s ease-in-out;
   z-index: 1;
-  border-radius: 0;
   opacity: 1;
-
-  /* Marco/fundido más agresivo */
-  box-shadow: inset 0 0 150px rgba(0,0,0,0.7);
 }
 
 .galeria-texto {
@@ -203,7 +192,7 @@ a { text-decoration: underline; }
 .kajii {
   background-color: #000;
   color: #fff;
-  width: 100%;
+  width: 100vw;
   padding: 2rem 0;
 }
 
