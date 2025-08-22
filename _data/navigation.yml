@@ -11,8 +11,8 @@
 #- title: "Theme"
 #  url: "#"
 #  id: theme-toggle
-- title: Libreta
-  url: /libreta/
+#- title: Libreta
+#  url: /libreta/
 - title: Mi Tinta
   url: /tinta/
 - title: Pensamientos
