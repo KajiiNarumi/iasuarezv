@@ -1,23 +1,34 @@
 ---
 layout: default
-title: "Blog"
-permalink: /blog/
+title: "Mi tinta, donde las palabras se vuelven caricias para el alma"
+permalink: /tinta/
 paginate: true
 show_excerpts: true
 entries_layout: list
 ---
 
+  <section class="text-center bloque">
+    <div class="contenido-limitado">
+      <h1>Mi tinta</h1>
+      <p>Donde mis gritos, mis susurros, mi silencio, se transforman en voz escrita.</p>
+
+      <p>
+        <a href="/memorias/" title="Descubrir pensamientos">Descubrir pensamientos</a>
+      </p>
+    </div>
+  </section>
+
 
 <div class="contenedor-dos-columnas">
   <section class="columna">
-    <h1 class="text-center">Cuentos en OnlyFans</h1>
+    <h2 class="text-center">Cuentos en OnlyFans</h2>
     <p class="descripcion">Cuentos, relatos y escritura creativa, sin edición.</p>
     <div class="bitacora-listado">
       {% for cuento in site.data.libreta.cuentos %}
         <article class="entrada">
-          <h2 class="titulo">
+          <h3 class="titulo">
             <a href="{{ cuento.url }}" target="_blank" rel="noopener">{{ cuento.title }}</a>
-          </h2>
+          </h3>
           <p class="extracto">{{ cuento.desc }}</p>
         </article>
       {% endfor %}
@@ -25,14 +36,14 @@ entries_layout: list
   </section>
 
   <section class="columna">
-    <h1 class="text-center">Blog</h1>
+    <h2 class="text-center">Blog</h2>
     <p class="descripcion">Reflexiones y puntos de vista</p>
     <div class="bitacora-listado">
       {% for post in site.posts %}
         <article class="entrada">
-          <h2 class="titulo">
+          <h3 class="titulo">
             <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-          </h2>
+          </h3>
           <p class="fecha"><em>{{ post.date | date: "%B %-d, %Y" }}</em></p>
           {% if post.excerpt %}
             <p class="extracto">{{ post.excerpt }}</p>
