@@ -13,43 +13,53 @@ entries_layout: list
     Cada experiencia está diseñada de forma personalizada, adaptándome a tu necesidad, tu espacio y tu ritmo.
   </p>
 
-  <div class="grid">
-    <!-- Técnico -->
-    <div class="experiencia">
-      <h3>Pruebas Visuales</h3>
-      <p>Examen y graduación visual, venta y mantenimiento de lentes y accesorios.</p>
-      <a href="#" class="btn">Ver Experiencia</a>
+  <!-- Técnico -->
+  <section class="bloque">
+    <div class="grid">
+      <div class="experiencia">
+        <h3>Pruebas Visuales</h3>
+        <p>Examen y graduación visual, venta y mantenimiento de lentes y accesorios.</p>
+        <a href="#" class="btn">Ver Experiencia</a>
+      </div>
+      <div class="experiencia">
+        <h3>Asistencia Técnica</h3>
+        <p>Diagnóstico, mantenimiento físico y lógico, armado de equipos y ponencias de software libre.</p>
+        <a href="#" class="btn">Ver Experiencia</a>
+      </div>
     </div>
-    <div class="experiencia">
-      <h3>Asistencia Técnica</h3>
-      <p>Diagnóstico, mantenimiento físico y lógico, armado de equipos y ponencias de software libre.</p>
-      <a href="#" class="btn">Ver Experiencia</a>
-    </div>
+  </section>
 
-    <!-- Cultural -->
-    <div class="experiencia">
-      <h3>Escritura</h3>
-      <p>Relatos a medida, microficciones, reflexiones y escritos espirituales o devocionales.</p>
-      <a href="#" class="btn">Ver Experiencia</a>
+  <!-- Cultural -->
+  <section class="bloque">
+    <div class="grid">
+      <div class="experiencia">
+        <h3>Escritura</h3>
+        <p>Relatos a medida, microficciones, reflexiones y escritos espirituales o devocionales.</p>
+        <a href="#" class="btn">Ver Experiencia</a>
+      </div>
+      <div class="experiencia">
+        <h3>Fotografía</h3>
+        <p>Retrato personal y artístico, fotografía conceptual y proyectos personalizados.</p>
+        <a href="#" class="btn">Ver Experiencia</a>
+      </div>
     </div>
-    <div class="experiencia">
-      <h3>Fotografía</h3>
-      <p>Retrato personal y artístico, fotografía conceptual y proyectos personalizados.</p>
-      <a href="#" class="btn">Ver Experiencia</a>
-    </div>
+  </section>
 
-    <!-- Íntimo -->
-    <div class="experiencia">
-      <h3>Lectura de Oráculos</h3>
-      <p>Tarot, runas, póker, Lenormand o lecturas mixtas y talleres personalizados.</p>
-      <a href="#" class="btn">Ver Experiencia</a>
+  <!-- Íntimo -->
+  <section class="bloque">
+    <div class="grid">
+      <div class="experiencia">
+        <h3>Lectura de Oráculos</h3>
+        <p>Tarot, runas, póker, Lenormand o lecturas mixtas y talleres personalizados.</p>
+        <a href="#" class="btn">Ver Experiencia</a>
+      </div>
+      <div class="experiencia">
+        <h3>Bienestar Afectivo</h3>
+        <p>Compañía presencial, disponibilidad afectiva, masaje relajante y experiencias privadas exclusivas.</p>
+        <a href="#" class="btn">Ver Experiencia</a>
+      </div>
     </div>
-    <div class="experiencia">
-      <h3>Bienestar Afectivo</h3>
-      <p>Compañía presencial, disponibilidad afectiva, masaje relajante y experiencias privadas exclusivas.</p>
-      <a href="#" class="btn">Ver Experiencia</a>
-    </div>
-  </div>
+  </section>
 
   <p class="nota" style="margin: 100px 0;">
     Algunas experiencias pueden presentarse en modalidad presencial o digital. Los precios están sujetos a cambios de divisa.
@@ -68,6 +78,12 @@ entries_layout: list
   max-width: 900px;
   margin: 0 auto;
   padding: 4rem 1rem;
+}
+
+.bloque {
+  border-top: 1px solid #444;
+  padding-top: 2rem;
+  margin-top: 100px; /* más espacio entre secciones */
 }
 
 .grid {
