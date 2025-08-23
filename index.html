@@ -42,6 +42,32 @@ entries_layout: list
     <p><a href="/tinta/">Ir a mi tinta</a> | <a href="/pensamientos/">Leer pensamientos</a></p>
   </section>
 
+
+<section class="plenilunio-section">
+  <div class="plenilunio-contenedor">
+    <!-- Imagen -->
+    <div class="plenilunio-imagen">
+      <img src="/images/Plenilunio.jpg" alt="Webzine Plenilunio">
+    </div>
+
+    <!-- Texto -->
+    <div class="plenilunio-texto">
+      <h2>Webzine Plenilunio</h2>
+      <p>
+        Bajo los rayos de luna llena, mi tinta derrama gotas de mi alma.  
+        <strong>Plenilunio</strong> es una revista digital donde fusiono la versatilidad de mi propuesta literaria.  
+        En Plenilunio ofrezco una visión diferente de la revista digital contemporánea,  
+        con palabras que incomodan, que cuestionan, que acompañan...
+      </p>
+      <a href="https://kajiinarumi.com/pages/plenilunio" class="btn-outline">Descubrir Plenilunio</a>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
   <section class="galeria-aleatoria">
     <div class="galeria-bg"></div>
     <div class="galeria-overlay"></div>
@@ -134,6 +160,57 @@ a { text-decoration: underline; }
 
 .bloque { border-top: 1px solid #444; padding-top: 2rem; }
 
+
+.plenilunio-section {
+  padding: 3rem 1rem;
+}
+
+.plenilunio-contenedor {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.plenilunio-imagen img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.plenilunio-texto h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.plenilunio-texto p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.btn-outline {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: currentColor;
+  color: #000;
+}
+
+
+
+  
 .galeria-aleatoria {
   position: relative;
   width: 100%;
@@ -205,4 +282,8 @@ a { text-decoration: underline; }
 }
 .kajii a { color: #fff; text-decoration: underline; }
 
+
+
+
+  
 </style>
