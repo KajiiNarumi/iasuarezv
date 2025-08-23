@@ -74,9 +74,11 @@ entries_layout: list
   <label for="service">Servicio:</label>
   <select name="service" id="service" required>
     <option value="" disabled selected>Selecciona una opción</option>
-    <option value="Lectura oracular">Lectura oracular</option>
-    <option value="Asistencia informatica">Asistencia informatica</option>
     <option value="Prueba Visual">Prueba Visual</option>
+    <option value="Asistencia informatica">Asistencia informatica</option>
+    <option value="Palabra escrita">Palabra escrita</option>
+    <option value="Capturando recuerdos">Capturando recuerdos</option>
+    <option value="Lectura oracular">Lectura oracular</option>
     <option value="Bienestar Afectivo">Bienestar Afectivo</option>
   </select>
 
@@ -87,23 +89,28 @@ entries_layout: list
 </form>
 
 ---
-## Otros testimonios  
+## Leer testimonios  
+
+
+### **Kymi Chibi**  
+*Prueba Visual*  
+Me realizó el examen de la vista y actualicé mi graduación, también me hizo lentes para sol y para la computadora con antirreflejante, lo recomiendo ampliamente.
 
 ### **Karo**  
 *Lectura oracular*  
 He tenido la oportunidad de recibir lecturas gratuitas de Kajii en Twitch y también consultas completas pagadas, y puedo decir con total sinceridad que es una persona muy acertada y profesional. En mi experiencia, alrededor del 90% de lo que me han mostrado las cartas con él se ha cumplido. Además de la precisión, transmite confianza y claridad en cada lectura, lo cual hace que la guía que recibo sea realmente valiosa para mi.
 
 ### **Kymi Chibi**  
-*Lectura oracular*  
-Muy acertadas sus lecturas, me realizó mi carta astral y ahora tengo una guía en mi vida espiritual y energética, también me indicó que signo zodiacal soy con base a mi carta y no como dice en las revistas.
-
-### **Kymi Chibi**  
-*Prueba Visual*  
-Me realizó el examen de la vista y actualicé mi graduación, también me hizo lentes para sol y para la computadora con antirreflejante, lo recomiendo ampliamente.
-
-### **Kymi Chibi**  
 *Asistencia informática*  
 Excelente servicio, me ayudó a darle mantenimiento a mi computadora, formatearla y reinstalar el sistema operativo. Altamente recomendable!
+
+### **Kassandra Natiss**  
+*Bienestar Afectivo*  
+Independientemente de lo que pasó como pareja, en la cama… era otra historia. Me tocabas y me lo hacías con un fuego y deseo que no puedo olvídalo. Y sí Kajii, todavía me acuerdo. Por eso quiero volver a estar contigo.
+
+### **Kymi Chibi**  
+*Lectura oracular*  
+Muy acertadas sus lecturas, me realizó mi carta astral y ahora tengo una guía en mi vida espiritual y energética, también me indicó que signo zodiacal soy con base a mi carta y no como dice en las revistas.
 
 ### **Anónimo G.**  
 *Lectura oracular*  
@@ -112,10 +119,6 @@ Es bastante bueno, incluso a veces te ayuda a entender mejor las cartas, runas e
 ### **Ksenya**  
 *Lectura oracular*  
 Es buen tarotista siempre le atina a lo que dice he incluso da buenos consejos, tiene muy buen humor, es directo y con buen humor, súper recomendado 10/10
-
-### **Kassandra Natiss**  
-*Bienestar Afectivo*  
-Independientemente de lo que pasó como pareja, en la cama… era otra historia. Me tocabas y me lo hacías con un fuego y deseo que no puedo olvídalo. Y sí Kajii, todavía me acuerdo. Por eso quiero volver a estar contigo.
 
 ### **Luna, Tarot y Astrología**  
 *Lectura oracular*  
