@@ -55,45 +55,20 @@ entries_layout: list
     Algunas experiencias pueden presentarse en modalidad presencial o digital. Los precios están sujetos a cambios de divisa.
   </p>
 
-  <h2>Testimonios</h2>
-  <p>
-    Te invito a conocer las experiencias compartidas por quienes ya han vivido alguno de estos encuentros.
+  <h1>Testimonios</h1>
+  <p style="text-align: center; font-style: italic; margin-top: 4rem;">
+    Algunas experiencias marcan...<br>
+    y otras, simplemente no se olvidan.<br>
+    <a href="/testimonios/" style="text-decoration: underline;">Sus palabras te lo contarán mejor que yo.</a>
   </p>
 </section>
 
 <style>
-.catalogo {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-  font-family: sans-serif;
-  color: #222;
-  line-height: 1.6;
-}
-
-.catalogo h1 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.catalogo p {
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2.5rem;
   margin: 2rem 0;
-}
-
-.experiencia {
-  text-align: left;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
 }
 
 .experiencia h3 {
