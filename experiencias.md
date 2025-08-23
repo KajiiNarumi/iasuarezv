@@ -7,8 +7,8 @@ entries_layout: list
 ---
 
 <section class="catalogo">
-  <h1 style="text-align: center; margin-bottom: 1rem;">Catálogo de experiencias</h1>
-  <p style="text-align: center; max-width: 650px; margin: 0 auto 3rem auto;">
+  <h1 style="text-align: center; margin-bottom: 100px;">Catálogo de experiencias</h1>
+  <p style="text-align: center; max-width: 650px; margin: 0 auto 100px auto;">
     Estos son los servicios que ofrezco, bajo la filosofía de ofrecer claridad, voz y sensación. 
     Cada experiencia está diseñada de forma personalizada, adaptándome a tu necesidad, tu espacio y tu ritmo.
   </p>
@@ -51,12 +51,12 @@ entries_layout: list
     </div>
   </div>
 
-  <p class="nota" style="margin: 4rem 0 6rem 0; text-align: center;">
+  <p class="nota" style="margin: 100px 0;">
     Algunas experiencias pueden presentarse en modalidad presencial o digital. Los precios están sujetos a cambios de divisa.
   </p>
 
-  <h1 style="text-align: center; margin-bottom: 2rem;">Testimonios</h1>
-  <p style="text-align: center; font-style: italic; margin-bottom: 4rem;">
+  <h1 style="text-align: center; margin-bottom: 50px;">Testimonios</h1>
+  <p style="text-align: center; font-style: italic; margin-bottom: 100px;">
     Algunas experiencias marcan...<br>
     y otras, simplemente no se olvidan.<br>
     <a href="/testimonios/" style="text-decoration: underline;">Sus palabras te lo contarán mejor que yo.</a>
@@ -73,8 +73,8 @@ entries_layout: list
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  margin-bottom: 4rem;
+  row-gap: 100px;
+  column-gap: 60px;
 }
 
 .experiencia {
@@ -82,12 +82,12 @@ entries_layout: list
 }
 
 .experiencia h3 {
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
   font-size: 1.3rem;
 }
 
 .experiencia p {
-  margin-bottom: 1.5rem;
+  margin-bottom: 30px;
   font-size: 1rem;
   line-height: 1.6;
 }
@@ -110,5 +110,6 @@ entries_layout: list
 .nota {
   font-size: 0.95rem;
   opacity: 0.85;
+  text-align: center;
 }
 </style>
