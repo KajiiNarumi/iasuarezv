@@ -38,9 +38,10 @@ y otras, simplemente no se olvidan.</p>
 
   <button type="submit">Enviar</button>
 </form>
+[*Ver Experiencias*](https://iasuarezv.com/experiencias/)
 
 ---
-### Leer testimonios  
+## Testimonios destacados  
 
 
 ### **Kymi Chibi**  
@@ -61,7 +62,7 @@ Independientemente de lo que pasó como pareja, en la cama… era otra historia.
 
 ---
 ### Otros testimonios 
-[*Ver Experiencias*](https://iasuarezv.com/experiencias/)
+
 
 
 #### **Kymi Chibi**  
@@ -103,6 +104,10 @@ Totalmente feliz de ser donador del canal, tengo un servicio A1 con las lecturas
 #### **Papeldolly**  
 *Lectura oracular*  
 Me encantas!!!. Eres demasiado profesional y el talento que tienes para leer las cartas me deja sin palabras, tu talento y experiencia te hace ser una persona muy culta sobre el asunto.
+
+#### **Gatita En El Tejado**  
+*Lectura oracular*  
+Gracias por la gran lectura que me hiciste! Me leíste como un libro, eres super acertado! Tienes una intuición maravillosa y gran conocimiento de las mancias! Definitivamente súper recomendable, gracias por compartir tus dones con el mundo!!! Gracias Gracias Gracias!!! 🙏🏼
 
 <style>
 .formulario-minimal {
@@ -156,6 +161,3 @@ Me encantas!!!. Eres demasiado profesional y el talento que tienes para leer las
 }
 </style>
 
-### **Gatita En El Tejado**  
-*Lectura oracular*  
-Gracias por la gran lectura que me hiciste! Me leíste como un libro, eres super acertado! Tienes una intuición maravillosa y gran conocimiento de las mancias! Definitivamente súper recomendable, gracias por compartir tus dones con el mundo!!! Gracias Gracias Gracias!!! 🙏🏼
