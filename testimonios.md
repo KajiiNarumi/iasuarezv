@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Testimonios"
+title: "Testimonios: Nada habla mejor de mí que quienes ya han compartido algo conmigo."
 permalink: /testimonios/
 show_excerpts: true
 entries_layout: list
@@ -107,6 +107,8 @@ Excelente servicio, me ayudó a darle mantenimiento a mi computadora, formatearl
 ### **Kassandra Natiss**  
 *Bienestar Afectivo*  
 Independientemente de lo que pasó como pareja, en la cama… era otra historia. Me tocabas y me lo hacías con un fuego y deseo que no puedo olvídalo. Y sí Kajii, todavía me acuerdo. Por eso quiero volver a estar contigo.
+
+---
 
 ### **Kymi Chibi**  
 *Lectura oracular*  
