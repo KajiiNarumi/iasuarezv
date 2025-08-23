@@ -19,12 +19,12 @@ entries_layout: list
       <div class="experiencia">
         <h3>Pruebas Visuales</h3>
         <p>Examen y graduación visual, venta y mantenimiento de lentes y accesorios.</p>
-        <a href="#" class="btn">Ver Experiencia</a>
+        <a href="https://iasuarezv.wordpress.com/catalogo-de-experiencias/prueba-visual" class="btn">Ver Experiencia</a>
       </div>
       <div class="experiencia">
         <h3>Asistencia Técnica</h3>
         <p>Diagnóstico, mantenimiento físico y lógico, armado de equipos y ponencias de software libre.</p>
-        <a href="#" class="btn">Ver Experiencia</a>
+        <a href="https://iasuarezv.wordpress.com/catalogo-de-experiencias/asistencia-tecnica/" class="btn">Ver Experiencia</a>
       </div>
     </div>
   </section>
@@ -51,12 +51,12 @@ entries_layout: list
       <div class="experiencia">
         <h3>Lectura de Oráculos</h3>
         <p>Tarot, runas, póker, Lenormand o lecturas mixtas y talleres personalizados.</p>
-        <a href="#" class="btn">Ver Experiencia</a>
+        <a href="https://iasuarezv.wordpress.com/catalogo-de-experiencias/guia-oracular/" class="btn">Ver Experiencia</a>
       </div>
       <div class="experiencia">
         <h3>Bienestar Afectivo</h3>
         <p>Compañía presencial, disponibilidad afectiva, masaje relajante y experiencias privadas exclusivas.</p>
-        <a href="#" class="btn">Ver Experiencia</a>
+        <a href="https://iasuarezv.wordpress.com/catalogo-de-experiencias/bienestar-afectivo/" class="btn">Ver Experiencia</a>
       </div>
     </div>
   </section>
