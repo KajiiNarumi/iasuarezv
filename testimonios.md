@@ -26,10 +26,10 @@ y otras, simplemente no se olvidan.</p>
   <select name="service" id="service" required>
     <option value="" disabled selected>Selecciona una opción</option>
     <option value="Prueba Visual">Prueba Visual</option>
-    <option value="Asistencia informatica">Asistencia informatica</option>
-    <option value="Palabra escrita">Palabra escrita</option>
-    <option value="Capturando recuerdos">Capturando recuerdos</option>
-    <option value="Lectura oracular">Lectura oracular</option>
+    <option value="Asistencia Informática">Asistencia Informática</option>
+    <option value="Palabra Escrita">Palabra Escrita</option>
+    <option value="Capturando Recuerdos">Capturando Recuerdos</option>
+    <option value="lectura Oracular">Lectura Oracular</option>
     <option value="Bienestar Afectivo">Bienestar Afectivo</option>
   </select>
 
