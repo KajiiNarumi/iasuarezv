@@ -63,7 +63,9 @@ Independientemente de lo que pasó como pareja, en la cama… era otra historia.
 ---
 ### Otros testimonios 
 
-
+#### **Gama**  
+*Prueba Visual*  
+Excelente servicio y calidad, años asiendo me lentes con el buen Antoine, 100% recomendado.
 
 #### **Kymi Chibi**  
 *Lectura oracular*  
