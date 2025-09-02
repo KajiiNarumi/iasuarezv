@@ -3,136 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <title>Convertir EPUB a PDF</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body {
-      font-family: sans-serif;
-      max-width: 750px;
-      margin: auto;
-      padding: 2rem;
-      line-height: 1.6;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #121212;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
     }
-    h1 { text-align: center; margin-bottom: 2rem; }
+    h1 {
+      color: #fff;
+      margin-bottom: 20px;
+    }
     .uploader {
-      margin: 2rem 0;
-      padding: 1rem;
-      border: 2px dashed #666;
+      border: 2px dashed #555;
+      border-radius: 12px;
+      padding: 30px;
       text-align: center;
+      width: 100%;
+      max-width: 500px;
+      transition: 0.3s;
       cursor: pointer;
-      background: #fafafa;
     }
-    button {
-      margin-top: 1rem;
-      padding: 0.7rem 1.5rem;
+    .uploader.dragover {
+      background-color: #1e1e1e;
+      border-color: #4cafef;
+    }
+    .btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #4cafef;
+      color: #121212;
       border: none;
       border-radius: 8px;
-      background: #222;
-      color: white;
       cursor: pointer;
-      font-size: 1rem;
+      font-weight: bold;
+      transition: 0.3s;
     }
-    button:hover {
-      background: #444;
+    .btn:hover {
+      background: #6dd5fa;
     }
-    #status { margin-top: 1rem; font-style: italic; }
+    #status {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #aaa;
+    }
   </style>
 </head>
 <body>
-  <h1>Convertir EPUB a PDF</h1>
-  <label class="uploader">
-    <input type="file" id="fileInput" accept=".epub" hidden>
-    Haz clic aquí o arrastra tu archivo EPUB
-  </label>
+  <h1>📖 Convertir EPUB a PDF</h1>
+  <div class="uploader" id="dropzone">
+    Arrastra tu archivo EPUB aquí o haz click para seleccionarlo
+    <input type="file" id="fileInput" accept=".epub" style="display:none">
+  </div>
+  <button class="btn" id="convertBtn" disabled>Convertir a PDF</button>
   <div id="status"></div>
-  <button id="convertBtn" disabled>Convertir a PDF</button>
+
+  <!-- Librerías necesarias -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <script>
+    const dropzone = document.getElementById("dropzone");
     const fileInput = document.getElementById("fileInput");
     const convertBtn = document.getElementById("convertBtn");
-    const status = document.getElementById("status");
+    const statusEl = document.getElementById("status");
     let epubFile;
 
-    fileInput.addEventListener("change", (e) => {
+    // Drag & drop
+    dropzone.addEventListener("click", () => fileInput.click());
+    dropzone.addEventListener("dragover", e => {
+      e.preventDefault();
+      dropzone.classList.add("dragover");
+    });
+    dropzone.addEventListener("dragleave", () => dropzone.classList.remove("dragover"));
+    dropzone.addEventListener("drop", e => {
+      e.preventDefault();
+      dropzone.classList.remove("dragover");
+      epubFile = e.dataTransfer.files[0];
+      if (epubFile && epubFile.name.endsWith(".epub")) {
+        statusEl.textContent = `Archivo seleccionado: ${epubFile.name}`;
+        convertBtn.disabled = false;
+      }
+    });
+    fileInput.addEventListener("change", e => {
       epubFile = e.target.files[0];
-      if (epubFile) {
-        status.textContent = `Archivo seleccionado: ${epubFile.name}`;
+      if (epubFile && epubFile.name.endsWith(".epub")) {
+        statusEl.textContent = `Archivo seleccionado: ${epubFile.name}`;
         convertBtn.disabled = false;
       }
     });
 
+    // Conversión
     convertBtn.addEventListener("click", async () => {
       if (!epubFile) return;
+      statusEl.textContent = "Procesando EPUB...";
 
-      status.textContent = "Procesando EPUB...";
+      const JSZipInstance = new JSZip();
       const arrayBuffer = await epubFile.arrayBuffer();
-      const zip = await JSZip.loadAsync(arrayBuffer);
+      const zip = await JSZipInstance.loadAsync(arrayBuffer);
 
-      let allContent = [];
-      let coverImage = null;
-
+      // Buscar archivos XHTML/HTML dentro del EPUB
+      const chapters = [];
       for (const filename of Object.keys(zip.files)) {
-        if (filename.match(/cover\.(jpg|jpeg|png)$/i)) {
-          coverImage = await zip.files[filename].async("base64");
-          coverImage = "data:image/jpeg;base64," + coverImage;
-        }
-
         if (filename.endsWith(".xhtml") || filename.endsWith(".html")) {
-          const fileData = await zip.files[filename].async("string");
-          let clean = fileData
-            .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
-            .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
-            .replace(/<\/h[1-6]>/gi, "\n")   // saltos tras títulos
-            .replace(/<br\s*\/?>/gi, "\n")
-            .replace(/<\/p>/gi, "\n\n")
-            .replace(/<[^>]+>/g, " ")        // quitar etiquetas
-            .replace(/\s+/g, " ")
-            .trim();
-
-          if (clean) {
-            allContent.push(clean);
-          }
+          const text = await zip.file(filename).async("string");
+          chapters.push(text);
         }
       }
 
-      if (allContent.length === 0) {
-        status.textContent = "No se pudo extraer texto del EPUB.";
+      if (!chapters.length) {
+        statusEl.textContent = "No se encontraron capítulos legibles.";
         return;
       }
 
-      status.textContent = "Generando PDF...";
+      statusEl.textContent = "Generando PDF... (esto puede tardar)";
       const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ unit: "mm", format: "a4" });
+      const pdf = new jsPDF({ unit: "pt", format: "a4" });
 
-      // Insertar portada si existe
-      if (coverImage) {
-        pdf.addImage(coverImage, "JPEG", 20, 20, 170, 240);
-        pdf.addPage();
-      }
+      for (let i = 0; i < chapters.length; i++) {
+        const container = document.createElement("div");
+        container.innerHTML = chapters[i];
 
-      // Insertar texto
-      const pageHeight = pdf.internal.pageSize.height;
-      let y = 20;
+        // renderizar cada capítulo como imagen y añadir al PDF
+        const canvas = await html2canvas(container, { scale: 1 });
+        const imgData = canvas.toDataURL("image/png");
 
-      for (const chapter of allContent) {
-        const lines = pdf.splitTextToSize(chapter, 170);
-        for (let i = 0; i < lines.length; i++) {
-          if (y > pageHeight - 20) {
-            pdf.addPage();
-            y = 20;
-          }
-          pdf.text(lines[i], 20, y);
-          y += 7;
-        }
-        y += 10; // espacio extra entre capítulos
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
+
+        const imgWidth = canvas.width * ratio;
+        const imgHeight = canvas.height * ratio;
+        const x = (pageWidth - imgWidth) / 2;
+        const y = 20;
+
+        if (i > 0) pdf.addPage();
+        pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
       }
 
       pdf.save(epubFile.name.replace(".epub", ".pdf"));
-      status.textContent = "PDF generado ✅";
+      statusEl.textContent = "Conversión completada ✅";
     });
   </script>
-
-  <iframe src="https://www.onlineconverter.com/epub-to-pdf" width="100%" height="600px"></iframe>
-
 </body>
 </html>
