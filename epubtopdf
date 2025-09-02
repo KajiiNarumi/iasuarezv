@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Convertir EPUB a PDF</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 750px;
+      margin: auto;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    h1 { text-align: center; margin-bottom: 2rem; }
+    .uploader {
+      margin: 2rem 0;
+      padding: 1rem;
+      border: 2px dashed #666;
+      text-align: center;
+      cursor: pointer;
+      background: #fafafa;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      background: #222;
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      background: #444;
+    }
+    #status { margin-top: 1rem; font-style: italic; }
+  </style>
+</head>
+<body>
+  <h1>Convertir EPUB a PDF</h1>
+  <label class="uploader">
+    <input type="file" id="fileInput" accept=".epub" hidden>
+    Haz clic aquí o arrastra tu archivo EPUB
+  </label>
+  <div id="status"></div>
+  <button id="convertBtn" disabled>Convertir a PDF</button>
+
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const convertBtn = document.getElementById("convertBtn");
+    const status = document.getElementById("status");
+    let epubFile;
+
+    fileInput.addEventListener("change", (e) => {
+      epubFile = e.target.files[0];
+      if (epubFile) {
+        status.textContent = `Archivo seleccionado: ${epubFile.name}`;
+        convertBtn.disabled = false;
+      }
+    });
+
+    convertBtn.addEventListener("click", async () => {
+      if (!epubFile) return;
+
+      status.textContent = "Procesando EPUB...";
+      const arrayBuffer = await epubFile.arrayBuffer();
+      const zip = await JSZip.loadAsync(arrayBuffer);
+
+      let allContent = [];
+      let coverImage = null;
+
+      for (const filename of Object.keys(zip.files)) {
+        if (filename.match(/cover\.(jpg|jpeg|png)$/i)) {
+          coverImage = await zip.files[filename].async("base64");
+          coverImage = "data:image/jpeg;base64," + coverImage;
+        }
+
+        if (filename.endsWith(".xhtml") || filename.endsWith(".html")) {
+          const fileData = await zip.files[filename].async("string");
+          let clean = fileData
+            .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
+            .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
+            .replace(/<\/h[1-6]>/gi, "\n")   // saltos tras títulos
+            .replace(/<br\s*\/?>/gi, "\n")
+            .replace(/<\/p>/gi, "\n\n")
+            .replace(/<[^>]+>/g, " ")        // quitar etiquetas
+            .replace(/\s+/g, " ")
+            .trim();
+
+          if (clean) {
+            allContent.push(clean);
+          }
+        }
+      }
+
+      if (allContent.length === 0) {
+        status.textContent = "No se pudo extraer texto del EPUB.";
+        return;
+      }
+
+      status.textContent = "Generando PDF...";
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ unit: "mm", format: "a4" });
+
+      // Insertar portada si existe
+      if (coverImage) {
+        pdf.addImage(coverImage, "JPEG", 20, 20, 170, 240);
+        pdf.addPage();
+      }
+
+      // Insertar texto
+      const pageHeight = pdf.internal.pageSize.height;
+      let y = 20;
+
+      for (const chapter of allContent) {
+        const lines = pdf.splitTextToSize(chapter, 170);
+        for (let i = 0; i < lines.length; i++) {
+          if (y > pageHeight - 20) {
+            pdf.addPage();
+            y = 20;
+          }
+          pdf.text(lines[i], 20, y);
+          y += 7;
+        }
+        y += 10; // espacio extra entre capítulos
+      }
+
+      pdf.save(epubFile.name.replace(".epub", ".pdf"));
+      status.textContent = "PDF generado ✅";
+    });
+  </script>
+</body>
+</html>
