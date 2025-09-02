@@ -1,156 +1,111 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Convertir EPUB a PDF</title>
-  <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      background-color: #121212;
-      color: #eee;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      color: #fff;
-      margin-bottom: 20px;
-    }
-    .uploader {
-      border: 2px dashed #555;
-      border-radius: 12px;
-      padding: 30px;
-      text-align: center;
-      width: 100%;
-      max-width: 500px;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-    .uploader.dragover {
-      background-color: #1e1e1e;
-      border-color: #4cafef;
-    }
-    .btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #4cafef;
-      color: #121212;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: #6dd5fa;
-    }
-    #status {
-      margin-top: 15px;
-      font-size: 14px;
-      color: #aaa;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Convertir EPUB a PDF</title>
+<style>
+  :root { --bg:#0b0c10; --card:#111318; --muted:#9aa3b2; --text:#e6e9ef; --accent:#7c9fff; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial; background:var(--bg); color:var(--text); display:flex; flex-direction:column; align-items:center; min-height:100vh; padding:20px; }
+  h1 { margin:0 0 12px; font-size: clamp(20px, 4vw, 28px); text-align:center; }
+  p.sub { margin:0; color:var(--muted); text-align:center; margin-bottom:20px; }
+  .card { background: var(--card); border:1px solid #1b1e25; border-radius:16px; padding:20px; max-width:600px; width:100%; }
+  .uploader { display:flex; gap:16px; align-items:center; flex-wrap: wrap; justify-content:center; cursor:pointer; border:2px dashed #555; border-radius:12px; padding:20px; transition:0.3s; }
+  .uploader.dragover { background:#1e1e1e; border-color:var(--accent); }
+  .uploader input[type=file] { display:none; }
+  .btn { display:inline-flex; align-items:center; gap:10px; padding:12px 20px; border-radius:12px; border:none; background:var(--accent); color:#0b0c10; cursor:pointer; font-weight:600; margin-top:12px; transition:0.3s; }
+  .btn:hover { background:#99baff; }
+  #status { margin-top:12px; color:var(--muted); font-size:14px; text-align:center; }
+  footer { color:var(--muted); text-align:center; margin-top:40px; font-size:13px; }
+</style>
 </head>
 <body>
-  <h1>📖 Convertir EPUB a PDF</h1>
-  <div class="uploader" id="dropzone">
-    Arrastra tu archivo EPUB aquí o haz click para seleccionarlo
-    <input type="file" id="fileInput" accept=".epub" style="display:none">
-  </div>
+<h1>📖 Convertir EPUB a PDF</h1>
+<p class="sub">Arrastra tu archivo EPUB o haz click para seleccionarlo. Se conservarán títulos, párrafos e imágenes.</p>
+
+<div class="card">
+  <label class="uploader" id="dropzone">
+    Haz clic o arrastra tu EPUB aquí
+    <input type="file" id="fileInput" accept=".epub">
+  </label>
   <button class="btn" id="convertBtn" disabled>Convertir a PDF</button>
   <div id="status"></div>
+</div>
 
-  <!-- Librerías necesarias -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<footer>Hecho con cariño 💙 — 100% en tu navegador</footer>
 
-  <script>
-    const dropzone = document.getElementById("dropzone");
-    const fileInput = document.getElementById("fileInput");
-    const convertBtn = document.getElementById("convertBtn");
-    const statusEl = document.getElementById("status");
-    let epubFile;
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-    // Drag & drop
-    dropzone.addEventListener("click", () => fileInput.click());
-    dropzone.addEventListener("dragover", e => {
-      e.preventDefault();
-      dropzone.classList.add("dragover");
-    });
-    dropzone.addEventListener("dragleave", () => dropzone.classList.remove("dragover"));
-    dropzone.addEventListener("drop", e => {
-      e.preventDefault();
-      dropzone.classList.remove("dragover");
-      epubFile = e.dataTransfer.files[0];
-      if (epubFile && epubFile.name.endsWith(".epub")) {
-        statusEl.textContent = `Archivo seleccionado: ${epubFile.name}`;
-        convertBtn.disabled = false;
-      }
-    });
-    fileInput.addEventListener("change", e => {
-      epubFile = e.target.files[0];
-      if (epubFile && epubFile.name.endsWith(".epub")) {
-        statusEl.textContent = `Archivo seleccionado: ${epubFile.name}`;
-        convertBtn.disabled = false;
-      }
-    });
+<script>
+const dropzone = document.getElementById("dropzone");
+const fileInput = document.getElementById("fileInput");
+const convertBtn = document.getElementById("convertBtn");
+const statusEl = document.getElementById("status");
+let epubFile;
 
-    // Conversión
-    convertBtn.addEventListener("click", async () => {
-      if (!epubFile) return;
-      statusEl.textContent = "Procesando EPUB...";
+// Drag & Drop
+dropzone.addEventListener("click", ()=>fileInput.click());
+dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
+dropzone.addEventListener("dragleave", ()=>dropzone.classList.remove("dragover"));
+dropzone.addEventListener("drop", e => { e.preventDefault(); dropzone.classList.remove("dragover"); handleFile(e.dataTransfer.files[0]); });
+fileInput.addEventListener("change", e => handleFile(e.target.files[0]));
 
-      const JSZipInstance = new JSZip();
-      const arrayBuffer = await epubFile.arrayBuffer();
-      const zip = await JSZipInstance.loadAsync(arrayBuffer);
+function handleFile(file){
+  if(!file || !file.name.endsWith(".epub")) return;
+  epubFile = file;
+  statusEl.textContent = `Archivo seleccionado: ${file.name}`;
+  convertBtn.disabled = false;
+}
 
-      // Buscar archivos XHTML/HTML dentro del EPUB
-      const chapters = [];
-      for (const filename of Object.keys(zip.files)) {
-        if (filename.endsWith(".xhtml") || filename.endsWith(".html")) {
-          const text = await zip.file(filename).async("string");
-          chapters.push(text);
-        }
-      }
+// Conversión
+convertBtn.addEventListener("click", async ()=>{
+  if(!epubFile) return;
+  statusEl.textContent = "Procesando EPUB... esto puede tardar";
 
-      if (!chapters.length) {
-        statusEl.textContent = "No se encontraron capítulos legibles.";
-        return;
-      }
+  const zip = await JSZip.loadAsync(await epubFile.arrayBuffer());
+  const chapters = [];
 
-      statusEl.textContent = "Generando PDF... (esto puede tardar)";
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ unit: "pt", format: "a4" });
+  for(const filename of Object.keys(zip.files)){
+    if(filename.endsWith(".xhtml") || filename.endsWith(".html")){
+      const content = await zip.file(filename).async("string");
+      chapters.push(content);
+    }
+  }
 
-      for (let i = 0; i < chapters.length; i++) {
-        const container = document.createElement("div");
-        container.innerHTML = chapters[i];
+  if(!chapters.length){
+    statusEl.textContent = "No se encontraron capítulos legibles";
+    return;
+  }
 
-        // renderizar cada capítulo como imagen y añadir al PDF
-        const canvas = await html2canvas(container, { scale: 1 });
-        const imgData = canvas.toDataURL("image/png");
+  statusEl.textContent = "Generando PDF... esto puede tardar un momento";
 
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
-        const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
+  // Crear contenedor temporal para html2pdf
+  const container = document.createElement("div");
+  container.style.padding="20px"; container.style.color="#000"; container.style.background="#fff"; container.style.fontFamily="serif";
+  document.body.appendChild(container);
 
-        const imgWidth = canvas.width * ratio;
-        const imgHeight = canvas.height * ratio;
-        const x = (pageWidth - imgWidth) / 2;
-        const y = 20;
+  for(const chapter of chapters){
+    const chapterDiv = document.createElement("div");
+    chapterDiv.innerHTML = chapter;
+    chapterDiv.style.pageBreakAfter = "always";
+    container.appendChild(chapterDiv);
+  }
 
-        if (i > 0) pdf.addPage();
-        pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
-      }
+  // Config html2pdf
+  const opt = {
+    margin:       [20,20,20,20],
+    filename:     epubFile.name.replace(".epub",".pdf"),
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2, logging: false },
+    jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait' }
+  };
 
-      pdf.save(epubFile.name.replace(".epub", ".pdf"));
-      statusEl.textContent = "Conversión completada ✅";
-    });
-  </script>
+  await html2pdf().set(opt).from(container).save();
+  container.remove();
+  statusEl.textContent = "Conversión completada ✅";
+});
+</script>
 </body>
 </html>
