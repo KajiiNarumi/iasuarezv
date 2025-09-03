@@ -224,6 +224,46 @@ async function setReadingProgress(file){
 }
 
 
+// Calcular tiempo estimado de lectura
+function estimatedReadingTime(text) {
+    const words = text.trim().split(/\s+/).length; // cuenta palabras
+    const wpm = 200; // palabras por minuto promedio
+    const minutes = Math.ceil(words / wpm);
+    return minutes;
+}
+
+// Actualizar indicador de lectura
+function updateIndicator(percent) {
+    const rounded = Math.floor(percent * 100);
+    const time = estimatedReadingTime(textContent);
+    readingIndicator.textContent = `Lectura: ${rounded}% | ≈ ${time} min`;
+}
+
+// Restaurar progreso si existe
+function restoreProgress() {
+    if(epubFile) {
+        const savedProgress = localStorage.getItem(`epub-${epubFile.name}-progress`);
+        if(savedProgress) {
+            const scrollHeight = previewEl.scrollHeight - previewEl.clientHeight;
+            previewEl.scrollTop = scrollHeight * parseFloat(savedProgress);
+            updateIndicator(parseFloat(savedProgress));
+        }
+    }
+}
+
+// Guardar progreso y actualizar indicador mientras se hace scroll
+previewEl.addEventListener("scroll", () => {
+    const scrollTop = previewEl.scrollTop;
+    const scrollHeight = previewEl.scrollHeight - previewEl.clientHeight;
+    const scrollPercent = scrollTop / scrollHeight;
+    if(epubFile) {
+        localStorage.setItem(`epub-${epubFile.name}-progress`, scrollPercent);
+    }
+    updateIndicator(scrollPercent);
+});
+
+// Llamar al cargar EPUB
+restoreProgress();
 
   
 
