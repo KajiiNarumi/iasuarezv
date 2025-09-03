@@ -12,7 +12,7 @@
   p.sub { margin:0; color:var(--muted); text-align:center; margin-bottom:20px;}
   .card { background: var(--card); border:1px solid #1b1e25; border-radius:16px; padding:20px; max-width:900px; width:100%; display:flex; gap:20px; flex-wrap:wrap;}
   .left { flex:1; display:flex; justify-content:center; align-items:flex-start;}
-  .left img { max-width:200px; border-radius:12px; }
+  .left img { max-width:150px; border-radius:12px; }
   .right { flex:2; display:flex; flex-direction:column; gap:10px; }
   .uploader { display:flex; gap:16px; align-items:center; justify-content:center; cursor:pointer; border:2px dashed #555; border-radius:12px; padding:20px; transition:0.3s; text-align:center;}
   .uploader.dragover { background:#1e1e1e; border-color:var(--accent);}
@@ -20,7 +20,7 @@
   .btn { display:inline-flex; align-items:center; gap:10px; padding:12px 20px; border-radius:12px; border:none; background:var(--accent); color:#0b0c10; cursor:pointer; font-weight:600; transition:0.3s; }
   .btn:hover { background:#99baff; }
   #status { color:var(--muted); font-size:14px; text-align:center; margin-top:10px; }
-  #preview { margin-top:20px; background:#1b1e25; border-radius:12px; padding:10px; max-height:400px; overflow-y:auto; white-space:pre-wrap; font-family:serif; }
+  #preview { margin-top:15px; background:#1b1e25; border-radius:12px; padding:10px; max-height:400px; overflow-y:auto; white-space:pre-wrap; font-family:serif; }
   footer { color:var(--muted); text-align:center; margin-top:40px; font-size:13px; }
 </style>
 </head>
@@ -126,10 +126,15 @@ async function handleFile(file){
   statusEl.textContent = "Vista previa cargada ✅";
   txtBtn.disabled = pdfBtn.disabled = selectBtn.disabled = false;
 
-// Desactivar carga de otro EPUB
-dropzone.removeEventListener("click", ()=>fileInput.click());
-fileInput.disabled = true;
-dropzone.style.opacity = 0.5;
+// Desactivar/eliminar el uploader después de cargar el EPUB
+dropzone.remove(); // quita el div por completo
+const notice = document.createElement("div");
+notice.textContent = "EPUB cargado ✅ Recarga la página para abrir otro libro.";
+notice.style.textAlign = "center";
+notice.style.color = "#7c9fff";
+notice.style.marginTop = "10px";
+coverEl.parentElement.appendChild(notice);
+
   
 
 // Restaurar progreso de lectura para este EPUB
