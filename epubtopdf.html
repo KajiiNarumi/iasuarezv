@@ -40,7 +40,6 @@
     </label>
     <div style="display:flex; gap:10px; flex-wrap:wrap;">
       <button class="btn" id="txtBtn" disabled>Guardar Texto</button>
-      <button class="btn" id="mdBtn" disabled>Guardar MarkDown</button>
       <button class="btn" id="pdfBtn" disabled>Guardar PDF</button>
       <button class="btn" id="selectBtn" disabled>Seleccionar texto</button>
     </div>
@@ -59,7 +58,6 @@
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
 const txtBtn = document.getElementById("txtBtn");
-const mdBtn = document.getElementById("mdBtn");
 const pdfBtn = document.getElementById("pdfBtn");
 const selectBtn = document.getElementById("selectBtn");
 const statusEl = document.getElementById("status");
@@ -77,7 +75,7 @@ fileInput.addEventListener("change", e => handleFile(e.target.files[0]));
 async function handleFile(file){
   if(!file || !file.name.endsWith(".epub")) return;
   epubFile = file;
-  txtBtn.disabled = mdBtn.disabled = pdfBtn.disabled = selectBtn.disabled = true;
+  txtBtn.disabled = pdfBtn.disabled = selectBtn.disabled = true;
   previewEl.textContent = "";
   textContent = "";
   coverEl.hidden = true;
@@ -120,7 +118,7 @@ async function handleFile(file){
   previewEl.textContent = accumulatedText;
   textContent = accumulatedText;
   statusEl.textContent = "Vista previa cargada ✅";
-  txtBtn.disabled = mdBtn.disabled = pdfBtn.disabled = selectBtn.disabled = false;
+  txtBtn.disabled = pdfBtn.disabled = selectBtn.disabled = false;
 }
 
 // Descargar archivo
@@ -132,7 +130,6 @@ function downloadFile(filename, content){
 }
 
 txtBtn.addEventListener("click", ()=> downloadFile(epubFile.name.replace(".epub",".txt"), textContent));
-mdBtn.addEventListener("click", ()=> downloadFile(epubFile.name.replace(".epub",".md"), textContent));
 
 pdfBtn.addEventListener("click", ()=>{
   statusEl.textContent = "Generando PDF... esto puede tardar";
