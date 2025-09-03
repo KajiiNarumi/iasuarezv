@@ -3,54 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EPUB a PDF — Vista previa y conversión</title>
+<title>Lector EPUB — Guardar TXT, MD, PDF</title>
 <style>
   :root { --bg:#0b0c10; --card:#111318; --muted:#9aa3b2; --text:#e6e9ef; --accent:#7c9fff; }
   * { box-sizing:border-box; }
   body { margin:0; font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial; background:var(--bg); color:var(--text); display:flex; flex-direction:column; align-items:center; min-height:100vh; padding:20px;}
   h1 { margin:0 0 12px; font-size: clamp(20px, 4vw, 28px); text-align:center;}
   p.sub { margin:0; color:var(--muted); text-align:center; margin-bottom:20px;}
-  .card { background: var(--card); border:1px solid #1b1e25; border-radius:16px; padding:20px; max-width:800px; width:100%;}
-  .uploader { display:flex; gap:16px; align-items:center; flex-wrap: wrap; justify-content:center; cursor:pointer; border:2px dashed #555; border-radius:12px; padding:20px; transition:0.3s; }
+  .card { background: var(--card); border:1px solid #1b1e25; border-radius:16px; padding:20px; max-width:900px; width:100%; display:flex; gap:20px; flex-wrap:wrap;}
+  .left { flex:1; display:flex; justify-content:center; align-items:flex-start;}
+  .left img { max-width:200px; border-radius:12px; }
+  .right { flex:2; display:flex; flex-direction:column; gap:10px; }
+  .uploader { display:flex; gap:16px; align-items:center; justify-content:center; cursor:pointer; border:2px dashed #555; border-radius:12px; padding:20px; transition:0.3s; text-align:center;}
   .uploader.dragover { background:#1e1e1e; border-color:var(--accent);}
   .uploader input[type=file] { display:none;}
-  .btn { display:inline-flex; align-items:center; gap:10px; padding:12px 20px; border-radius:12px; border:none; background:var(--accent); color:#0b0c10; cursor:pointer; font-weight:600; margin-top:12px; transition:0.3s; }
+  .btn { display:inline-flex; align-items:center; gap:10px; padding:12px 20px; border-radius:12px; border:none; background:var(--accent); color:#0b0c10; cursor:pointer; font-weight:600; transition:0.3s; }
   .btn:hover { background:#99baff; }
-  #status { margin-top:12px; color:var(--muted); font-size:14px; text-align:center; }
-  #preview { margin-top:20px; background:#1b1e25; border-radius:12px; padding:10px; max-height:400px; overflow-y:auto; }
-  #preview h2 { margin-top:16px; color:var(--accent);}
+  #status { color:var(--muted); font-size:14px; text-align:center; margin-top:10px; }
+  #preview { margin-top:20px; background:#1b1e25; border-radius:12px; padding:10px; max-height:400px; overflow-y:auto; white-space:pre-wrap; font-family:serif; }
   footer { color:var(--muted); text-align:center; margin-top:40px; font-size:13px; }
-  img { max-width:100%; }
 </style>
 </head>
 <body>
-<h1>📖 EPUB a PDF</h1>
-<p class="sub">Arrastra tu EPUB o haz clic para seleccionarlo. Verás vista previa antes de generar el PDF.</p>
+
+<h1>📖 Lector EPUB</h1>
+<p class="sub">Arrastra tu EPUB o haz clic para seleccionarlo. Podrás guardar el contenido como TXT, Markdown o PDF.</p>
 
 <div class="card">
-  <label class="uploader" id="dropzone">
-    Haz clic o arrastra tu EPUB aquí
-    <input type="file" id="fileInput" accept=".epub">
-  </label>
-  <button class="btn" id="convertBtn" disabled>Generar PDF</button>
-  <div id="status"></div>
-  <div id="preview"></div>
+  <div class="left">
+    <img id="cover" alt="Portada del EPUB" hidden>
+  </div>
+  <div class="right">
+    <label class="uploader" id="dropzone">
+      Haz clic o arrastra tu EPUB aquí
+      <input type="file" id="fileInput" accept=".epub">
+    </label>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btn" id="txtBtn" disabled>Guardar TXT</button>
+      <button class="btn" id="mdBtn" disabled>Guardar MarkDown</button>
+      <button class="btn" id="pdfBtn" disabled>Guardar PDF</button>
+      <button class="btn" id="selectBtn" disabled>Seleccionar texto</button>
+    </div>
+    <div id="status"></div>
+  </div>
 </div>
 
+<div id="preview"></div>
 <footer>Hecho con cariño 💙 — 100% en tu navegador</footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
-const convertBtn = document.getElementById("convertBtn");
+const txtBtn = document.getElementById("txtBtn");
+const mdBtn = document.getElementById("mdBtn");
+const pdfBtn = document.getElementById("pdfBtn");
+const selectBtn = document.getElementById("selectBtn");
 const statusEl = document.getElementById("status");
 const previewEl = document.getElementById("preview");
-let epubFile, chapters=[];
+const coverEl = document.getElementById("cover");
 
-// Drag & Drop
+let epubFile, textContent="";
+
 dropzone.addEventListener("click", ()=>fileInput.click());
 dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
 dropzone.addEventListener("dragleave", ()=>dropzone.classList.remove("dragover"));
@@ -60,94 +76,86 @@ fileInput.addEventListener("change", e => handleFile(e.target.files[0]));
 async function handleFile(file){
   if(!file || !file.name.endsWith(".epub")) return;
   epubFile = file;
-  statusEl.textContent = `Archivo seleccionado: ${file.name}`;
-  convertBtn.disabled = true;
-  previewEl.innerHTML = '';
-  chapters = [];
-
+  txtBtn.disabled = mdBtn.disabled = pdfBtn.disabled = selectBtn.disabled = true;
+  previewEl.textContent = "";
+  textContent = "";
+  coverEl.hidden = true;
   statusEl.textContent = "Procesando EPUB...";
+
   const zip = await JSZip.loadAsync(await file.arrayBuffer());
 
-  // Encontrar archivo .opf para obtener el spine
+  // Portada
+  const coverName = Object.keys(zip.files).find(f=>/cover\.(jpg|jpeg|png)/i.test(f));
+  if(coverName){
+    const coverData = await zip.file(coverName).async("base64");
+    coverEl.src = `data:image/jpeg;base64,${coverData}`;
+    coverEl.hidden = false;
+  }
+
+  // Spine
   const opfFile = Object.keys(zip.files).find(f => f.endsWith(".opf"));
   if(!opfFile){ statusEl.textContent="No se encontró el archivo .opf"; return; }
   const opfContent = await zip.file(opfFile).async("string");
   const parser = new DOMParser();
-  const opfDoc = parser.parseFromString(opfContent, "application/xml");
-  const nsResolver = opfDoc.createNSResolver(opfDoc.documentElement);
+  const opfDoc = parser.parseFromString(opfContent,"application/xml");
+
   const items = {};
   opfDoc.querySelectorAll("item").forEach(i=> items[i.getAttribute("id")] = i.getAttribute("href"));
   const spineIds = Array.from(opfDoc.querySelectorAll("spine itemref")).map(ir=>ir.getAttribute("idref"));
   const basePath = opfFile.replace(/[^\/]+$/,'');
 
+  let accumulatedText = "";
+
   for(const id of spineIds){
     const href = items[id];
     if(href && zip.file(basePath+href)){
       const content = await zip.file(basePath+href).async("string");
-      chapters.push(content);
+      const tmp = document.createElement("div");
+      tmp.innerHTML = content;
+      accumulatedText += tmp.innerText + "\n\n";
     }
   }
 
-  if(!chapters.length){ statusEl.textContent="No se encontraron capítulos legibles"; return; }
-
-  // Mostrar vista previa
-  previewEl.innerHTML = '';
-  chapters.forEach((ch,idx)=>{
-    const div = document.createElement("div");
-    div.innerHTML = ch;
-    const h2 = div.querySelector("h1,h2,h3") || div.querySelector("title");
-    if(h2) h2.textContent = `Capítulo ${idx+1}: ${h2.textContent}`;
-    previewEl.appendChild(div);
-  });
-
-  statusEl.textContent = `Vista previa cargada (${chapters.length} capítulos)`;
-  convertBtn.disabled = false;
+  previewEl.textContent = accumulatedText;
+  textContent = accumulatedText;
+  statusEl.textContent = "Vista previa cargada ✅";
+  txtBtn.disabled = mdBtn.disabled = pdfBtn.disabled = selectBtn.disabled = false;
 }
 
-// Generar PDF
-convertBtn.addEventListener("click", async ()=>{
-  if(!chapters.length) return;
-  statusEl.textContent="Generando PDF... esto puede tardar";
+// Descargar archivo
+function downloadFile(filename, content){
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([content],{type:"text/plain"}));
+  a.download = filename;
+  a.click();
+}
 
-  const container = document.createElement("div");
-  container.style.padding="20px";
-  container.style.color="#000";
-  container.style.background="#fff";
-  container.style.fontFamily="serif";
-  document.body.appendChild(container);
+txtBtn.addEventListener("click", ()=> downloadFile(epubFile.name.replace(".epub",".txt"), textContent));
+mdBtn.addEventListener("click", ()=> downloadFile(epubFile.name.replace(".epub",".md"), textContent));
 
-  chapters.forEach(ch=>{
-    const div = document.createElement("div");
-    div.innerHTML = ch;
-    div.style.pageBreakAfter="always";
-    // ajustar rutas de imagen
-    div.querySelectorAll("img").forEach(img=>{
-      const src = img.getAttribute("src");
-      if(src && !src.startsWith("data:")){
-        const filePath = Object.keys(zip.files).find(f=>f.endsWith(src.split("/").pop()));
-        if(filePath){
-          zip.file(filePath).async("base64").then(b64=>{
-            img.src = "data:image/jpeg;base64,"+b64;
-          });
-        }
-      }
-    });
-    container.appendChild(div);
+pdfBtn.addEventListener("click", ()=>{
+  statusEl.textContent = "Generando PDF... esto puede tardar";
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF('p','pt','a4');
+  const lines = pdf.splitTextToSize(textContent, 550); 
+  let y = 40;
+  lines.forEach(line=>{
+    if(y > 780){ pdf.addPage(); y = 40; }
+    pdf.text(30, y, line);
+    y += 14;
   });
+  pdf.save(epubFile.name.replace(".epub",".pdf"));
+  statusEl.textContent = "PDF generado ✅";
+});
 
-  setTimeout(async ()=>{
-    const opt = {
-      margin: [20,20,20,20],
-      filename: epubFile.name.replace(".epub",".pdf"),
-      image: { type: 'jpeg', quality:0.98 },
-      html2canvas: { scale:2, logging:false },
-      jsPDF: { unit:'pt', format:'a4', orientation:'portrait' }
-    };
-    await html2pdf().set(opt).from(container).save();
-    container.remove();
-    statusEl.textContent="Conversión completada ✅";
-  },500);
+selectBtn.addEventListener("click", ()=> {
+  const range = document.createRange();
+  range.selectNode(previewEl);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
 });
 </script>
+
 </body>
 </html>
