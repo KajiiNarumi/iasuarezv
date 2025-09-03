@@ -135,16 +135,30 @@ pdfBtn.addEventListener("click", ()=>{
   statusEl.textContent = "Generando PDF... esto puede tardar";
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF('p','pt','a4');
+
+  // 1️⃣ Agregar portada si existe
+  if(!coverEl.hidden){
+    // Ajusta ancho y alto según quieras que ocupe
+    const imgProps = pdf.getImageProperties(coverEl);
+    const pdfWidth = pdf.internal.pageSize.getWidth() - 60; // margen 30
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(coverEl, 'JPEG', 30, 40, pdfWidth, pdfHeight);
+  }
+
+  // 2️⃣ Comenzar texto debajo de la portada
+  let y = coverEl.hidden ? 40 : (40 + ((pdf.internal.pageSize.getWidth() - 60) * coverEl.naturalHeight / coverEl.naturalWidth) + 20);
+
   const lines = pdf.splitTextToSize(textContent, 550); 
-  let y = 40;
   lines.forEach(line=>{
     if(y > 780){ pdf.addPage(); y = 40; }
     pdf.text(30, y, line);
     y += 14;
   });
+
   pdf.save(epubFile.name.replace(".epub",".pdf"));
   statusEl.textContent = "PDF generado ✅";
 });
+
 
 selectBtn.addEventListener("click", ()=> {
   const range = document.createRange();
