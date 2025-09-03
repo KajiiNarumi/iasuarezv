@@ -34,10 +34,17 @@
     <img id="cover" alt="Portada del EPUB" hidden>
   </div>
   <div class="right">
+
     <label class="uploader" id="dropzone">
       Haz clic o arrastra tu EPUB aquí
       <input type="file" id="fileInput" accept=".epub">
     </label>
+
+    <label class="uploader" id="pdfDropzone">
+  Haz clic o arrastra tu PDF aquí
+  <input type="file" id="pdfInput" accept="application/pdf">
+</label>
+
     <div style="display:flex; gap:10px; flex-wrap:wrap;">
       <button class="btn" id="txtBtn" disabled>Guardar Texto</button>
       <button class="btn" id="pdfBtn" disabled>Guardar PDF</button>
@@ -49,9 +56,9 @@
 <div id="readingIndicator" style="margin:10px 0; text-align:center; color:#9aa3b2; font-size:14px;">
   Progreso de lectura: <span id="progressPercent">0%</span>
 </div>
-    
+
   </div>
-  <div id="preview"></div>  
+  <div id="preview"></div>
 </div>
 
 
@@ -59,6 +66,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
 
 <script>
 const dropzone = document.getElementById("dropzone");
@@ -70,13 +79,60 @@ const statusEl = document.getElementById("status");
 const previewEl = document.getElementById("preview");
 const coverEl = document.getElementById("cover");
 
-let epubFile, textContent="";
+let epubFile, pdfFile, textContent="";
 
 dropzone.addEventListener("click", ()=>fileInput.click());
 dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
 dropzone.addEventListener("dragleave", ()=>dropzone.classList.remove("dragover"));
 dropzone.addEventListener("drop", e => { e.preventDefault(); dropzone.classList.remove("dragover"); handleFile(e.dataTransfer.files[0]); });
 fileInput.addEventListener("change", e => handleFile(e.target.files[0]));
+
+const pdfDropzone = document.getElementById("pdfDropzone");
+const pdfInput = document.getElementById("pdfInput");
+
+pdfDropzone.addEventListener("click", ()=>pdfInput.click());
+pdfDropzone.addEventListener("dragover", e => { e.preventDefault(); pdfDropzone.classList.add("dragover"); });
+pdfDropzone.addEventListener("dragleave", ()=>pdfDropzone.classList.remove("dragover"));
+pdfDropzone.addEventListener("drop", e => { e.preventDefault(); pdfDropzone.classList.remove("dragover"); handlePDF(e.dataTransfer.files[0]); });
+pdfInput.addEventListener("change", e => handlePDF(e.target.files[0]));
+
+async function handlePDF(file){
+  if(!file || !file.name.endsWith(".pdf")) return;
+pdfFile = file;  // guardar referencia para el nombre del TXT
+
+  statusEl.textContent = "Procesando PDF...";
+  previewEl.textContent = "";
+  textContent = "";
+
+  const reader = new FileReader();
+  reader.onload = async function () {
+    const typedarray = new Uint8Array(this.result);
+    const pdf = await pdfjsLib.getDocument({ data: typedarray }).promise;
+    let accumulatedText = "";
+
+    for(let i=1; i<=pdf.numPages; i++){
+      const page = await pdf.getPage(i);
+      const text = await page.getTextContent();
+      const pageText = text.items.map(item=>item.str).join(" ");
+      accumulatedText += `\n--- Página ${i} ---\n` + pageText + "\n";
+    }
+
+    previewEl.textContent = accumulatedText.trim() || "No se detectó texto seleccionable en el PDF.";
+    textContent = accumulatedText;
+    statusEl.textContent = "PDF cargado ✅, ahora puedes guardarlo como TXT";
+    txtBtn.disabled = pdfBtn.disabled = selectBtn.disabled = false;
+
+    // Ocultar ambos uploaders cuando se carga un archivo
+pdfDropzone.remove();    // quitar uploader PDF
+dropzone?.remove();      // quitar uploader EPUB si existe
+pdfBtn.remove();
+
+
+
+  };
+  reader.readAsArrayBuffer(file);
+}
+
 
 async function handleFile(file){
   if(!file || !file.name.endsWith(".epub")) return;
@@ -128,11 +184,11 @@ async function handleFile(file){
 
 // Desactivar/eliminar el uploader después de cargar el EPUB
 dropzone.remove(); // quita el div por completo
-  
+pdfDropzone?.remove();   // quitar uploader PDF
 
 // Restaurar progreso de lectura para este EPUB
 await setReadingProgress(file);
-  
+
 }
 
 // Descargar archivo
@@ -143,7 +199,10 @@ function downloadFile(filename, content){
   a.click();
 }
 
-txtBtn.addEventListener("click", ()=> downloadFile(epubFile.name.replace(".epub",".txt"), textContent));
+txtBtn.addEventListener("click", ()=> {
+  const filename = (epubFile?.name || pdfFile?.name || "documento").replace(/\.(epub|pdf)$/i,"") + ".txt";
+  downloadFile(filename, textContent);
+});
 
 pdfBtn.addEventListener("click", ()=>{
   statusEl.textContent = "Generando PDF... esto puede tardar";
@@ -165,7 +224,7 @@ pdfBtn.addEventListener("click", ()=>{
   // 2️⃣ Comenzar texto debajo de la portada
   let y = coverEl.hidden ? 40 : (40 + ((pdf.internal.pageSize.getWidth() - 60) * coverEl.naturalHeight / coverEl.naturalWidth) + 20);
 
-  const lines = pdf.splitTextToSize(textContent, 550); 
+  const lines = pdf.splitTextToSize(textContent, 550);
   lines.forEach(line=>{
     if(y > 780){ pdf.addPage(); y = 40; }
     pdf.text(30, y, line);
@@ -178,7 +237,7 @@ pdfBtn.addEventListener("click", ()=>{
 
 
 
-  
+
 const readingIndicator = document.getElementById("readingIndicator");
 let epubHashKey = ""; // clave única para este EPUB
 
@@ -268,7 +327,7 @@ previewEl.addEventListener("scroll", () => {
 restoreProgress();
 
 
-  
+
 
 
 selectBtn.addEventListener("click", ()=> {
