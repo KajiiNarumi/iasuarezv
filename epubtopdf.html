@@ -224,19 +224,21 @@ async function setReadingProgress(file){
 }
 
 
-// Calcular tiempo estimado de lectura
+// Calcular tiempo estimado de lectura en HH:MM
 function estimatedReadingTime(text) {
     const words = text.trim().split(/\s+/).length; // cuenta palabras
     const wpm = 200; // palabras por minuto promedio
-    const minutes = Math.ceil(words / wpm);
-    return minutes;
+    const totalMinutes = Math.ceil(words / wpm);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}`;
 }
 
 // Actualizar indicador de lectura
 function updateIndicator(percent) {
     const rounded = Math.floor(percent * 100);
     const time = estimatedReadingTime(textContent);
-    readingIndicator.textContent = `Lectura: ${rounded}% | ≈ ${time} min`;
+    readingIndicator.textContent = `Lectura: ${rounded}% | ≈ ${time} h:min`;
 }
 
 // Restaurar progreso si existe
@@ -264,6 +266,7 @@ previewEl.addEventListener("scroll", () => {
 
 // Llamar al cargar EPUB
 restoreProgress();
+
 
   
 
