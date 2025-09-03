@@ -123,18 +123,11 @@ async function handleFile(file){
 
   previewEl.textContent = accumulatedText;
   textContent = accumulatedText;
-  statusEl.textContent = "Vista previa cargada ✅";
+  statusEl.textContent = "Vista previa cargada ✅, Recarga la página para abrir otro libro.";
   txtBtn.disabled = pdfBtn.disabled = selectBtn.disabled = false;
 
 // Desactivar/eliminar el uploader después de cargar el EPUB
 dropzone.remove(); // quita el div por completo
-const notice = document.createElement("div");
-notice.textContent = "EPUB cargado ✅ Recarga la página para abrir otro libro.";
-notice.style.textAlign = "center";
-notice.style.color = "#7c9fff";
-notice.style.marginTop = "10px";
-coverEl.parentElement.appendChild(notice);
-
   
 
 // Restaurar progreso de lectura para este EPUB
