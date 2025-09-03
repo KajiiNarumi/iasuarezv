@@ -132,37 +132,37 @@ function downloadFile(filename, content){
 txtBtn.addEventListener("click", ()=> downloadFile(epubFile.name.replace(".epub",".txt"), textContent));
 
 pdfBtn.addEventListener("click", ()=>{
-  if(!textContent) return;
   statusEl.textContent = "Generando PDF... esto puede tardar";
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF('p','pt','a4');
 
-  pdf.setFont("helvetica"); // fuente sans-serif
-  pdf.setFontSize(12);
+  // Usar fuente sans-serif
+  pdf.setFont("helvetica");
+  pdf.setFontSize(14);
 
-  let y = 40;
-
-  // Si hay portada, agregarla en la primera página
-  if(coverEl.src){
-    pdf.addImage(coverEl.src, 'JPEG', 30, 40, 550, 300); // x, y, ancho, alto
-    pdf.addPage();
-    y = 40;
+  // 1️⃣ Agregar portada si existe
+  if(!coverEl.hidden){
+    const imgProps = pdf.getImageProperties(coverEl);
+    const pdfWidth = pdf.internal.pageSize.getWidth() - 60; // margen 30
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(coverEl, 'JPEG', 30, 40, pdfWidth, pdfHeight);
   }
 
-  // Separar texto en líneas para que quepan en la página
-  const lines = pdf.splitTextToSize(textContent, 550);
+  // 2️⃣ Comenzar texto debajo de la portada
+  let y = coverEl.hidden ? 40 : (40 + ((pdf.internal.pageSize.getWidth() - 60) * coverEl.naturalHeight / coverEl.naturalWidth) + 20);
+
+  const lines = pdf.splitTextToSize(textContent, 550); 
   lines.forEach(line=>{
-    if(y > 780){ // si llegamos al final de la página
-      pdf.addPage();
-      y = 40;
-    }
+    if(y > 780){ pdf.addPage(); y = 40; }
     pdf.text(30, y, line);
-    y += 14; // espacio entre líneas
+    y += 14;
   });
 
   pdf.save(epubFile.name.replace(".epub",".pdf"));
   statusEl.textContent = "PDF generado ✅";
 });
+
+
 
 
 
