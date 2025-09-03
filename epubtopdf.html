@@ -126,6 +126,12 @@ async function handleFile(file){
   statusEl.textContent = "Vista previa cargada ✅";
   txtBtn.disabled = pdfBtn.disabled = selectBtn.disabled = false;
 
+// Desactivar carga de otro EPUB
+dropzone.removeEventListener("click", ()=>fileInput.click());
+fileInput.disabled = true;
+dropzone.style.opacity = 0.5;
+  
+
 // Restaurar progreso de lectura para este EPUB
 await setReadingProgress(file);
   
