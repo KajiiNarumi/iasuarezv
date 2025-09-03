@@ -27,7 +27,7 @@
 <body>
 
 <h1>📖 Lector EPUB</h1>
-<p class="sub">Arrastra tu EPUB o haz clic para seleccionarlo. Podrás guardar el contenido como TXT, Markdown o PDF.</p>
+<p class="sub">Arrastra tu EPUB o haz clic para seleccionarlo. Podrás guardar el contenido como TXT o PDF.</p>
 
 <div class="card">
   <div class="left">
@@ -44,20 +44,14 @@
       <button class="btn" id="selectBtn" disabled>Seleccionar texto</button>
     </div>
     <div id="status"></div>
-  </div>
-  <div id="preview"></div>
 
 <!-- Indicador de lectura -->
-<div id="readingIndicator" style="
-  text-align:center;
-  color: var(--muted);
-  font-size:14px;
-  margin-bottom:10px;
-">
-  Lectura: 0%
+<div id="readingIndicator" style="margin:10px 0; text-align:center; color:#9aa3b2; font-size:14px;">
+  Progreso de lectura: <span id="progressPercent">0%</span>
 </div>
-
-  
+    
+  </div>
+  <div id="preview"></div>  
 </div>
 
 
@@ -131,6 +125,10 @@ async function handleFile(file){
   textContent = accumulatedText;
   statusEl.textContent = "Vista previa cargada ✅";
   txtBtn.disabled = pdfBtn.disabled = selectBtn.disabled = false;
+
+// Restaurar progreso de lectura para este EPUB
+await setReadingProgress(file);
+  
 }
 
 // Descargar archivo
@@ -175,40 +173,55 @@ pdfBtn.addEventListener("click", ()=>{
 });
 
 
-const readingIndicator = document.getElementById("readingIndicator");
 
-// Restaurar progreso si existe
-function restoreProgress() {
-  if(epubFile) {
-    const savedProgress = localStorage.getItem(`epub-${epubFile.name}-progress`);
-    if(savedProgress) {
-      const scrollHeight = previewEl.scrollHeight - previewEl.clientHeight;
-      previewEl.scrollTop = scrollHeight * parseFloat(savedProgress);
-      updateIndicator(parseFloat(savedProgress));
-    }
-  }
+  
+const readingIndicator = document.getElementById("readingIndicator");
+let epubHashKey = ""; // clave única para este EPUB
+
+// Calcular hash del archivo EPUB
+async function getFileHash(file) {
+  const buffer = await file.arrayBuffer();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
-// Actualizar indicador
+// Actualizar indicador visual
 function updateIndicator(percent) {
   const rounded = Math.floor(percent * 100);
   readingIndicator.textContent = `Lectura: ${rounded}%`;
 }
 
-// Guardar progreso y actualizar indicador mientras se hace scroll
-previewEl.addEventListener("scroll", () => {
-  const scrollTop = previewEl.scrollTop;
-  const scrollHeight = previewEl.scrollHeight - previewEl.clientHeight;
-  const scrollPercent = scrollTop / scrollHeight;
-  if(epubFile) {
-    localStorage.setItem(`epub-${epubFile.name}-progress`, scrollPercent);
-  }
-  updateIndicator(scrollPercent);
+// Guardar progreso
+function saveProgress(percent){
+  if(epubHashKey) localStorage.setItem(epubHashKey, percent);
+}
+
+// Restaurar progreso al abrir EPUB
+function restoreProgress(){
+  if(!epubHashKey) return;
+  const saved = parseFloat(localStorage.getItem(epubHashKey) || "0");
+  previewEl.scrollTop = (previewEl.scrollHeight - previewEl.clientHeight) * saved;
+  updateIndicator(saved);
+}
+
+// Actualizar mientras haces scroll
+previewEl.addEventListener("scroll", ()=>{
+  if(!epubHashKey) return;
+  const percent = previewEl.scrollTop / (previewEl.scrollHeight - previewEl.clientHeight);
+  saveProgress(percent);
+  updateIndicator(percent);
 });
 
-// Llamar al cargar EPUB
-restoreProgress();
+// Inicializar progreso al cargar EPUB
+async function setReadingProgress(file){
+  epubHashKey = "epub-" + await getFileHash(file) + "-progress";
+  restoreProgress();
+}
 
+
+
+  
 
 
 selectBtn.addEventListener("click", ()=> {
