@@ -46,6 +46,18 @@
     <div id="status"></div>
   </div>
   <div id="preview"></div>
+
+<!-- Indicador de lectura -->
+<div id="readingIndicator" style="
+  text-align:center;
+  color: var(--muted);
+  font-size:14px;
+  margin-bottom:10px;
+">
+  Lectura: 0%
+</div>
+
+  
 </div>
 
 
@@ -163,6 +175,39 @@ pdfBtn.addEventListener("click", ()=>{
 });
 
 
+const readingIndicator = document.getElementById("readingIndicator");
+
+// Restaurar progreso si existe
+function restoreProgress() {
+  if(epubFile) {
+    const savedProgress = localStorage.getItem(`epub-${epubFile.name}-progress`);
+    if(savedProgress) {
+      const scrollHeight = previewEl.scrollHeight - previewEl.clientHeight;
+      previewEl.scrollTop = scrollHeight * parseFloat(savedProgress);
+      updateIndicator(parseFloat(savedProgress));
+    }
+  }
+}
+
+// Actualizar indicador
+function updateIndicator(percent) {
+  const rounded = Math.floor(percent * 100);
+  readingIndicator.textContent = `Lectura: ${rounded}%`;
+}
+
+// Guardar progreso y actualizar indicador mientras se hace scroll
+previewEl.addEventListener("scroll", () => {
+  const scrollTop = previewEl.scrollTop;
+  const scrollHeight = previewEl.scrollHeight - previewEl.clientHeight;
+  const scrollPercent = scrollTop / scrollHeight;
+  if(epubFile) {
+    localStorage.setItem(`epub-${epubFile.name}-progress`, scrollPercent);
+  }
+  updateIndicator(scrollPercent);
+});
+
+// Llamar al cargar EPUB
+restoreProgress();
 
 
 
