@@ -88,7 +88,15 @@ const statusEl = document.getElementById("status");
 const previewEl = document.getElementById("preview");
 const coverEl = document.getElementById("cover");
 
-let epubFile, pdfFile, textContent="";
+let epubFile, pdfFile, textContent="", pdfHashKey="";
+
+// Función para restaurar progreso PDF
+function restorePDFProgress(){
+  if(!pdfHashKey) return;
+  const saved = parseFloat(localStorage.getItem(pdfHashKey) || "0");
+  previewEl.scrollTop = (previewEl.scrollHeight - previewEl.clientHeight) * saved;
+  updateIndicator(saved);
+}
 
 //dropzone.addEventListener("click", ()=>fileInput.click());
 dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
@@ -130,6 +138,9 @@ pdfFile = file;  // guardar referencia para el nombre del TXT
     textContent = accumulatedText;
     statusEl.textContent = "PDF cargado ✅, ahora puedes guardarlo como TXT";
     txtBtn.disabled = pdfBtn.disabled = selectBtn.disabled = false;
+// Inicializar progreso PDF
+pdfHashKey = "pdf-" + await getPDFHash(file) + "-progress";
+restorePDFProgress();
 
     // Ocultar ambos uploaders cuando se carga un archivo
 pdfDropzone.remove();    // quitar uploader PDF
@@ -258,6 +269,15 @@ async function getFileHash(file) {
   return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
+// Calcular hash del archivo PDF
+async function getPDFHash(file) {
+  const buffer = await file.arrayBuffer();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+
 // Actualizar indicador visual
 function updateIndicator(percent) {
   const rounded = Math.floor(percent * 100);
@@ -279,11 +299,15 @@ function restoreProgress(){
 
 // Actualizar mientras haces scroll
 previewEl.addEventListener("scroll", ()=>{
-  if(!epubHashKey) return;
   const percent = previewEl.scrollTop / (previewEl.scrollHeight - previewEl.clientHeight);
-  saveProgress(percent);
+  if(epubFile){
+      localStorage.setItem(epubHashKey, percent);
+  } else if(pdfFile){
+      localStorage.setItem(pdfHashKey, percent);
+  }
   updateIndicator(percent);
 });
+
 
 // Inicializar progreso al cargar EPUB
 async function setReadingProgress(file){
