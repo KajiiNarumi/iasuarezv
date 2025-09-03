@@ -135,7 +135,6 @@ pdfBtn.addEventListener("click", ()=>{
   statusEl.textContent = "Generando PDF... esto puede tardar";
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF('p','pt','a4');
-
   // 1️⃣ Agregar portada si existe
   if(!coverEl.hidden){
     // Ajusta ancho y alto según quieras que ocupe
@@ -143,6 +142,10 @@ pdfBtn.addEventListener("click", ()=>{
     const pdfWidth = pdf.internal.pageSize.getWidth() - 60; // margen 30
     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
     pdf.addImage(coverEl, 'JPEG', 30, 40, pdfWidth, pdfHeight);
+    const pdf = new jsPDF('p','pt','a4');
+pdf.setFont("helvetica");   // <-- Aquí defines sans-serif
+pdf.setFontSize(12);        // <-- Ajusta el tamaño
+
   }
 
   // 2️⃣ Comenzar texto debajo de la portada
