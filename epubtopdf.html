@@ -238,7 +238,7 @@ function estimatedReadingTime(text) {
 function updateIndicator(percent) {
     const rounded = Math.floor(percent * 100);
     const time = estimatedReadingTime(textContent);
-    readingIndicator.textContent = `Lectura: ${rounded}% | ≈ ${time} h:min`;
+    readingIndicator.textContent = `Lectura: ${rounded}% de ≈ ${time} horas de lectura`;
 }
 
 // Restaurar progreso si existe
