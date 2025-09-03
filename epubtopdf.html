@@ -81,7 +81,7 @@ const coverEl = document.getElementById("cover");
 
 let epubFile, pdfFile, textContent="";
 
-dropzone.addEventListener("click", ()=>fileInput.click());
+//dropzone.addEventListener("click", ()=>fileInput.click());
 dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
 dropzone.addEventListener("dragleave", ()=>dropzone.classList.remove("dragover"));
 dropzone.addEventListener("drop", e => { e.preventDefault(); dropzone.classList.remove("dragover"); handleFile(e.dataTransfer.files[0]); });
@@ -90,7 +90,7 @@ fileInput.addEventListener("change", e => handleFile(e.target.files[0]));
 const pdfDropzone = document.getElementById("pdfDropzone");
 const pdfInput = document.getElementById("pdfInput");
 
-pdfDropzone.addEventListener("click", ()=>pdfInput.click());
+//pdfDropzone.addEventListener("click", ()=>pdfInput.click());
 pdfDropzone.addEventListener("dragover", e => { e.preventDefault(); pdfDropzone.classList.add("dragover"); });
 pdfDropzone.addEventListener("dragleave", ()=>pdfDropzone.classList.remove("dragover"));
 pdfDropzone.addEventListener("drop", e => { e.preventDefault(); pdfDropzone.classList.remove("dragover"); handlePDF(e.dataTransfer.files[0]); });
