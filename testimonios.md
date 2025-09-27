@@ -52,9 +52,9 @@ Me realizó el examen de la vista y actualicé mi graduación, también me hizo 
 *Lectura oracular*  
 He tenido la oportunidad de recibir lecturas gratuitas de Kajii en Twitch y también consultas completas pagadas, y puedo decir con total sinceridad que es una persona muy acertada y profesional. En mi experiencia, alrededor del 90% de lo que me han mostrado las cartas con él se ha cumplido. Además de la precisión, transmite confianza y claridad en cada lectura, lo cual hace que la guía que recibo sea realmente valiosa para mi.
 
-### **Kymi Chibi**  
+### **Holq**  
 *Asistencia informática*  
-Excelente servicio, me ayudó a darle mantenimiento a mi computadora, formatearla y reinstalar el sistema operativo. Altamente recomendable!
+El mejor en soporte para informática y muchos otros ámbitos, muy dedicado y amable.  
 
 ### **Kassandra Natiss**  
 *Bienestar Afectivo*  
@@ -62,6 +62,11 @@ Independientemente de lo que pasó como pareja, en la cama… era otra historia.
 
 ---
 ### Otros testimonios 
+
+
+### **Kymi Chibi**  
+*Asistencia informática*  
+Excelente servicio, me ayudó a darle mantenimiento a mi computadora, formatearla y reinstalar el sistema operativo. Altamente recomendable!
 
 #### **Gama**  
 *Prueba Visual*  
