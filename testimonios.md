@@ -58,7 +58,7 @@ El mejor en soporte para informática y muchos otros ámbitos, muy dedicado y am
 
 ### **Kassandra Natiss**  
 *Bienestar Afectivo*  
-Independientemente de lo que pasó como pareja, en la cama… era otra historia. Me tocabas y me lo hacías con un fuego y deseo que no puedo olvídalo. Y sí Kajii, todavía me acuerdo. Por eso quiero volver a estar contigo.
+Independientemente de lo que pasó como pareja, en la cama… era otra historia. Me tocabas y me lo hacías con un fuego y deseo que no puedo olvidarlo. Y sí Kajii, todavía me acuerdo. Por eso quiero volver a estar contigo.
 
 ---
 ### Otros testimonios 
