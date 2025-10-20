@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexión]
+categories: [Reflexion]
 tags: [resumen anual, proyectos, redes sociales]
 title: "Recapt. 2023 Un año de cambios"
 date: 2023-12-04
