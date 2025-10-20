@@ -61,8 +61,6 @@ entries_layout: list
 {% assign category_names_array = category_names_array | split: "|" %}
 {% assign category_counts = category_counts | split: "|" %}
 
----
-
 <ul id="page-title" class="taxonomy-index">
   {% for category_names in category_names_array %}
     {% assign category_names_list = category_names | split: "," %}
@@ -76,6 +74,8 @@ entries_layout: list
     {% endfor %}
   {% endfor %}
 </ul>
+
+---
 
 {% for category_names in category_names_array %}
   {% assign category_names_list = category_names | split: "," %}
