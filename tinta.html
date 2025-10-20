@@ -101,7 +101,12 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
     {% endfor %}
   {% endfor %}
 </ul>
-      
+
+
+
+      <section class="contenedor-dos-columnas" >
+<div class="columna"> 
+  
     <div class="bitacora-listado">
       {% for post in site.posts %}
         <article class="entrada">
@@ -117,10 +122,13 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
     </div>
    </div>
   </section>
-
+</div>      
+</section>
 
 
 ---
+<section class="contenedor-dos-columnas" >
+<div class="columna"> 
 {% for category_names in category_names_array %}
   {% assign category_names_list = category_names | split: "," %}
   {% for category_name in category_names_list %}
@@ -139,8 +147,76 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
     </section>
   {% endfor %}
 {% endfor %}
-
+</div>      
+</section>
 ---
 
 
+<style>
+.contenedor-dos-columnas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
 
+.columna {
+  display: flex;
+  flex-direction: column;
+}
+
+.columna .descripcion {
+  text-align: center;
+  opacity: 0.8;
+  margin-bottom: 2rem;
+}
+
+.bitacora-listado {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.entrada {
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+.entrada .titulo {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.entrada .titulo a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.entrada .fecha {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin-bottom: 1rem;
+}
+
+.entrada .extracto {
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .contenedor-dos-columnas {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
