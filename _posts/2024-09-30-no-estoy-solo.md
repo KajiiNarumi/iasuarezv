@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexion]
+categories: [Reflexiones]
 tags: [paternidad, amor, pareja, identidad]
 title: "No estoy solo"
 date: 2024-09-30
