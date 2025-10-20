@@ -121,7 +121,7 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
 
   <section class="columna">
     <h1>Categorías</h1>
-    <hr>
+<div class="linea-divisoria"></div>
 {% for category_names in category_names_array %}
   {% assign category_names_list = category_names | split: "," %}
   {% for category_name in category_names_list %}
@@ -219,4 +219,16 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
   }
 }
 
+
+.linea-divisoria {
+  /* Establece la altura de la línea */
+  height: 1px;
+  /* Establece el color de fondo */
+  background-color: #ccc;
+  /* Establece el ancho (opcional, por defecto es 100%) */
+  width: 80%;
+  /* Centra la línea si el ancho es menor al 100% */
+  margin: 10px auto;
+}
+  
 </style>
