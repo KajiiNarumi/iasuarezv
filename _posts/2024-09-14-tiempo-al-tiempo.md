@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexion]
+categories: [Reflexiones]
 tags: [adaptacion, resiliencia, tiempo]
 title: "Tiempo al Tiempo"
 date: 2024-09-14
