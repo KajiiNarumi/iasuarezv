@@ -35,7 +35,6 @@ Son publicaciones en bruto, sin filtros ni censuras de un editor o de una plataf
         </article>
       {% endfor %}
     </div>
-
    </div>
   </section>
 
@@ -101,18 +100,15 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
     {% endfor %}
   {% endfor %}
 </ul>
-
+</div>
+</section>
 
 <div class="contenedor-dos-columnas"> 
-      <section class="columna">
-
-  
+  <section class="columna">
     <div class="bitacora-listado">
       {% for post in site.posts %}
         <article class="entrada">
-          <h2 class="titulo">
-            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-          </h2>
+          <h2 class="titulo"> <a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
           <p class="fecha"><em>{{ post.date | date: "%B %-d, %Y" }}</em></p>
           {% if post.excerpt %}
             <p class="extracto">{{ post.excerpt }}</p>
@@ -120,9 +116,7 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
         </article>
       {% endfor %}
     </div>
-   </div>
   </section>
-</section>
 
 
 ---
@@ -147,7 +141,6 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
 {% endfor %}
     
 </section>
-
 </div>  
 ---
 
