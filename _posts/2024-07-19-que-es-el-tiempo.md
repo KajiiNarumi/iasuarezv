@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [reflexion]
+categories: [Reflexion]
 tags: [tiempo, percepcion, filosofia]
 title: "¿Qué es el tiempo?"
 date: 2024-07-19
