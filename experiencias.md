@@ -33,12 +33,12 @@ entries_layout: list
   <section class="bloque">
     <div class="grid">
       <div class="experiencia">
-        <h3>Escritura</h3>
+        <h3>Palabra Escrita</h3>
         <p>Relatos a medida, microficciones, reflexiones y escritos espirituales o devocionales.</p>
         <a href="#" class="btn">Ver Experiencia</a>
       </div>
       <div class="experiencia">
-        <h3>Fotografía</h3>
+        <h3>Capturando Recuerdos</h3>
         <p>Retrato personal y artístico, fotografía conceptual y proyectos personalizados.</p>
         <a href="#" class="btn">Ver Experiencia</a>
       </div>
