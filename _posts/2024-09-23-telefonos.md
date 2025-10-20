@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [reflexion]
+categories: [Reflexion]
 tags: [tecnologia, consumo, smartphones]
 title: "Teléfonos"
 date: 2024-09-23
