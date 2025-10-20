@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexion]
+categories: [Reflexiones]
 tags: [vida, perspectiva, crecimiento, emociones]
 title: "Una visión de pájaro"
 date: 2024-06-28
