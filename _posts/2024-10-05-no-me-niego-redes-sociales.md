@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [reflexion]
+categories: [Reflexion]
 tags: [redes-sociales, identidad, minimalismo-digital, comunicacion]
 title: "No me niego a usar redes sociales, pero..."
 date: 2024-10-05
