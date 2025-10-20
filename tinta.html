@@ -105,6 +105,7 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
 
 <div class="contenedor-dos-columnas">
   <section class="columna">
+        <h1>Recientes</h1>
     <div class="bitacora-listado">
       {% for post in site.posts %}
         <article class="entrada">
@@ -119,6 +120,7 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
   </section>
 
   <section class="columna">
+    <h1>Categorías</h1>
 {% for category_names in category_names_array %}
   {% assign category_names_list = category_names | split: "," %}
   {% for category_name in category_names_list %}
@@ -144,6 +146,12 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
 
 
 <style>
+.contenido-limitado{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
 .contenedor-dos-columnas {
   display: grid;
   grid-template-columns: 1fr 1fr;
