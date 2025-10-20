@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexion]
+categories: [Reflexiones]
 tags: [conocimiento-personal, trackers, nutricion, filosofia, salud]
 title: "Conócete a ti mismo y conocerás el universo"
 date: 2025-01-03
