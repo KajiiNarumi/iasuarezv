@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [newsletter]
+categories: [Newsletter]
 tags: [reflexion, semillas, miedo, exito, plenilunio, reporte, novedades]
 title: "Luna, Lunar, Lunática..."
 date: 2025-08-10
