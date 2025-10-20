@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexion]
+categories: [Reflexiones]
 tags: [tecnologia, historia, sociedad, oscurantismo, futuro]
 title: "La Era de \"El destello ciego\""
 date: 2025-05-10
