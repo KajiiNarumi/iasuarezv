@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [reflexion]
+categories: [Reflexion]
 tags: [cambio-de-identidad, navidad, creacion-de-contenido, agradecimiento, comunidad]
 title: "Una carta de Navidad"
 date: 2024-12-15
