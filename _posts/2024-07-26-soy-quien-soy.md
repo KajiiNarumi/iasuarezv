@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [reflexion]
+categories: [Reflexion]
 tags: [identidad, proposito, cambios]
 title: "Soy quien soy"
 date: 2024-07-26
