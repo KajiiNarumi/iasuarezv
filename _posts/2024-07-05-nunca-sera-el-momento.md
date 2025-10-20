@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [reflexion]
+categories: [Reflexion]
 tags: [procrastinacion, motivacion, fracaso, exito]
 title: "Nunca será el momento..."
 date: 2024-07-05
