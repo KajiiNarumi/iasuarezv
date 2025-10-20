@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexion]
+categories: [Reflexiones]
 tags: [blogging, contenido digital, visibilidad, plataformas]
 title: "¿Vale la pena tener un blog en 2024?"
 date: 2024-06-14
