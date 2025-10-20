@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexion]
+categories: [Reflexiones]
 tags: [inteligencia_artificial, tecnologia, sociedad]
 title: "La IA: Un Reflejo de Nosotros Mismos"
 date: 2024-09-25
