@@ -103,9 +103,9 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
 </ul>
 
 
+<div class="contenedor-dos-columnas"> 
+      <section class="columna">
 
-      <section class="contenedor-dos-columnas" >
-<div class="columna"> 
   
     <div class="bitacora-listado">
       {% for post in site.posts %}
@@ -122,13 +122,11 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
     </div>
    </div>
   </section>
-</div>      
 </section>
 
 
 ---
-<section class="contenedor-dos-columnas" >
-<div class="columna"> 
+<section class="columna">
 {% for category_names in category_names_array %}
   {% assign category_names_list = category_names | split: "," %}
   {% for category_name in category_names_list %}
@@ -147,8 +145,10 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
     </section>
   {% endfor %}
 {% endfor %}
-</div>      
+    
 </section>
+
+</div>  
 ---
 
 
