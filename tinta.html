@@ -10,10 +10,10 @@ entries_layout: list
 
   <section class="text-center bloque">
     <div class="contenido-limitado">
-      <h1>Descubrir la otra hoja</h1>
+      <h3>Descubrir la otra hoja</h3>
       <p>Pensamientos en estado bruto: notas sueltas. Semillas de mis textos.</p>
       <p>
-        <a href="/pensamientos/" title="Descubrir pensamientos">Descubrir pensamientos</a>
+        <a href="/pensamientos/" title="Descubrir pensamientos">Descubrir pensamientos</a>  |  
         <a href="/libreta/" title="Descubrir libreta">Descubrir libreta</a>
       </p>
     </div>
@@ -22,26 +22,7 @@ entries_layout: list
 
   <section class="text-center bloque">
     <div class="contenido-limitado">
-    <h1 class="text-center">Escritura creativa</h1>
-    <p class="descripcion">Son los bocetos de mi arte: historias, poemas, relatos. Aquí experimento con temas, estilos y ritmos. <b>¿Por qué en OnlyFans? </b>Porque es la plataforma que me permite sustentar mi arte; las donaciones son el combustible que transforma el caos de mi pensamiento en palabras.
-Son publicaciones en bruto, sin filtros ni censuras de un editor o de una plataforma.</p>
-    <div class="bitacora-listado">
-      {% for cuento in site.data.libreta.cuentos %}
-        <article class="entrada">
-          <h2 class="titulo">
-            <a href="{{ cuento.url }}" target="_blank" rel="noopener">{{ cuento.title }}</a>
-          </h2>
-          <p class="extracto">{{ cuento.desc }}</p>
-        </article>
-      {% endfor %}
-    </div>
-   </div>
-  </section>
-
-
-  <section class="text-center bloque">
-    <div class="contenido-limitado">
-    <h1 class="text-center">Blog</h1>
+    <h1 class="text-center">Mi Tinta</h1>
     <p class="descripcion">Aquí comparto lo más personal, lo más íntimo, pero también aquello que no quiero callar.
 Cuando las semillas de una idea germinan, suelen crecer en publicaciones más extensas, con mayor profundidad… o tal vez en un soliloquio más elaborado.</p>
 
