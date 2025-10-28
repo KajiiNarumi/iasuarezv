@@ -110,42 +110,43 @@ author:
 # Footer Links
 footer_links:
 
+
 - title: Twitch
   url: https://www.twitch.tv/iasuarezv
-  icon: lab la-twitch
+  icon: fab fa-twitch
 
 - title: Ko-fi
   url: https://ko-fi.com/iasuarezv
-  icon: las la-coffee
+  icon: fas fa-coffee
 
 - title: Vero
   url: https://vero.co/iasuarezv
-  icon: las la-bullseye
+  icon: fas fa-v
 
 - title: OnlyFans
   url: https://onlyfans.com/iasuarezv
-  icon: las la-key
+  icon: fas fa-key
 
 - title: PornHub
   url: https://es.pornhub.com/model/vente-y-aprende
-  icon: las la-skull
+  icon: fas fa-exclamation-circle
 
 - title: Substack
   url: https://iasuarezv.substack.com/
-  icon: las la-newspaper
+  icon: fas fa-newspaper
 
 - title: Telegram
   url: https://t.me/s/iASuarezV
-  icon: lab la-telegram-plane
+  icon: fab fa-telegram-plane
 
 - title: WhatsApp
   url: https://whatsapp.com/channel/0029VaAIHNU9hXExhMauPN21
-  icon: lab la-whatsapp
+  icon: fab fa-whatsapp
 
 - title: X
   url: https://x.com/iasuarezv
-  icon: lab la-twitter
+  icon: fab fa-x-twitter
 
 - title: Feed
   url: atom.xml
-  icon: las la-rss
+  icon: fas fa-rss
