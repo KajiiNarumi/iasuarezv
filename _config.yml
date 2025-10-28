@@ -110,44 +110,94 @@ author:
 # Footer Links
 footer_links:
 
-# - title: YouTube
-#   url: https://www.youtube.com/@KajiiNarumi
-#   icon: fab fa-youtube
+
+
+#  - title: YouTube
+
+#    url: https://www.youtube.com/@KajiiNarumi
+
+#    icon: fab fa-youtube
+
 - title: Twitch
+
   url: https://www.twitch.tv/iasuarezv
+
   icon: fab fa-twitch
+
 - title: Ko-fi
+
   url: https://ko-fi.com/iasuarezv
+
   icon: fas fa-coffee
 
+
+
 #- title: Bluesky
+
 #  url: https://bsky.app/profile/iasuarezv.com
+
 #  icon: fas fa-cloud
 
+
+
+
+
 - title: Vero
+
   url: https://vero.co/iasuarezv
-  icon: fas fa-v
+
+  icon: fas fa-heart
+
 - title: OnlyFans
+
   url: https://onlyfans.com/iasuarezv
-  icon: fas fa-key
+
+  icon: fas fa-bullseye
+
+
 
 - title: PornHub
+
   url: https://es.pornhub.com/model/vente-y-aprende
-  icon: fas fa-plus-minus
+
+  icon: fas fa-exclamation-circle
+
+
+
+
 
 - title: Substack
+
   url: https://iasuarezv.substack.com/
+
   icon: fas fa-newspaper
+
 - title: Telegram
+
   url: https://t.me/s/iASuarezV
-  icon: fab fa-telegram-plane
+
+  icon: fab fa-telegram
+
 - title: WhatsApp
+
   url: https://whatsapp.com/channel/0029VaAIHNU9hXExhMauPN21
+
   icon: fab fa-whatsapp
+
 - title: X
+
   url: https://x.com/iasuarezv
-  icon: fab fa-twitter # Se usa 'twitter' para asegurar que el icono se muestre.
+
+  icon: fab fa-twitter
+
+
+
+
+
+
 
 - title: Feed
+
   url: atom.xml
+
   icon: fas fa-rss
