@@ -110,7 +110,6 @@ author:
 # Footer Links
 footer_links:
 
-
 - title: Twitch
   url: https://www.twitch.tv/iasuarezv
   icon: fab fa-twitch
@@ -121,7 +120,7 @@ footer_links:
 
 - title: Vero
   url: https://vero.co/iasuarezv
-  icon: fas fa-v
+  icon: fas fa-bullseye # Ícono que fallaba en la última imagen, pero funcionó al inicio.
 
 - title: OnlyFans
   url: https://onlyfans.com/iasuarezv
@@ -129,7 +128,7 @@ footer_links:
 
 - title: PornHub
   url: https://es.pornhub.com/model/vente-y-aprende
-  icon: fa-solid fa-fire-flame-curved
+  icon: fas fa-exclamation-circle # Ícono que fallaba en la última imagen, pero funcionó al inicio.
 
 - title: Substack
   url: https://iasuarezv.substack.com/
@@ -145,7 +144,7 @@ footer_links:
 
 - title: X
   url: https://x.com/iasuarezv
-  icon: fab fa-x-twitter
+  icon: fab fa-twitter # Usamos el ícono antiguo de Twitter, ya que el tema es antiguo.
 
 - title: Feed
   url: atom.xml
