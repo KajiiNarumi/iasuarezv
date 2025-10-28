@@ -110,94 +110,42 @@ author:
 # Footer Links
 footer_links:
 
-
-
-#  - title: YouTube
-
-#    url: https://www.youtube.com/@KajiiNarumi
-
-#    icon: fab fa-youtube
-
 - title: Twitch
-
   url: https://www.twitch.tv/iasuarezv
-
-  icon: fab fa-twitch
+  icon: lab la-twitch
 
 - title: Ko-fi
-
   url: https://ko-fi.com/iasuarezv
-
-  icon: fas fa-coffee
-
-
-
-#- title: Bluesky
-
-#  url: https://bsky.app/profile/iasuarezv.com
-
-#  icon: fas fa-cloud
-
-
-
-
+  icon: las la-coffee
 
 - title: Vero
-
   url: https://vero.co/iasuarezv
-
-  icon: fas fa-heart
+  icon: las la-bullseye
 
 - title: OnlyFans
-
   url: https://onlyfans.com/iasuarezv
-
-  icon: fas fa-bullseye
-
-
+  icon: las la-key
 
 - title: PornHub
-
   url: https://es.pornhub.com/model/vente-y-aprende
-
-  icon: fas fa-exclamation-circle
-
-
-
-
+  icon: las la-skull
 
 - title: Substack
-
   url: https://iasuarezv.substack.com/
-
-  icon: fas fa-newspaper
+  icon: las la-newspaper
 
 - title: Telegram
-
   url: https://t.me/s/iASuarezV
-
-  icon: fab fa-telegram
+  icon: lab la-telegram-plane
 
 - title: WhatsApp
-
   url: https://whatsapp.com/channel/0029VaAIHNU9hXExhMauPN21
-
-  icon: fab fa-whatsapp
+  icon: lab la-whatsapp
 
 - title: X
-
   url: https://x.com/iasuarezv
-
-  icon: fab fa-twitter
-
-
-
-
-
-
+  icon: lab la-twitter
 
 - title: Feed
-
   url: atom.xml
-
-  icon: fas fa-rss
+  icon: las la-rss
