@@ -120,16 +120,16 @@ footer_links:
 
 - title: Vero
   url: https://vero.co/iasuarezv
-  icon: fas fa-bullseye # Ícono que fallaba en la última imagen, pero funcionó al inicio.
+  icon: fas fa-camera
 
 - title: OnlyFans
   url: https://onlyfans.com/iasuarezv
-  icon: fas fa-key
+  icon: fas fa-heart
 
 - title: PornHub
   url: https://es.pornhub.com/model/vente-y-aprende
-  icon: fas fa-exclamation-circle # Ícono que fallaba en la última imagen, pero funcionó al inicio.
-
+  icon: fas fa-fire
+  
 - title: Substack
   url: https://iasuarezv.substack.com/
   icon: fas fa-newspaper
