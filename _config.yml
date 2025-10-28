@@ -116,15 +116,18 @@ footer_links:
 - title: Twitch
   url: https://www.twitch.tv/iasuarezv
   icon: fab fa-twitch
+- title: Ko-fi
+  url: https://ko-fi.com/iasuarezv
+  icon: fas fa-coffee
 - title: Telegram
   url: https://t.me/s/iASuarezV
   icon: fab fa-telegram
 - title: WhatsApp
   url: https://whatsapp.com/channel/0029VaAIHNU9hXExhMauPN21
   icon: fab fa-whatsapp
-- title: Bluesky
-  url: https://bsky.app/profile/iasuarezv.com
-  icon: fas fa-cloud
+#- title: Bluesky
+#  url: https://bsky.app/profile/iasuarezv.com
+#  icon: fas fa-cloud
 - title: X
   url: https://x.com/iasuarezv
   icon: fab fa-twitter
@@ -134,14 +137,6 @@ footer_links:
   url: atom.xml
   icon: fas fa-rss
 
-
-- title: Twitch
-  url: https://www.twitch.tv/iasuarezv
-  icon: fab fa-twitch
-
-- title: Ko-fi
-  url: https://ko-fi.com/iasuarezv
-  icon: fas fa-coffee
 
 - title: OnlyFans
   url: https://onlyfans.com/iasuarezv
@@ -157,8 +152,8 @@ footer_links:
 
 - title: Vero
   url: https://vero.co/iasuarezv
-  icon: fas fa-circle-v
+  icon: fas fa-bullseye
 
 - title: X
   url: https://x.com/IASuarezV
-  icon: fab fa-square-x-twitter
+  icon: fab fa-twitter
