@@ -119,23 +119,15 @@ footer_links:
 - title: Ko-fi
   url: https://ko-fi.com/iasuarezv
   icon: fas fa-coffee
-- title: Telegram
-  url: https://t.me/s/iASuarezV
-  icon: fab fa-telegram
-- title: WhatsApp
-  url: https://whatsapp.com/channel/0029VaAIHNU9hXExhMauPN21
-  icon: fab fa-whatsapp
+
 #- title: Bluesky
 #  url: https://bsky.app/profile/iasuarezv.com
 #  icon: fas fa-cloud
-- title: X
-  url: https://x.com/iasuarezv
-  icon: fab fa-twitter
 
 
-- title: Feed
-  url: atom.xml
-  icon: fas fa-rss
+- title: Vero
+  url: https://vero.co/iasuarezv
+  icon: fas fa-bullseye
 
 
 - title: OnlyFans
@@ -146,14 +138,23 @@ footer_links:
   url: https://es.pornhub.com/model/vente-y-aprende
   icon: fas fa-exclamation-circle
 
+
 - title: Substack
   url: https://iasuarezv.substack.com/
   icon: fas fa-newspaper
-
-- title: Vero
-  url: https://vero.co/iasuarezv
-  icon: fas fa-bullseye
-
+- title: Telegram
+  url: https://t.me/s/iASuarezV
+  icon: fab fa-telegram
+- title: WhatsApp
+  url: https://whatsapp.com/channel/0029VaAIHNU9hXExhMauPN21
+  icon: fab fa-whatsapp
 - title: X
-  url: https://x.com/IASuarezV
+  url: https://x.com/iasuarezv
   icon: fab fa-twitter
+
+
+
+- title: Feed
+  url: atom.xml
+  icon: fas fa-rss
+  
