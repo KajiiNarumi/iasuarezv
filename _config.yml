@@ -110,49 +110,50 @@ author:
 # Footer Links
 footer_links:
 
-#  - title: YouTube
-#    url: https://www.youtube.com/@KajiiNarumi
-#    icon: fab fa-youtube
+# - title: YouTube
+#   url: https://www.youtube.com/@KajiiNarumi
+#   icon: fab fa-youtube
+
 - title: Twitch
   url: https://www.twitch.tv/iasuarezv
   icon: fab fa-twitch
+
 - title: Ko-fi
   url: https://ko-fi.com/iasuarezv
   icon: fas fa-coffee
 
-#- title: Bluesky
-#  url: https://bsky.app/profile/iasuarezv.com
-#  icon: fas fa-cloud
-
+# - title: Bluesky
+#   url: https://bsky.app/profile/iasuarezv.com
+#   icon: fas fa-cloud
 
 - title: Vero
   url: https://vero.co/iasuarezv
-  icon: fas fa-heart
+  icon: fas fa-bullseye       # Ojo de buey (Similar al logo de Vero)
+
 - title: OnlyFans
   url: https://onlyfans.com/iasuarezv
-  icon: fas fa-bullseye
+  icon: fas fa-key             # Llave (Símbolo universal de contenido exclusivo/Premium)
 
 - title: PornHub
   url: https://es.pornhub.com/model/vente-y-aprende
-  icon: fas fa-exclamation-circle
-
+  icon: fas fa-exclamation-circle # Advertencia/Contenido Adulto
 
 - title: Substack
   url: https://iasuarezv.substack.com/
-  icon: fas fa-newspaper
+  icon: fas fa-newspaper      # Símbolo de publicación/newsletter
+
 - title: Telegram
   url: https://t.me/s/iASuarezV
-  icon: fab fa-telegram
+  icon: fab fa-telegram-plane # Usa fa-telegram-plane (el avión)
+
 - title: WhatsApp
   url: https://whatsapp.com/channel/0029VaAIHNU9hXExhMauPN21
   icon: fab fa-whatsapp
+
 - title: X
   url: https://x.com/iasuarezv
-  icon: fab fa-twitter
-
-
+  icon: fab fa-x-twitter       # El logo oficial de "X". Si falla, usa fab fa-twitter.
 
 - title: Feed
   url: atom.xml
   icon: fas fa-rss
-  
