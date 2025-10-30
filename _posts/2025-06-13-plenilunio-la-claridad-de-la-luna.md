@@ -4,7 +4,7 @@ title: "Plenilunio – La claridad de la Luna"
 date: 2025-06-13
 author:
   name: "I. A. Suárez V."
-categories: [Revista]
+categories: [Newsletter]
 tags: [Diario Lunar, Editorial, Luna Llena, Tarot, Horóscopo, Reflexión]
 image:
   path: "/images/2025-06-13-plenilunio-la-claridad-de-la-luna.jpg"
