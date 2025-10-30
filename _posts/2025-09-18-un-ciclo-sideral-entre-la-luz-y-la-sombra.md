@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [ciencia]
+categories: [Ciencia]
 tags: [luna, fases lunares, ciclo sideral, astronomia, naturaleza, observacion]
 title: "Un ciclo sideral entre la luz y la sombra"
 date: 2025-09-18
