@@ -4,7 +4,7 @@ title: "Novilunio – Un nuevo ciclo comienza"
 date: 2025-06-25
 author:
   name: "I. A. Suárez V."
-categories: [Revista]
+categories: [Newsletter]
 tags: [Diario Lunar, Editorial, Luna Nueva, Reflexión, Escritura]
 image:
   path: "/images/2025-06-25-novilunio-un-nuevo-ciclo-comienza.jpg"
