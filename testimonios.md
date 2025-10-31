@@ -63,6 +63,9 @@ Independientemente de lo que pasó como pareja, en la cama… era otra historia.
 ---
 ### Otros testimonios 
 
+#### **Adrian**  
+*Lectura oracular*  
+Kaji es increíble. Sus lecturas son muy acertadas y siempre te dice las cosas con claridad y buena vibra. Me ayudó a entender mucho sobre mí y lo que estoy viviendo. Súper recomendado.
 
 ### **Kymi Chibi**  
 *Asistencia informática*  
