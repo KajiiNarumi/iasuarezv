@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Últimas Publicaciones | Kajii Narumi</title>
+
+    <style>
+        body {
+            background-color: #0e0e0e;
+            color: #e0e0e0;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .post {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .post-title {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .post-title a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .post-title a:hover {
+            text-decoration: underline;
+        }
+
+        .date {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .excerpt {
+            font-size: 16px;
+            color: #c8c8c8;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Últimas publicaciones del Blog</h1>
+    <div id="feed"></div>
+</div>
+
+<script>
+const FEED_URL = "https://codigokajiinarumi.blogspot.com/feeds/posts/default?alt=json&max-results=3";
+
+fetch(FEED_URL)
+    .then(response => response.json())
+    .then(data => {
+        const entries = data.feed.entry;
+        const container = document.getElementById("feed");
+
+        entries.forEach(entry => {
+            const title = entry.title.$t;
+            const link = entry.link.find(l => l.rel === "alternate").href;
+            const published = new Date(entry.published.$t).toLocaleDateString("es-MX");
+            const excerpt = entry.summary ? entry.summary.$t : "";
+
+            const html = `
+                <div class="post">
+                    <div class="post-title">
+                        <a href="${link}" target="_blank">${title}</a>
+                    </div>
+                    <div class="date">${published}</div>
+                    <div class="excerpt">${excerpt}</div>
+                </div>
+            `;
+
+            container.innerHTML += html;
+        });
+    })
+    .catch(err => {
+        document.getElementById("feed").innerHTML =
+            "<p>No se pudo cargar el feed. Inténtalo más tarde.</p>";
+    });
+</script>
+
+</body>
+</html>
