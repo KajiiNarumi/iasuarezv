@@ -59,6 +59,31 @@
             color: #aaa;
             font-family: 'Inter', sans-serif;
         }
+
+        .kn-readmore-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.kn-readmore-btn {
+  display: inline-block;
+  padding: 10px 22px;
+  border: 2px solid #333; /* gris oscuro */
+  background: rgba(0, 0, 0, 0.4); /* negro semi-transparente */
+  color: #fff; /* texto blanco */
+  text-decoration: none;
+  font-family: "Suisse Intl", sans-serif;
+  font-size: 15px;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+
+.kn-readmore-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #555;
+  transform: translateY(-2px);
+}
+
     </style>
 </head>
 
@@ -95,6 +120,11 @@ const script = document.createElement('script');
 script.src = "https://codigokajiinarumi.blogspot.com/feeds/posts/default?alt=json-in-script&max-results=3&callback=parseFeed";
 document.body.appendChild(script);
 </script>
+<div class="kn-readmore-container">
+  <a href="https://codigokajiinarumi.blogspot.com/" target="_blank" class="kn-readmore-btn">
+    Leer más
+  </a>
+</div>
 
 </body>
 </html>
