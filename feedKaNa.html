@@ -1,69 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Últimas publicaciones</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Fuente Alice -->
+    <!-- Alice & Suisse Intl -->
     <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet"> <!-- Usaremos Inter como equivalente cercano a Suisse Intl -->
 
     <style>
         body {
             background-color: #000;
             color: #fff;
-            font-family: 'Alice', serif;
             margin: 0;
             padding: 40px;
+            font-family: 'Inter', sans-serif;
             display: flex;
             justify-content: center;
         }
 
         .container {
-            max-width: 700px;
             width: 100%;
+            max-width: 650px;
         }
 
         h1 {
-            font-size: 32px;
-            margin-bottom: 30px;
+            font-family: 'Alice', serif;
+            font-size: 30px;
             font-weight: normal;
+            margin-bottom: 30px;
         }
 
         .post {
-            margin-bottom: 35px;
-            padding-bottom: 20px;
+            margin-bottom: 28px;
+            padding-bottom: 18px;
             border-bottom: 1px solid #333;
+        }
+
+        .post-title {
+            font-family: 'Alice', serif;
+            font-size: 22px;
+            margin-bottom: 4px;
         }
 
         .post-title a {
             color: #fff;
-            font-size: 22px;
             text-decoration: none;
         }
 
         .post-title a:hover {
-            text-decoration: underline;
+            opacity: 0.8;
         }
 
         .date {
+            font-size: 13px;
+            margin-top: 0;
             color: #aaa;
-            font-size: 14px;
-            margin: 8px 0;
-        }
-
-        .excerpt {
-            font-size: 17px;
-            color: #ddd;
+            font-family: 'Inter', sans-serif;
         }
     </style>
 </head>
 
 <body>
-<div class="container">
-    <h1>Últimas publicaciones</h1>
-    <div id="feed"></div>
-</div>
+    <div class="container">
+        <h1>Últimas publicaciones</h1>
+        <div id="feed"></div>
+    </div>
 
 <script>
 // JSONP callback
@@ -75,15 +77,11 @@ function parseFeed(json) {
         const title = entry.title.$t;
         const link = entry.link.find(l => l.rel === "alternate").href;
         const published = new Date(entry.published.$t).toLocaleDateString("es-MX");
-        const excerpt = entry.summary ? entry.summary.$t : "";
 
         const html = `
             <div class="post">
-                <div class="post-title">
-                    <a href="${link}" target="_blank">${title}</a>
-                </div>
+                <div class="post-title"><a href="${link}" target="_blank">${title}</a></div>
                 <div class="date">${published}</div>
-                <div class="excerpt">${excerpt}</div>
             </div>
         `;
 
@@ -91,7 +89,7 @@ function parseFeed(json) {
     });
 }
 
-// Inserta dinámicamente el script JSONP
+// Insert JSONP script
 const script = document.createElement('script');
 script.src = "https://codigokajiinarumi.blogspot.com/feeds/posts/default?alt=json-in-script&max-results=3&callback=parseFeed";
 document.body.appendChild(script);
