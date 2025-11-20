@@ -20,9 +20,6 @@ excerpt: "Una reflexión sobre la frase del templo de Apolo y cómo los trackers
 
 ¡Feliz Año Nuevo! Espero que este año sea próspero y lleno de abundancia para ti. En serio, muchas gracias por seguir apoyándome en mis redes un año más; realmente lo aprecio muchísimo. Pero por ahora, vamos al grano.
 
-
-En el templo de Apolo en Delfos Estaba inscrita la frase "Conócete a ti mismo y conocerás el universo y a los dioses" hay debate de realmente quien es el autor real de la frase, se sugiere que fueron: Heráclito, Quilón de Esparta, Tales de Mileto, Sócrates, Pitágoras o al propio dios Apolo​. Imagen creada con IA
-
 Esto iba a ser un comentario-respuesta a un newsletter de 
 
 [Cerebro Errante](https://open.substack.com/users/115197612-cerebro-errante?utm_source=mentions)
