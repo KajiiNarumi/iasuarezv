@@ -134,9 +134,9 @@ footer_links:
   url: https://iasuarezv.substack.com/
   icon: fas fa-newspaper
 
-- title: Telegram
-  url: https://t.me/s/iASuarezV
-  icon: fab fa-telegram-plane
+#- title: Telegram
+#  url: https://t.me/s/iASuarezV
+#  icon: fab fa-telegram-plane
 
 - title: WhatsApp
   url: https://whatsapp.com/channel/0029VaAIHNU9hXExhMauPN21
