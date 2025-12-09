@@ -7,85 +7,15 @@ show_excerpts: true
 entries_layout: list
 ---
 
-
   <section class="text-center bloque">
     <div class="contenido-limitado">
-      <h3>Descubrir la otra hoja</h3>
-      <p>Pensamientos en estado bruto: notas sueltas. Semillas de mis textos.</p>
-      <p>
-        <a href="/pensamientos/" title="Descubrir pensamientos">Descubrir pensamientos</a>  |  
-        <a href="/libreta/" title="Descubrir libreta">Descubrir libreta</a>
-      </p>
-    </div>
-  </section>
-
-
-  <section class="text-center bloque">
-    <div class="contenido-limitado">
-    <h1 class="text-center">Mi Tinta</h1>
     <p class="descripcion">Aquí comparto lo más personal, lo más íntimo, pero también aquello que no quiero callar.
 Cuando las semillas de una idea germinan, suelen crecer en publicaciones más extensas, con mayor profundidad… o tal vez en un soliloquio más elaborado.</p>
-
-{% assign categories_max = 0 %}
-{% for category in site.categories %}
-  {% if category[1].size > categories_max %}
-    {% assign categories_max = category[1].size %}
-  {% endif %}
-{% endfor %}
-
-{% assign category_names_array = "" %}
-{% assign category_counts = "" %}
-{% assign first_array_element = true %}
-{% for i in (1..categories_max) reversed %}
-  {% assign category_names = "" %}
-  {% assign first_category = true %}
-
-  {% for category in site.categories %}
-    {% if category[1].size == i %}
-      {% if first_category %}
-        {% assign first_category = false %}
-      {% else %}
-        {% assign category_names = category_names | append: "," %}
-      {% endif %}
-      {% assign category_names = category_names | append: category[0] %}
-    {% endif %}
-  {% endfor %}
-
-  {% if category_names != "" %}
-    {% assign category_names = category_names | split: "," | sort | join: "," %}
-
-    {% if first_array_element %}
-      {% assign first_array_element = false %}
-    {% else %}
-      {% assign category_names_array = category_names_array | append: "|" %}
-      {% assign category_counts = category_counts | append: "|" %}
-    {% endif %}
-    {% assign category_names_array = category_names_array | append: category_names %}
-    {% assign category_counts = category_counts | append: i %}
-  {% endif %}
-{% endfor %}
-
-{% assign category_names_array = category_names_array | split: "|" %}
-{% assign category_counts = category_counts | split: "|" %}
-
-<ul id="page-title" class="taxonomy-index">
-  {% for category_names in category_names_array %}
-    {% assign category_names_list = category_names | split: "," %}
-    {% assign category_count = category_counts[forloop.index0] %}
-    {% for category_name in category_names_list %}
-      <li>
-        <a href="#{{ category_name | slugify }}">
-          <strong>{{ category_name }}</strong> <span class="taxonomy-count">{{ category_count }}</span>
-        </a>
-      </li>
-    {% endfor %}
-  {% endfor %}
-</ul>
 </div>
 </section>
 
-<div class="contenedor-dos-columnas">
-  <section class="columna">
+
+ <section class="columna">
         <h1>Recientes</h1>
     <div class="bitacora-listado">
       {% for post in site.posts %}
@@ -100,30 +30,6 @@ Cuando las semillas de una idea germinan, suelen crecer en publicaciones más ex
     </div>
   </section>
 
-  <section class="columna">
-    <h1>Categorías</h1>
-<div class="linea-divisoria"></div>
-{% for category_names in category_names_array %}
-  {% assign category_names_list = category_names | split: "," %}
-  {% for category_name in category_names_list %}
-    <section id="{{ category_name | slugify | downcase }}" class="taxonomy-section">
-      <h2 class="taxonomy-title">{{ category_name }}</h2>
-      {% for category in site.categories %}
-        {% if category[0] == category_name %}
-          <div class="entries-{{ page.entries_layout | default: 'list' }}">
-            {% for entry in category.last %}
-              {% include entry.html %}
-            {% endfor %}
-          </div>
-        {% endif %}
-      {% endfor %}
-      <a href="#page-title" class="back-to-top">{{ site.data.text[site.locale].back_to_top | default: 'Back to Top' }} &uarr;</a>
-    </section>
-  {% endfor %}
-{% endfor %}
-  </section>
-  
-</div>  
 ---
 
 
