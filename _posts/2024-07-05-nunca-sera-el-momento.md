@@ -2,14 +2,11 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexiones]
-tags: [procrastinacion, motivacion, fracaso, exito]
 title: "Nunca será el momento..."
 date: 2024-07-05
 image:
   path: /images/2024-07-05-nunca-sera-el-momento.jpg
   caption: "Foto de Patrick Schneider en Unsplash"
-image_alt: "Mujer de espaldas en medio de un desierto de dunas"
 excerpt: "¿Cuándo será el momento perfecto para hacer lo que sueñas? Una reflexión sobre el miedo a fallar, los impulsos, y cómo dejar de esperar para volver a intentarlo."
 ---
 
