@@ -31,6 +31,8 @@ function renderIssues(issues) {
       html += `
       <div class="note-issue" style="border:1px solid #eee; padding:1em; margin-bottom:2em;">
         <div>
+          <img src="${issue.user.avatar_url}" alt="${issue.user.login}" style="width:32px;border-radius:50%;vertical-align:middle;">
+          <strong>${escapeHtml(issue.user.login)}</strong>
           <span style="color:#888;">${new Date(issue.created_at).toLocaleString()}</span>
         </div>
         <h3 style="margin-top:0.5em;">${escapeHtml(issue.title)}</h3>
