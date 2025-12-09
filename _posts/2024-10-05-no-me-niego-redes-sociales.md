@@ -2,14 +2,11 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexiones]
-tags: [redes-sociales, identidad, minimalismo-digital, comunicacion]
 title: "No me niego a usar redes sociales, pero..."
 date: 2024-10-05
 image:
   path: /images/2024-10-05-no-me-niego-redes-sociales.jpg
   caption: "Imagen creada por I. Antoine Suárez V."
-image_alt: "Dibujo de un smartphone con una línea roja en modo de tache"
 excerpt: "No me niego a usar redes sociales, pero tampoco quiero usarlas solo porque todos lo hacen. Aquí explico con cuáles me quedo, por qué, y cómo prefiero relacionarme en internet."
 ---
 
