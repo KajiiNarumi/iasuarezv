@@ -1,7 +1,6 @@
 ---
 layout: post
-author:
-  name: "I. Antoine Suárez V."
+author: "I. Antoine Suárez V."
 title: "Ojos que no ven, corazón que no siente"
 date: 2025-09-18
 image:
