@@ -2,14 +2,11 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexiones]
-tags: [identidad, proposito, cambios]
 title: "Soy quien soy"
 date: 2024-07-26
 image:
   path: /images/2024-07-26-soy-quien-soy.jpg
   caption: "Foto de Monika Pejkovska en Unsplash"
-image_alt: "Foto en blanco y negro de una cúpula de cristal vista desde abajo con una escalera de caracol alrededor"
 excerpt: "Reflexión sobre la identidad y el cambio: cómo saber si estás en el camino correcto y si vale la pena continuar o redirigir tus esfuerzos."
 ---
 
