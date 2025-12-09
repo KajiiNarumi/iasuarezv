@@ -7,14 +7,12 @@ permalink: /gotas/
 <div id="github-issues-feed">Cargando notas...</div>
 <div id="github-pagination" style="margin-top:2em;"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
 <script>
 const repo = "KajiiNarumi/iasuarezv";
 const perPage = 10;
 let currentPage = 1;
-let isLoading = false; // Bloquea múltiples llamadas a la API
-let hasMore = true;   // Indica si quedan más páginas por cargar
+let isLoading = false; // Bandera para evitar múltiples cargas
+let hasMore = true;   // Bandera para saber si hay más páginas disponibles
 
 // --- Elementos del DOM ---
 const feedElement = document.getElementById('github-issues-feed');
@@ -48,7 +46,7 @@ function renderIssues(issues, append = false) {
         <span style="color:#888;">${new Date(issue.created_at).toLocaleString()}</span>
       </div>
       <h3 style="margin-top:0.5em;">${escapeHtml(issue.title)}</h3>
-      <div>${issue.body ? marked.parse(issue.body) : ""}</div> 
+      <div>${issue.body ? escapeHtml(issue.body).replace(/\n/g,"<br>") : ""}</div>
       <div style="margin-top:1em;">
         <a href="${issue.html_url}" target="_blank">Comentar en GitHub</a>
       </div>
@@ -71,7 +69,7 @@ function renderIssues(issues, append = false) {
               <img src="${comment.user.avatar_url}" alt="${comment.user.login}" style="width:24px;border-radius:50%;vertical-align:middle;">
               <strong>${escapeHtml(comment.user.login)}</strong>
               <span style="color:#999;">${new Date(comment.created_at).toLocaleString()}</span>
-              <div>${marked.parse(comment.body)}</div> 
+              <div>${escapeHtml(comment.body).replace(/\n/g,"<br>")}</div>
             </li>`;
           });
           commentHtml += "</ul>";
@@ -81,10 +79,8 @@ function renderIssues(issues, append = false) {
   });
 
   if (append) {
-    // Si estamos cargando la siguiente página, añadimos al final
     feedElement.insertAdjacentHTML('beforeend', html);
   } else {
-    // Si es la primera carga, reemplazamos el contenido
     feedElement.innerHTML = html;
   }
 }
@@ -100,13 +96,14 @@ function updateLoadMoreButton() {
         } else {
             loadMoreBtn.innerText = "Fin de las notas.";
             loadMoreBtn.disabled = true;
+            // Opcional: Ocultar completamente el botón si prefieres que no haya mensaje al final
+            // loadMoreBtn.style.display = 'none'; 
         }
     }
 }
 
 function loadIssues(page, append = false) {
-  // Evita doble carga o cargar si ya no hay más contenido
-  if (isLoading || (append && !hasMore)) return; 
+  if (isLoading || (append && !hasMore)) return; // Evita doble carga o cargar si ya no hay más
 
   isLoading = true;
   updateLoadMoreButton();
@@ -115,7 +112,7 @@ function loadIssues(page, append = false) {
     currentPage = page;
   }
 
-  // Muestra el mensaje de carga solo en la primera petición
+  // Solo mostramos el mensaje de "Cargando notas..." si es la primera carga (no appending)
   if (!append) {
     feedElement.innerHTML = "Cargando notas...";
   }
@@ -126,16 +123,15 @@ function loadIssues(page, append = false) {
       isLoading = false;
       renderIssues(issues, append);
 
-      // Si el número de issues cargados es menor que el máximo por página, ya no hay más
+      // Determina si hay más notas para la siguiente página
       hasMore = issues.length === perPage;
       updateLoadMoreButton();
     })
     .catch(error => {
         isLoading = false;
-        hasMore = false;
+        hasMore = false; // Asume que no hay más si hubo un error
         updateLoadMoreButton();
         console.error("Error al cargar issues:", error);
-        feedElement.innerHTML = "<p>Ocurrió un error al intentar cargar las notas. Intenta recargar la página.</p>";
     });
 }
 
@@ -143,10 +139,10 @@ function loadIssues(page, append = false) {
 // Lógica de Scroll Infinito Automático
 // ------------------------------------------
 window.addEventListener('scroll', () => {
-    // Umbral de 500px antes del final de la página
+    // Definimos el umbral: 500px antes de llegar al final de la página
     const scrollThreshold = 500; 
     
-    // Verifica si estamos cerca del final
+    // Calcula si la posición de scroll está cerca del fondo
     const nearBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - scrollThreshold);
 
     // Si estamos cerca del fondo, no estamos cargando, y hay más contenido, cargamos la siguiente página
@@ -155,21 +151,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// ------------------------------------------
-// SOLUCIÓN AL ERROR DE CARGA (Importante)
-// ------------------------------------------
-// Aseguramos que la primera carga se haga SOLO cuando la página esté lista 
-// y la librería 'marked.js' se haya cargado completamente.
+// Inicializa la primera carga
 window.loadIssues = loadIssues;
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Verificar que 'marked.parse' exista antes de iniciar la carga
-    if (typeof marked !== 'undefined' && marked.parse) {
-        loadIssues(1);
-    } else {
-        console.error("Error: marked.js no se cargó correctamente.");
-        feedElement.innerHTML = "<p>Error: No se pudo cargar el módulo de formato de texto (Markdown). Verifica la conexión a Internet.</p>";
-        loadMoreBtn.style.display = 'none';
-    }
-});
+loadIssues(1);
 </script>
