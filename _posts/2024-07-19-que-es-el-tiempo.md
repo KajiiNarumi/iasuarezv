@@ -2,14 +2,11 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexiones]
-tags: [tiempo, percepcion, filosofia]
 title: "¿Qué es el tiempo?"
 date: 2024-07-19
 image:
   path: /images/2024-07-19-que-es-el-tiempo.jpg
   caption: "Foto de Alex Gruber en Unsplash"
-image_alt: "Foto de reloj de arena antiguo"
 excerpt: "¿Qué es el tiempo y cómo afecta nuestras decisiones? Una reflexión filosófica que cuestiona si realmente podemos administrarlo o simplemente debemos aprender a vivirlo."
 ---
 
