@@ -19,7 +19,7 @@ Claro, tras escuchar semejante estruendo, decidí incorporarme de las profundida
 
 El punto es que, tras abrir la puerta, me encontré con una bella doncella con uniforme de enfermera. Por un momento me pregunté si solo había despertado de un sueño para entrar a otro con una temática mucho más pícara, pero semejante ilusión se rompió cuando escuché: “Bla, bla, bla, venimos vacunando…” Entonces fue cuando descubrí que eso ya no era la ilusión de un bello sueño, más bien, parecía la pesadilla de algún cuento maquinado por Stephen King.  
 
-Como muchos saben, Don Kajii es todo un caballero y, obviamente, no iba a dejar allí parada a la desprotegida damisela. Así que le brindé acceso y le ofrecí algo para saciar su sed, pese a la tortura que tenía en mente hacerme pasar, de la cual yo ya era consciente. Y como todo un macho alfa, lomo plateado, pelo en pecho, barba de leñador y voz de guerrero jaguar, decidí aceptar semejante atrocidad.
+Como muchos saben, Don Antoine es todo un caballero y, obviamente, no iba a dejar allí parada a la desprotegida damisela. Así que le brindé acceso y le ofrecí algo para saciar su sed, pese a la tortura que tenía en mente hacerme pasar, de la cual yo ya era consciente. Y como todo un macho alfa, lomo plateado, pelo en pecho, barba de leñador y voz de guerrero jaguar, decidí aceptar semejante atrocidad.
 
 Empezó a revelarme su despiadado plan de tortura, mostrándome en el proceso los utensilios que utilizaría para efectuarlo. Me mostró el estado en que se encontraba ese veneno que introduciría en mi pobre ser, incluso hasta mencionó los malestares que presentaría al terminar: cómo iba a estar agonizando durante los próximos días con fiebre, alucinaciones, cansancio, mareo, sed…
 
