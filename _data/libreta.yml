@@ -1,3 +1,114 @@
+---
+layout: page
+title: "Mi tinta, donde las palabras se vuelven caricias para el alma"
+---
+
+<main class="perfil">
+
+  <section class="text-center bloque">
+    <div class="contenido-limitado">
+      <h1>Mi Libreta</h1>
+      <p>Donde mis gritos, mis susurros, mi silencio, se transforman en voz escrita.</p>
+    </div>
+  </section>
+
+  <section class="bloque text-left">
+    <div class="contenido-limitado">
+      <h3>Cuentos en OnlyFans</h3>
+      <p>Relatos íntimos y sinceros que exploran la complejidad del ser humano: el amor, el dolor, la esperanza y la búsqueda de identidad. Fragmentos que entrelazan cuerpo, mente y espíritu a través de historias poéticas, reales y conmovedoras.</p>
+      <ul>
+        {% for cuento in site.data.libreta.cuentos %}
+          <li>
+            <a href="{{ cuento.url }}" target="_blank" rel="noopener">{{ cuento.title }}</a><br>
+            <small>{{ cuento.desc }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <section class="bloque text-right">
+    <div class="contenido-limitado">
+      <h3>Podcasts en OnlyFans</h3>
+      <p>Espacios de reflexión crítica, humor y análisis sobre la vida cotidiana, la sociedad y los conceptos que moldean nuestro entendimiento. Voces que cuestionan y acompañan con ironía, profundidad y una mirada auténtica.</p>
+      <ul>
+        {% for podcast in site.data.libreta.podcasts %}
+          <li>
+            <a href="{{ podcast.url }}" target="_blank" rel="noopener">{{ podcast.title }}</a><br>
+            <small>{{ podcast.desc }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <section class="bloque text-center">
+    <div class="contenido-limitado">
+      <h3>Revista en Ko-fi</h3>
+      <p>Publicación mensual que acompaña los ciclos lunares con reflexiones, narrativa simbólica, lecturas de tarot y relatos introspectivos. Un viaje íntimo y provocador para quienes buscan conexión y autoconocimiento.</p>
+      <ul>
+        {% for revista in site.data.libreta.revista %}
+          <li>
+            <a href="{{ revista.url }}" target="_blank" rel="noopener">{{ revista.title }}</a><br>
+            <small>{{ revista.desc }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+
+<style>
+  .perfil {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .bloque {
+    border-top: 1px solid #444;
+    padding-top: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .bloque:first-of-type {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  /* Ajuste del límite según alineación */
+  .text-left .contenido-limitado {
+    max-width: 90%;
+    margin-left: 0;
+    margin-right: 10%;
+  }
+
+  .text-right .contenido-limitado {
+    max-width: 90%;
+    margin-left: 10%;
+    margin-right: 0;
+  }
+
+  .text-center .contenido-limitado {
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  ul, ol {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+</style>
+
+
+
+(Esto es lo que se pone en la otra pagina para poder ver las listas)
+
+
 
 cuentos:
   - title: "Un año dicho a pedazos"
