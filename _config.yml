@@ -96,6 +96,20 @@ defaults:
       layout: post
       share: true
 
+  # Valores por defecto para la colección de Cuentos
+  - scope:
+      path: "_cuentos"
+      type: cuentos
+    values:
+      layout: post   # <-- Usamos el mismo layout 'post'
+      share: true
+
+# Colecciones extras
+collections:
+  cuentos:
+    output: true
+    permalink: /:title/   
+
 # Site Author
 author:
   name: I. Antoine Suárez V.
