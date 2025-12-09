@@ -110,42 +110,47 @@ author:
 # Footer Links
 footer_links:
 
-- title: Twitch
-  url: https://www.twitch.tv/iasuarezv
-  icon: fab fa-twitch
+#- title: Twitch
+#  url: https://www.twitch.tv/iasuarezv
+#  icon: fab fa-twitch
 
-- title: Ko-fi
-  url: https://ko-fi.com/iasuarezv
-  icon: fas fa-coffee
+#- title: Ko-fi
+#  url: https://ko-fi.com/iasuarezv
+#  icon: fas fa-coffee
 
-- title: Vero
-  url: https://vero.co/iasuarezv
-  icon: fas fa-leaf
+#- title: Vero
+#  url: https://vero.co/iasuarezv
+#  icon: fas fa-leaf
 
-- title: OnlyFans
-  url: https://onlyfans.com/iasuarezv
-  icon: fas fa-unlock-alt
+#- title: OnlyFans
+#  url: https://onlyfans.com/iasuarezv
+#  icon: fas fa-unlock-alt
 
 # - title: PornHub
 #  url: https://es.pornhub.com/model/antuansv
 #  icon: fas fa-fire
   
-- title: Substack
-  url: https://iasuarezv.substack.com/
-  icon: fas fa-newspaper
+#- title: Substack
+#  url: https://iasuarezv.substack.com/
+#  icon: fas fa-newspaper
 
 #- title: Telegram
 #  url: https://t.me/s/iASuarezV
 #  icon: fab fa-telegram-plane
 
-- title: WhatsApp
-  url: https://whatsapp.com/channel/0029VaAIHNU9hXExhMauPN21
-  icon: fab fa-whatsapp
+# - title: WhatsApp
+#  url: https://whatsapp.com/channel/0029VaAIHNU9hXExhMauPN21
+#  icon: fab fa-whatsapp
 
-- title: X
-  url: https://x.com/iasuarezv
-  icon: fab fa-twitter # Usamos el ícono antiguo de Twitter, ya que el tema es antiguo.
+# - title: X
+#   url: https://x.com/iasuarezv
+#  icon: fab fa-twitter # Usamos el ícono antiguo de Twitter, ya que el tema es antiguo.
+
+- title: Enlaces
+  url: https://iasuarezv.com/card
 
 - title: Feed
   url: atom.xml
   icon: fas fa-rss
+
+
