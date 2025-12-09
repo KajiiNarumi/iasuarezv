@@ -2,14 +2,11 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexiones]
-tags: [vida, perspectiva, crecimiento, emociones]
 title: "Una visión de pájaro"
 date: 2024-06-28
 image:
   path: /images/2024-06-28-una-vision-de-pajaro.jpg
   caption: "Foto de Demi Kwant en Unsplash"
-image_alt: "Fotografía de una flor blanca con gotas de rocío"
 excerpt: "¿Realmente estamos avanzando o solo dando vueltas en círculos? Una reflexión sobre perspectiva, frustración y cómo valorar el progreso colateral en la vida."
 ---
 
