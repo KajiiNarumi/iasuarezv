@@ -2,14 +2,11 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexiones]
-tags: [paternidad, amor, pareja, identidad]
 title: "No estoy solo"
 date: 2024-09-30
 image:
   path: /images/2024-09-30-no-estoy-solo.jpg
   caption: "Dibujo de I. Antoine Suárez V."
-image_alt: "Dibujo en sombras de un padre y un niño caminando al horizonte"
 excerpt: "No estoy solo. Tengo un hijo. Y aunque no me niego al amor, no necesito a nadie para saber cuánto valgo."
 ---
 
