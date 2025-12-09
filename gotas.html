@@ -1,46 +1,29 @@
 ---
 layout: page
-title: "Mis Gotas"
-permalink: /gotas/
+title: "Gotas de sombra"
+permalink: /gotas-de-sombra/
 ---
 
-<h2>Fragmentos aforísticos</h2>
+<h2>Gotas de sombra</h2>
+<p>Pensamientos que no caben en ningún otro sitio. Sin orden. Solo verdad.</p>
 
-<div id="github-issues-feed">Cargando notas...</div>
-<div id="github-load-more" style="margin-top:2em; text-align:center;"></div>
-
-<style>
-.note-issue {
-  border:1px solid #eee;
-  padding:1em;
-  margin-bottom:2em;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity .4s ease, transform .4s ease;
-}
-.note-issue.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.load-btn {
-  padding: 0.6em 1.1em;
-  border: none;
-  cursor: pointer;
-  background: #ccc;
-  font-size: 1em;
-}
-</style>
+<div id="gotas-container">
+  <div id="gotas-feed">Cargando gotas...</div>
+  <div id="loading" style="display:none; text-align:center; padding:2em; color:#888;">
+    <em>Cargando más gotas...</em>
+  </div>
+</div>
 
 <script>
 const repo = "KajiiNarumi/iasuarezv";
 const perPage = 10;
-let currentPage = 1;
+let page = 1;
 let loading = false;
-let noMore = false;
+let hasMore = true;
 
-function escapeHtml(str) {
-  if(!str) return "";
-  return str
+function escapeHtml(text) {
+  if (!text) return "";
+  return text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -48,78 +31,92 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
-function appendIssues(issues) {
-  const container = document.getElementById('github-issues-feed');
-
-  if (currentPage === 1) container.innerHTML = ""; // quita “Cargando notas…”
-
-  if (issues.length === 0) {
-    noMore = true;
-    document.getElementById('github-load-more').innerHTML = "";
-    return;
-  }
-
-  issues.forEach(issue => {
-    let div = document.createElement("div");
-    div.className = "note-issue";
-    div.innerHTML = `
+function createGota(issue) {
+  const div = document.createElement('div');
+  div.className = 'gota-item fade-in';
+  div.innerHTML = `
+    <div class="gota-content">
       <h3>${escapeHtml(issue.title)}</h3>
-      <div>${issue.body ? escapeHtml(issue.body).replace(/\n/g,"<br>") : ""}</div>
-    `;
-    container.appendChild(div);
-
-    // Activar transición
-    setTimeout(() => div.classList.add("visible"), 50);
-  });
+      <div class="gota-body">${issue.body ? escapeHtml(issue.body).replace(/\n/g, '<br>') : ''}</div>
+      <div class="gota-meta">
+        <small>${new Date(issue.created_at).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</small>
+      </div>
+    </div>
+  `;
+  return div;
 }
 
-function showLoadMoreButton() {
-  if (noMore) {
-    document.getElementById('github-load-more').innerHTML = "";
-    return;
-  }
-
-  document.getElementById('github-load-more').innerHTML =
-    `<button class="load-btn" onclick="loadIssues()">Cargar más</button>`;
-}
-
-function loadIssues(manual = false) {
-  if (loading || noMore) return;
+function loadMore() {
+  if (loading || !hasMore) return;
   loading = true;
+  document.getElementById('loading').style.display = 'block';
 
-  showLoadMoreButton(); // asegura el botón si falla autoscroll
-
-  fetch(`https://api.github.com/repos/${repo}/issues?state=open&per_page=${perPage}&page=${currentPage}`)
+  fetch(`https://api.github.com/repos/${repo}/issues?state=all&per_page=${perPage}&page=${page}`)
     .then(r => r.json())
     .then(issues => {
-      appendIssues(issues);
-
-      if (issues.length < perPage) {
-        noMore = true;
-        document.getElementById('github-load-more').innerHTML = "";
+      if (issues.length === 0) {
+        hasMore = false;
+        document.getElementById('loading').style.display = 'none';
+        return;
       }
 
-      currentPage++;
+      const container = document.getElementById('gotas-feed');
+      issues.forEach(issue => {
+        container.appendChild(createGota(issue));
+      });
+
+      page++;
       loading = false;
+      document.getElementById('loading').style.display = 'none';
+
+      // Fade-in suave
+      document.querySelectorAll('.gota-item.fade-in').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), i * 100);
+      });
     })
-    .catch(() => {
+    .catch(err => {
+      console.error(err);
       loading = false;
-      showLoadMoreButton();
+      document.getElementById('loading').innerHTML = '<em>Error al cargar. Intenta de nuevo.</em>';
     });
 }
 
-// INFINITE SCROLL
-window.addEventListener("scroll", () => {
-  if (loading || noMore) return;
-
-  const scrollPos = window.innerHeight + window.scrollY;
-  const fullHeight = document.body.offsetHeight;
-
-  if (scrollPos >= fullHeight - 400) {
-    loadIssues();
+// Scroll infinito
+window.addEventListener('scroll', () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000) {
+    loadMore();
   }
 });
 
-// Cargar primera página
-loadIssues();
+// Carga inicial
+loadMore();
 </script>
+
+<style>
+.gota-item {
+  margin: 2em 0;
+  padding: 1.5em;
+  border-left: 3px solid #333;
+  background: rgba(0,0,0,0.02);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.gota-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.gota-content h3 {
+  margin: 0 0 0.8em 0;
+  font-size: 1.3em;
+  color: #000;
+}
+.gota-body {
+  line-height: 1.7;
+  margin-bottom: 0.8em;
+}
+.gota-meta {
+  color: #666;
+  font-style: italic;
+}
+</style>
