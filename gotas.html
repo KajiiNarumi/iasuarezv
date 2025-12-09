@@ -4,7 +4,7 @@ title: "Mis Gotas"
 permalink: /gotas/
 ---
 <h2>Fragmentos aforísticos</h2>
-<div id="github-issues-feed">Cargando notas...</div>
+<div id="github-issues-feed">Cargando gotas...</div>
 <div id="github-pagination" style="margin-top:2em;"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -38,7 +38,7 @@ function escapeHtml(str) {
 function renderIssues(issues, append = false) {
   let html = "";
   if (issues.length === 0 && !append) {
-    feedElement.innerHTML = "<p>No hay notas aún.</p>";
+    feedElement.innerHTML = "<p>No hay gotas aún.</p>";
     return;
   }
 
@@ -68,10 +68,10 @@ function updateLoadMoreButton() {
             loadMoreBtn.innerText = "Cargando...";
             loadMoreBtn.disabled = true;
         } else if (hasMore) {
-            loadMoreBtn.innerText = "Cargar más notas...";
+            loadMoreBtn.innerText = "Cargar más gotas...";
             loadMoreBtn.disabled = false;
         } else {
-            loadMoreBtn.innerText = "Fin de las notas.";
+            loadMoreBtn.innerText = "Fin de las gotas.";
             loadMoreBtn.disabled = true;
         }
     }
@@ -88,7 +88,7 @@ function loadIssues(page, append = false) {
   }
 
   if (!append) {
-    feedElement.innerHTML = "Cargando notas...";
+    feedElement.innerHTML = "Cargando gotas...";
   }
 
   fetch(`https://api.github.com/repos/${repo}/issues?state=open&per_page=${perPage}&page=${currentPage}`)
@@ -111,7 +111,7 @@ function loadIssues(page, append = false) {
         hasMore = false;
         updateLoadMoreButton();
         console.error("Error al cargar issues:", error);
-        feedElement.innerHTML = "<p>Ocurrió un error al intentar cargar las notas. Por favor, intenta recargar la página.</p>";
+        feedElement.innerHTML = "<p>Ocurrió un error al intentar cargar las gotas. Por favor, intenta recargar la página.</p>";
     });
 }
 
