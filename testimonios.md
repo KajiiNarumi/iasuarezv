@@ -120,115 +120,103 @@ Me encantas!!!. Eres demasiado profesional y el talento que tienes para leer las
 Gracias por la gran lectura que me hiciste! Me leíste como un libro, eres super acertado! Tienes una intuición maravillosa y gran conocimiento de las mancias! Definitivamente súper recomendable, gracias por compartir tus dones con el mundo!!! Gracias Gracias Gracias!!! 🙏🏼
 
 <style>
-/* 1. ESTILOS BASE DEL FORMULARIO */
+
 .formulario-minimal {
-  max-width: 650px;
-  margin: 2rem auto; 
-  padding: 2.5rem 2rem; 
-  width: 95%;
+
+  max-width: 600px;
+
+  margin: 0 auto;
+
+  padding: 2rem 1rem;
+
+  width: 90%;
+
   font-family: sans-serif;
-  border: 1px solid currentColor; /* Usa el color actual del texto (compatible con temas) */
-  border-radius: 6px;
-  /* Eliminado: background-color: #fcfcfc; */
+
 }
 
-/* 2. ESPACIO PARA LAS ETIQUETAS (LABELS) */
+
+
 .formulario-minimal label {
+
   display: block;
-  margin: 1.5rem 0 0.5rem; 
-  font-size: 0.95rem;
-  /* Eliminado: color: #222; */
-  font-weight: bold; /* Usamos negrita en lugar de color */
+
+  margin: 1.2rem 0 0.5rem;
+
+  font-size: 0.9rem;
+
+  color: #444;
+
 }
 
-/* 3. ESTILOS DE ENTRADA */
+
+
 .formulario-minimal input,
+
 .formulario-minimal select,
+
 .formulario-minimal textarea {
+
   width: 100%;
+
   border: none;
-  border-bottom: 2px solid currentColor; /* Usa el color actual del texto para la línea */
-  padding: 0.7rem 0.2rem;
+
+  border-bottom: 1px solid #ccc;
+
+  padding: 0.5rem 0;
+
   background: transparent;
+
   font-size: 1rem;
-  /* Eliminado: color: #222; */
+
+  color: #222;
+
   outline: none;
-  transition: border-bottom-color 0.3s ease;
+
 }
+
+
 
 .formulario-minimal input:focus,
+
 .formulario-minimal select:focus,
+
 .formulario-minimal textarea:focus {
-  border-bottom: 2px solid currentColor; /* En foco, solo negrita */
+
+  border-bottom: 1px solid #000;
+
 }
 
-/* 4. ESTILOS DEL BOTÓN */
+
+
 .formulario-minimal button {
-  margin-top: 2.5rem; 
-  padding: 0.9rem 2rem;
-  background: currentColor; /* El color de fondo del botón será el color de texto actual */
-  color: var(--page-background, #fff); /* El color del texto del botón será el color de fondo de la página (¡inverso!) */
+
+  margin-top: 2rem;
+
+  padding: 0.7rem 1.5rem;
+
+  background: #000;
+
+  color: #fff;
+
   border: none;
-  font-size: 1.1rem;
+
+  font-size: 1rem;
+
   cursor: pointer;
+
   border-radius: 4px;
+
   transition: background 0.2s ease;
-  width: 100%;
+
 }
+
+
 
 .formulario-minimal button:hover {
-  opacity: 0.8; /* Opacidad en hover en lugar de cambiar a un color fijo */
-}
 
-/* 5. ESPACIO Y ESTILO PARA LOS TESTIMONIOS */
+  background: #333;
 
-/* Espacio general para todo el bloque de testimonios */
-h2, h3, h4 {
-    margin-top: 3rem; 
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid currentColor; /* Separador sutil */
-}
-
-/* Estilo para los Testimonios Destacados (H3) */
-h3 {
-    /* Eliminado: color: #000; */
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-/* Estilo para Otros Testimonios (H4) */
-h4 {
-    /* Eliminado: color: #444; */
-    font-size: 1.2rem;
-    margin-top: 2.5rem;
-    font-weight: bold;
-}
-
-/* Estilo para el nombre o seudónimo */
-strong {
-    display: block;
-    margin-top: 1.5rem; 
-    font-size: 1.1rem;
-    /* Eliminado: color: #000; */
-}
-
-/* Estilo para el servicio (italica) */
-/* NOTA: Tu HTML envuelve el servicio en cursivas (*Servicio*), lo cual es ideal */
-em { 
-    display: block;
-    font-style: italic;
-    /* Eliminado: color: #666; */
-    font-size: 0.95rem;
-    margin-top: 0.3rem;
-    font-weight: normal;
-}
-
-/* APLICAR ESPACIO ESPECÍFICO AL CUERPO DEL TEXTO DEL TESTIMONIO */
-p {
-    line-height: 1.6; 
-    margin-bottom: 1.5rem; 
-    /* Eliminado: color: #222; */
 }
 
 </style>
