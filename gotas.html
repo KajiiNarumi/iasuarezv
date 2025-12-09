@@ -1,11 +1,11 @@
 ---
 layout: page
-title: "Mis Gotas"
-permalink: /gotas/
+title: "Mis Ggotas"
+permalink: /ggotas/
 ---
 
 <h2>Fragmentos aforísticos</h2>
-<div id="github-issues-feed">Cargando notas...</div>
+<div id="github-issues-feed">Cargando gotas...</div>
 <div id="github-pagination" style="margin-top:2em;"></div>
 <script>
 const repo = "KajiiNarumi/iasuarezv";
@@ -35,7 +35,7 @@ function escapeHtml(str) {
 function renderIssues(issues, append = false) {
   let html = "";
   if (issues.length === 0 && !append) {
-    feedElement.innerHTML = "<p>No hay notas aún.</p>";
+    feedElement.innerHTML = "<p>No hay gotas aún.</p>";
     return;
   }
 
@@ -91,10 +91,10 @@ function updateLoadMoreButton() {
             loadMoreBtn.innerText = "Cargando...";
             loadMoreBtn.disabled = true;
         } else if (hasMore) {
-            loadMoreBtn.innerText = "Cargar más notas...";
+            loadMoreBtn.innerText = "Cargar más gotas...";
             loadMoreBtn.disabled = false;
         } else {
-            loadMoreBtn.innerText = "Fin de las notas.";
+            loadMoreBtn.innerText = "Fin de las gotas.";
             loadMoreBtn.disabled = true;
             // Opcional: Ocultar completamente el botón si prefieres que no haya mensaje al final
             // loadMoreBtn.style.display = 'none'; 
@@ -112,9 +112,9 @@ function loadIssues(page, append = false) {
     currentPage = page;
   }
 
-  // Solo mostramos el mensaje de "Cargando notas..." si es la primera carga (no appending)
+  // Solo mostramos el mensaje de "Cargando gotas..." si es la primera carga (no appending)
   if (!append) {
-    feedElement.innerHTML = "Cargando notas...";
+    feedElement.innerHTML = "Cargando gotas...";
   }
 
   fetch(`https://api.github.com/repos/${repo}/issues?state=open&per_page=${perPage}&page=${currentPage}`)
@@ -123,7 +123,7 @@ function loadIssues(page, append = false) {
       isLoading = false;
       renderIssues(issues, append);
 
-      // Determina si hay más notas para la siguiente página
+      // Determina si hay más gotas para la siguiente página
       hasMore = issues.length === perPage;
       updateLoadMoreButton();
     })
