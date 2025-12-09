@@ -2,14 +2,11 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-categories: [Reflexiones]
-tags: [adaptacion, resiliencia, tiempo]
 title: "Tiempo al Tiempo"
 date: 2024-09-14
 image:
   path: /images/2024-09-14-tiempo-al-tiempo.jpg
   caption: "Foto de Rod Long en Unsplash"
-image_alt: "Foto de una mano de un bebé tomando la mano de una persona adulta"
 excerpt: "Reflexión sobre la capacidad de adaptación ante cambios inesperados y cómo transformarlos en nuevas oportunidades."
 ---
 
