@@ -14,19 +14,21 @@ entries_layout: list
 </section>
 
 
- <section class="columna">
-    <div class="bitacora-listado">
-      {% for post in site.cuentos %}
-        <article class="entrada">
-          <h2 class="titulo"> <a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-          <p class="fecha"><em>{{ post.date | date: "%B %-d, %Y" }}</em></p>
-          {% if post.excerpt %}
-            <p class="extracto">{{ post.excerpt }}</p>
-          {% endif %}
-        </article>
-      {% endfor %}
-    </div>
-  </section>
+<section class="columna">
+  <div class="bitacora-listado">
+    {% assign sorted_cuentos = site.cuentos | sort: 'date' | reverse %}
+    
+    {% for post in sorted_cuentos %}
+      <article class="entrada">
+        <h2 class="titulo"> <a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        <p class="fecha"><em>{{ post.date | date: "%B %-d, %Y" }}</em></p>
+        {% if post.excerpt %}
+          <p class="extracto">{{ post.excerpt }}</p>
+        {% endif %}
+      </article>
+    {% endfor %}
+  </div>
+</section>
 
 
 <style>
