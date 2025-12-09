@@ -160,11 +160,11 @@ footer_links:
 #   url: https://x.com/iasuarezv
 #  icon: fab fa-twitter # Usamos el ícono antiguo de Twitter, ya que el tema es antiguo.
 
-- title: Enlaces
-  url: https://iasuarezv.com/card
+#- title: Enlaces
+#  url: https://iasuarezv.com/card
 
-- title: Feed
-  url: atom.xml
-  icon: fas fa-rss
+#- title: Feed
+#  url: atom.xml
+#  icon: fas fa-rss
 
 
