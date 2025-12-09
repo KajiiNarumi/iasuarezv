@@ -6,34 +6,28 @@ permalink: /gotas/
 
 <h2>Fragmentos aforísticos</h2>
 
-<!-- Loader animado -->
-<div id="github-issues-feed">
-  <div id="loader-gotas" style="display:flex;gap:1.2rem;justify-content:center;margin:2em 0;">
-    <div class="gota"></div>
-    <div class="gota"></div>
-    <div class="gota"></div>
-  </div>
-</div>
-
-<div id="github-pagination" style="margin-top:2em; text-align:center;"></div>
+<div id="github-issues-feed">Cargando notas...</div>
+<div id="github-load-more" style="margin-top:2em; text-align:center;"></div>
 
 <style>
-.gota {
-  width: 14px;
-  height: 14px;
-  background: #999;
-  border-radius: 50%;
+.note-issue {
+  border:1px solid #eee;
+  padding:1em;
+  margin-bottom:2em;
   opacity: 0;
-  animation: gotaFade 1.4s infinite ease-in-out;
+  transform: translateY(10px);
+  transition: opacity .4s ease, transform .4s ease;
 }
-.gota:nth-child(1) { animation-delay: 0s; }
-.gota:nth-child(2) { animation-delay: 0.15s; }
-.gota:nth-child(3) { animation-delay: 0.30s; }
-
-@keyframes gotaFade {
-  0% { opacity: 0; transform: scale(0.6); }
-  50% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0.6); }
+.note-issue.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.load-btn {
+  padding: 0.6em 1.1em;
+  border: none;
+  cursor: pointer;
+  background: #ccc;
+  font-size: 1em;
 }
 </style>
 
@@ -41,6 +35,8 @@ permalink: /gotas/
 const repo = "KajiiNarumi/iasuarezv";
 const perPage = 10;
 let currentPage = 1;
+let loading = false;
+let noMore = false;
 
 function escapeHtml(str) {
   if(!str) return "";
@@ -52,112 +48,78 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
-function ocultarLoader() {
-  const loader = document.getElementById("loader-gotas");
-  if (loader) loader.style.display = "none";
-}
+function appendIssues(issues) {
+  const container = document.getElementById('github-issues-feed');
 
-function renderIssues(issues) {
-  let html = "";
-  
+  if (currentPage === 1) container.innerHTML = ""; // quita “Cargando notas…”
+
   if (issues.length === 0) {
-    html = "<p>No hay notas aún.</p>";
-  } else {
-    issues.forEach(issue => {
-      html += `
-      <div class="note-issue" style="border:1px solid #eee; padding:1em; margin-bottom:2em;">
-        <div>
-          <img src="${issue.user.avatar_url}" alt="${issue.user.login}" style="width:32px;border-radius:50%;vertical-align:middle;">
-          <strong>${escapeHtml(issue.user.login)}</strong>
-          <span style="color:#888;">${new Date(issue.created_at).toLocaleString()}</span>
-        </div>
-        <h3 style="margin-top:0.5em;">${escapeHtml(issue.title)}</h3>
-        <div>${issue.body ? escapeHtml(issue.body).replace(/\n/g,"<br>") : ""}</div>
-        <div style="margin-top:1em;">
-          <a href="${issue.html_url}" target="_blank">Comentar en GitHub</a>
-        </div>
-        <div class="issue-comments" id="comments-${issue.number}" style="margin-top:1em; font-size:0.9em; color:#444;">Cargando comentarios...</div>
-      </div>
-      `;
-    });
+    noMore = true;
+    document.getElementById('github-load-more').innerHTML = "";
+    return;
   }
 
-  document.getElementById('github-issues-feed').innerHTML = html;
+  issues.forEach(issue => {
+    let div = document.createElement("div");
+    div.className = "note-issue";
+    div.innerHTML = `
+      <h3>${escapeHtml(issue.title)}</h3>
+      <div>${issue.body ? escapeHtml(issue.body).replace(/\n/g,"<br>") : ""}</div>
+    `;
+    container.appendChild(div);
+
+    // Activar transición
+    setTimeout(() => div.classList.add("visible"), 50);
+  });
 }
 
-function renderPagination(hasPrev, hasNext) {
-  let html = "";
-
-  if (hasPrev) {
-    html += `<button onclick="loadIssues(${currentPage - 1})">&laquo; Anterior</button>`;
+function showLoadMoreButton() {
+  if (noMore) {
+    document.getElementById('github-load-more').innerHTML = "";
+    return;
   }
 
-  if (hasNext) {
-    html += ` <button onclick="loadIssues(${currentPage + 1})">Siguiente &raquo;</button>`;
-  }
-
-  document.getElementById('github-pagination').innerHTML = html;
+  document.getElementById('github-load-more').innerHTML =
+    `<button class="load-btn" onclick="loadIssues()">Cargar más</button>`;
 }
 
-function loadIssues(page) {
-  currentPage = page;
+function loadIssues(manual = false) {
+  if (loading || noMore) return;
+  loading = true;
 
-  document.getElementById('github-issues-feed').innerHTML = `
-    <div id="loader-gotas" style="display:flex;gap:1.2rem;justify-content:center;margin:2em 0;">
-      <div class="gota"></div>
-      <div class="gota"></div>
-      <div class="gota"></div>
-    </div>
-  `;
+  showLoadMoreButton(); // asegura el botón si falla autoscroll
 
   fetch(`https://api.github.com/repos/${repo}/issues?state=open&per_page=${perPage}&page=${currentPage}`)
     .then(r => r.json())
     .then(issues => {
+      appendIssues(issues);
 
-      ocultarLoader();
-      renderIssues(issues);
+      if (issues.length < perPage) {
+        noMore = true;
+        document.getElementById('github-load-more').innerHTML = "";
+      }
 
-      fetch(`https://api.github.com/repos/${repo}/issues?state=open&per_page=${perPage}&page=${currentPage + 1}`)
-        .then(r => r.json())
-        .then(nextIssues => {
-
-          const hayMas = nextIssues.length > 0;
-          const hayPrev = currentPage > 1;
-
-          renderPagination(hayPrev, hayMas);
-
-          if (!hayPrev && !hayMas) {
-            document.getElementById('github-pagination').innerHTML = "";
-          }
-        });
-
-      issues.forEach(issue => {
-        fetch(`https://api.github.com/repos/${repo}/issues/${issue.number}/comments`)
-          .then(r => r.json())
-          .then(comments => {
-            let html = "";
-
-            if (comments.length === 0) {
-              html = "<em>Sin comentarios.</em>";
-            } else {
-              html = "<ul style='list-style:none;padding:0;'>";
-              comments.forEach(comment => {
-                html += `
-                <li style="margin-bottom:0.8em;">
-                  <img src="${comment.user.avatar_url}" alt="${comment.user.login}" style="width:24px;border-radius:50%;vertical-align:middle;">
-                  <strong>${escapeHtml(comment.user.login)}</strong>
-                  <span style="color:#999;">${new Date(comment.created_at).toLocaleString()}</span>
-                  <div>${escapeHtml(comment.body).replace(/\n/g,"<br>")}</div>
-                </li>`;
-              });
-              html += "</ul>";
-            }
-            document.getElementById(`comments-${issue.number}`).innerHTML = html;
-          });
-      });
+      currentPage++;
+      loading = false;
+    })
+    .catch(() => {
+      loading = false;
+      showLoadMoreButton();
     });
 }
 
-window.loadIssues = loadIssues;
-loadIssues(1);
+// INFINITE SCROLL
+window.addEventListener("scroll", () => {
+  if (loading || noMore) return;
+
+  const scrollPos = window.innerHeight + window.scrollY;
+  const fullHeight = document.body.offsetHeight;
+
+  if (scrollPos >= fullHeight - 400) {
+    loadIssues();
+  }
+});
+
+// Cargar primera página
+loadIssues();
 </script>
