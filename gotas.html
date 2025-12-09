@@ -7,21 +7,24 @@ permalink: /gotas/
 <div id="github-issues-feed">Cargando notas...</div>
 <div id="github-pagination" style="margin-top:2em;"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <script>
 const repo = "KajiiNarumi/iasuarezv";
 const perPage = 10;
 let currentPage = 1;
-let isLoading = false; // Bandera para evitar múltiples cargas
-let hasMore = true;   // Bandera para saber si hay más páginas disponibles
+let isLoading = false;
+let hasMore = true;
 
 // --- Elementos del DOM ---
 const feedElement = document.getElementById('github-issues-feed');
 const paginationElement = document.getElementById('github-pagination');
 
-// Inicializamos el div de paginación con el botón "Cargar Más"
+// Inicializamos el botón de "Cargar Más"
 paginationElement.innerHTML = `<button id="load-more-btn" onclick="loadIssues(currentPage + 1, true)">Cargando...</button>`;
 const loadMoreBtn = document.getElementById('load-more-btn');
 
+// Función de seguridad para evitar inyección de código malicioso
 function escapeHtml(str) {
   if(!str) return "";
   return str
@@ -46,36 +49,10 @@ function renderIssues(issues, append = false) {
         <span style="color:#888;">${new Date(issue.created_at).toLocaleString()}</span>
       </div>
       <h3 style="margin-top:0.5em;">${escapeHtml(issue.title)}</h3>
-      <div>${issue.body ? escapeHtml(issue.body).replace(/\n/g,"<br>") : ""}</div>
-      <div style="margin-top:1em;">
-        <a href="${issue.html_url}" target="_blank">Comentar en GitHub</a>
-      </div>
-      <div class="issue-comments" id="comments-${issue.number}" style="margin-top:1em; font-size:0.9em; color:#444;">Cargando comentarios...</div>
+      <div>${issue.body ? marked.parse(issue.body) : ""}</div> 
     </div>
     `;
-
-    // Cargar comentarios para cada issue
-    fetch(`https://api.github.com/repos/${repo}/issues/${issue.number}/comments`)
-      .then(r => r.json())
-      .then(comments => {
-        let commentHtml = "";
-        if (comments.length === 0) {
-          commentHtml = " ";
-        } else {
-          commentHtml = "<ul style='list-style:none;padding:0;'>";
-          comments.forEach(comment => {
-            commentHtml += `
-            <li style="margin-bottom:0.8em;">
-              <img src="${comment.user.avatar_url}" alt="${comment.user.login}" style="width:24px;border-radius:50%;vertical-align:middle;">
-              <strong>${escapeHtml(comment.user.login)}</strong>
-              <span style="color:#999;">${new Date(comment.created_at).toLocaleString()}</span>
-              <div>${escapeHtml(comment.body).replace(/\n/g,"<br>")}</div>
-            </li>`;
-          });
-          commentHtml += "</ul>";
-        }
-        document.getElementById(`comments-${issue.number}`).innerHTML = commentHtml;
-      });
+    // **NOTA: Se eliminó todo el código relacionado con la carga de comentarios.**
   });
 
   if (append) {
@@ -96,14 +73,12 @@ function updateLoadMoreButton() {
         } else {
             loadMoreBtn.innerText = "Fin de las notas.";
             loadMoreBtn.disabled = true;
-            // Opcional: Ocultar completamente el botón si prefieres que no haya mensaje al final
-            // loadMoreBtn.style.display = 'none'; 
         }
     }
 }
 
 function loadIssues(page, append = false) {
-  if (isLoading || (append && !hasMore)) return; // Evita doble carga o cargar si ya no hay más
+  if (isLoading || (append && !hasMore)) return;
 
   isLoading = true;
   updateLoadMoreButton();
@@ -112,7 +87,6 @@ function loadIssues(page, append = false) {
     currentPage = page;
   }
 
-  // Solo mostramos el mensaje de "Cargando notas..." si es la primera carga (no appending)
   if (!append) {
     feedElement.innerHTML = "Cargando notas...";
   }
@@ -121,17 +95,23 @@ function loadIssues(page, append = false) {
     .then(r => r.json())
     .then(issues => {
       isLoading = false;
+      
+      // Verificación de seguridad para la librería Markdown
+      if (typeof marked === 'undefined' || !marked.parse) {
+        throw new Error("Librería Marked.js no cargada.");
+      }
+      
       renderIssues(issues, append);
 
-      // Determina si hay más notas para la siguiente página
       hasMore = issues.length === perPage;
       updateLoadMoreButton();
     })
     .catch(error => {
         isLoading = false;
-        hasMore = false; // Asume que no hay más si hubo un error
+        hasMore = false;
         updateLoadMoreButton();
         console.error("Error al cargar issues:", error);
+        feedElement.innerHTML = "<p>Ocurrió un error al intentar cargar las notas. Por favor, intenta recargar la página.</p>";
     });
 }
 
@@ -139,19 +119,26 @@ function loadIssues(page, append = false) {
 // Lógica de Scroll Infinito Automático
 // ------------------------------------------
 window.addEventListener('scroll', () => {
-    // Definimos el umbral: 500px antes de llegar al final de la página
     const scrollThreshold = 500; 
-    
-    // Calcula si la posición de scroll está cerca del fondo
     const nearBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - scrollThreshold);
 
-    // Si estamos cerca del fondo, no estamos cargando, y hay más contenido, cargamos la siguiente página
     if (nearBottom && !isLoading && hasMore) {
         loadIssues(currentPage + 1, true);
     }
 });
 
-// Inicializa la primera carga
+// ------------------------------------------
+// INICIALIZACIÓN (Asegura la carga después de Marked.js)
+// ------------------------------------------
 window.loadIssues = loadIssues;
-loadIssues(1);
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof marked !== 'undefined' && marked.parse) {
+        loadIssues(1);
+    } else {
+        console.error("Error: marked.js no se cargó correctamente.");
+        feedElement.innerHTML = "<p>Error: No se pudo cargar el módulo de formato de texto (Markdown).</p>";
+        loadMoreBtn.style.display = 'none';
+    }
+});
 </script>
