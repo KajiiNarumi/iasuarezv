@@ -16,7 +16,7 @@ entries_layout: list
 
  <section class="columna">
     <div class="bitacora-listado">
-      {% for post in site.posts %}
+      {% for post in site.cuentos %}
         <article class="entrada">
           <h2 class="titulo"> <a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
           <p class="fecha"><em>{{ post.date | date: "%B %-d, %Y" }}</em></p>
