@@ -5,24 +5,15 @@ permalink: /gotas/
 ---
 
 <h2>Fragmentos aforísticos</h2>
-
 <div id="github-issues-feed">Cargando notas...</div>
-
-<div style="text-align:center; margin-top:2em;">
-  <button id="load-more-btn" onclick="loadIssues()" 
-    style="padding:0.8em 1.5em; font-size:1em;">Cargar más</button>
-</div>
-
+<div id="github-pagination" style="margin-top:2em;"></div>
 <script>
 const repo = "KajiiNarumi/iasuarezv";
-const perPage = 10;
+const perPage = 10; // Cambia este número si quieres más/menos notas por página
 let currentPage = 1;
-let isLoading = false;
-let reachedEnd = false;
 
-// Escapar HTML
 function escapeHtml(str) {
-  if (!str) return "";
+  if(!str) return "";
   return str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -31,105 +22,83 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
-// Añadir issues sin borrar los anteriores
-function appendIssues(issues) {
-  const feed = document.getElementById('github-issues-feed');
-
+function renderIssues(issues) {
+  let html = "";
   if (issues.length === 0) {
-    reachedEnd = true;
-    document.getElementById('load-more-btn').style.display = "none";
-    return;
+    html = "<p>No hay notas aún.</p>";
+  } else {
+    issues.forEach(issue => {
+      html += `
+      <div class="note-issue" style="border:1px solid #eee; padding:1em; margin-bottom:2em;">
+        <div>
+          <span style="color:#888;">${new Date(issue.created_at).toLocaleString()}</span>
+        </div>
+        <h3 style="margin-top:0.5em;">${escapeHtml(issue.title)}</h3>
+        <div>${issue.body ? escapeHtml(issue.body).replace(/\n/g,"<br>") : ""}</div>
+        <div style="margin-top:1em;">
+          <a href="${issue.html_url}" target="_blank">Comentar en GitHub</a>
+        </div>
+        <div class="issue-comments" id="comments-${issue.number}" style="margin-top:1em; font-size:0.9em; color:#444;">Cargando comentarios...</div>
+      </div>
+      `;
+    });
   }
-
-  issues.forEach(issue => {
-    const block = document.createElement("div");
-    block.classList.add("note-issue");
-    block.style.cssText = "border:1px solid #eee; padding:1em; margin-bottom:2em;";
-
-    block.innerHTML = `
-      <div>
-        <img src="${issue.user.avatar_url}" alt="${issue.user.login}"
-          style="width:32px;border-radius:50%;vertical-align:middle;">
-        <strong>${escapeHtml(issue.user.login)}</strong>
-        <span style="color:#888;">${new Date(issue.created_at).toLocaleString()}</span>
-      </div>
-
-      <h3 style="margin-top:0.5em;">${escapeHtml(issue.title)}</h3>
-
-      <div>${issue.body ? escapeHtml(issue.body).replace(/\n/g,"<br>") : ""}</div>
-
-      <div style="margin-top:1em;">
-        <a href="${issue.html_url}" target="_blank">Comentar en GitHub</a>
-      </div>
-
-      <div class="issue-comments" id="comments-${issue.number}"
-        style="margin-top:1em; font-size:0.9em; color:#444;">Cargando comentarios...</div>
-    `;
-
-    feed.appendChild(block);
-
-    // Cargar comentarios
-    fetch(`https://api.github.com/repos/${repo}/issues/${issue.number}/comments`)
-      .then(r => r.json())
-      .then(comments => {
-        let html = "";
-        if (comments.length === 0) {
-          html = "<em>Sin comentarios.</em>";
-        } else {
-          html = "<ul style='list-style:none;padding:0;'>";
-          comments.forEach(comment => {
-            html += `
-              <li style="margin-bottom:0.8em;">
-                <img src="${comment.user.avatar_url}" alt="${comment.user.login}" 
-                  style="width:24px;border-radius:50%;vertical-align:middle;">
-                <strong>${escapeHtml(comment.user.login)}</strong>
-                <span style="color:#999;">${new Date(comment.created_at).toLocaleString()}</span>
-                <div>${escapeHtml(comment.body).replace(/\n/g,"<br>")}</div>
-              </li>`;
-          });
-          html += "</ul>";
-        }
-        document.getElementById(`comments-${issue.number}`).innerHTML = html;
-      });
-  });
+  document.getElementById('github-issues-feed').innerHTML = html;
 }
 
-// Cargar siguiente página
-function loadIssues() {
-  if (isLoading || reachedEnd) return;
-  isLoading = true;
+function renderPagination(hasPrev, hasNext) {
+  let html = "";
+  if (hasPrev) {
+    html += `<button onclick="loadIssues(${currentPage - 1})">&laquo; Anterior</button>`;
+  }
+  html += ` Página ${currentPage} `;
+  if (hasNext) {
+    html += `<button onclick="loadIssues(${currentPage + 1})">Siguiente &raquo;</button>`;
+  }
+  document.getElementById('github-pagination').innerHTML = html;
+}
 
-  const btn = document.getElementById('load-more-btn');
-  btn.innerText = "Cargando...";
-
+function loadIssues(page) {
+  currentPage = page;
+  document.getElementById('github-issues-feed').innerHTML = "Cargando notas...";
   fetch(`https://api.github.com/repos/${repo}/issues?state=open&per_page=${perPage}&page=${currentPage}`)
     .then(r => r.json())
     .then(issues => {
-      appendIssues(issues);
-      if (issues.length > 0) currentPage++;
-      btn.innerText = "Cargar más";
-      isLoading = false;
-    })
-    .catch(err => {
-      console.log("Error cargando issues:", err);
-      btn.innerText = "Cargar más";
-      isLoading = false;
+      renderIssues(issues);
+      // Verifica si hay más notas (para mostrar botón "Siguiente")
+      fetch(`https://api.github.com/repos/${repo}/issues?state=open&per_page=${perPage}&page=${currentPage + 1}`)
+        .then(r => r.json())
+        .then(nextIssues => {
+          renderPagination(currentPage > 1, nextIssues.length > 0);
+        });
+      issues.forEach(issue => {
+        // Obtiene los comentarios de cada Issue:
+        fetch(`https://api.github.com/repos/${repo}/issues/${issue.number}/comments`)
+          .then(r => r.json())
+          .then(comments => {
+            let html = "";
+            if (comments.length === 0) {
+              html = "<em>Sin comentarios.</em>";
+            } else {
+              html = "<ul style='list-style:none;padding:0;'>";
+              comments.forEach(comment => {
+                html += `
+                <li style="margin-bottom:0.8em;">
+                  <img src="${comment.user.avatar_url}" alt="${comment.user.login}" style="width:24px;border-radius:50%;vertical-align:middle;">
+                  <strong>${escapeHtml(comment.user.login)}</strong>
+                  <span style="color:#999;">${new Date(comment.created_at).toLocaleString()}</span>
+                  <div>${escapeHtml(comment.body).replace(/\n/g,"<br>")}</div>
+                </li>`;
+              });
+              html += "</ul>";
+            }
+            document.getElementById(`comments-${issue.number}`).innerHTML = html;
+          });
+      });
     });
 }
 
-// Infinite scroll activado
-window.addEventListener('scroll', () => {
-  if (reachedEnd) return;
-
-  const scrollPos = window.innerHeight + window.scrollY;
-  const pageHeight = document.body.offsetHeight;
-
-  // Cargar más cuando falten 400px para llegar al final
-  if (scrollPos >= pageHeight - 400) {
-    loadIssues();
-  }
-});
-
-// Primera carga
-loadIssues();
+// Inicializa la primera carga
+window.loadIssues = loadIssues;
+loadIssues(1);
 </script>
