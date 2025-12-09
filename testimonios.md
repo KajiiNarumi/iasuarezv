@@ -122,23 +122,23 @@ Gracias por la gran lectura que me hiciste! Me leíste como un libro, eres super
 <style>
 /* 1. ESTILOS BASE DEL FORMULARIO */
 .formulario-minimal {
-  max-width: 650px; /* Aumentamos ligeramente el ancho máximo */
-  margin: 2rem auto; /* Más margen arriba/abajo */
-  padding: 2.5rem 2rem; /* Más padding interno para respirar */
+  max-width: 650px;
+  margin: 2rem auto; 
+  padding: 2.5rem 2rem; 
   width: 95%;
   font-family: sans-serif;
-  border: 1px solid #e0e0e0; /* Opcional: Añadir un borde sutil al formulario */
+  border: 1px solid currentColor; /* Usa el color actual del texto (compatible con temas) */
   border-radius: 6px;
-  background-color: #fcfcfc;
+  /* Eliminado: background-color: #fcfcfc; */
 }
 
 /* 2. ESPACIO PARA LAS ETIQUETAS (LABELS) */
 .formulario-minimal label {
   display: block;
-  margin: 1.5rem 0 0.5rem; /* Más espacio entre campos */
+  margin: 1.5rem 0 0.5rem; 
   font-size: 0.95rem;
-  color: #222; /* Hacemos las etiquetas un poco más oscuras */
-  font-weight: 600; /* Hacemos las etiquetas más prominentes */
+  /* Eliminado: color: #222; */
+  font-weight: bold; /* Usamos negrita en lugar de color */
 }
 
 /* 3. ESTILOS DE ENTRADA */
@@ -147,11 +147,11 @@ Gracias por la gran lectura que me hiciste! Me leíste como un libro, eres super
 .formulario-minimal textarea {
   width: 100%;
   border: none;
-  border-bottom: 2px solid #ccc; /* Hacemos la línea un poco más gruesa */
-  padding: 0.7rem 0.2rem; /* Más padding interno */
+  border-bottom: 2px solid currentColor; /* Usa el color actual del texto para la línea */
+  padding: 0.7rem 0.2rem;
   background: transparent;
   font-size: 1rem;
-  color: #222;
+  /* Eliminado: color: #222; */
   outline: none;
   transition: border-bottom-color 0.3s ease;
 }
@@ -159,81 +159,77 @@ Gracias por la gran lectura que me hiciste! Me leíste como un libro, eres super
 .formulario-minimal input:focus,
 .formulario-minimal select:focus,
 .formulario-minimal textarea:focus {
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid currentColor; /* En foco, solo negrita */
 }
 
 /* 4. ESTILOS DEL BOTÓN */
 .formulario-minimal button {
-  margin-top: 2.5rem; /* Más espacio arriba del botón */
+  margin-top: 2.5rem; 
   padding: 0.9rem 2rem;
-  background: #000;
-  color: #fff;
+  background: currentColor; /* El color de fondo del botón será el color de texto actual */
+  color: var(--page-background, #fff); /* El color del texto del botón será el color de fondo de la página (¡inverso!) */
   border: none;
   font-size: 1.1rem;
   cursor: pointer;
   border-radius: 4px;
   transition: background 0.2s ease;
-  width: 100%; /* Hacemos que ocupe todo el ancho para destacarlo */
+  width: 100%;
 }
 
 .formulario-minimal button:hover {
-  background: #333;
+  opacity: 0.8; /* Opacidad en hover en lugar de cambiar a un color fijo */
 }
 
 /* 5. ESPACIO Y ESTILO PARA LOS TESTIMONIOS */
 
 /* Espacio general para todo el bloque de testimonios */
 h2, h3, h4 {
-    margin-top: 3rem; /* Gran espacio antes de los encabezados principales */
+    margin-top: 3rem; 
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid #eee; /* Línea sutil para separar secciones */
+    border-bottom: 1px solid currentColor; /* Separador sutil */
 }
 
 /* Estilo para los Testimonios Destacados (H3) */
 h3 {
-    color: #000;
+    /* Eliminado: color: #000; */
     font-size: 1.5rem;
+    font-weight: bold;
 }
 
 /* Estilo para Otros Testimonios (H4) */
 h4 {
-    color: #444;
+    /* Eliminado: color: #444; */
     font-size: 1.2rem;
     margin-top: 2.5rem;
+    font-weight: bold;
 }
 
 /* Estilo para el nombre o seudónimo */
-.testimonios-author {
-    font-weight: bold;
-    color: #000;
-    margin-bottom: 0.3rem;
-    display: block;
-}
-
-/* Estilo para el servicio (italica) */
-.testimonios-service {
-    font-style: italic;
-    color: #666;
-    font-size: 0.95rem;
-    display: block;
-}
-
-/* APLICAR ESPACIO ESPECÍFICO AL CUERPO DEL TEXTO DEL TESTIMONIO */
-/* NOTA: Ya que no usas una clase específica, asumiré que el texto del testimonio 
-   viene justo después de la información del autor/servicio. */
-p {
-    line-height: 1.6; /* Mayor altura de línea para mejor lectura */
-    margin-bottom: 1.5rem; /* Espacio después de cada párrafo de testimonio */
-}
-
-/* Añadir margen a los bloques de Testimonios Destacados */
-/* Esto apunta a las etiquetas fuertes que encierran el nombre y el servicio */
 strong {
     display: block;
     margin-top: 1.5rem; 
     font-size: 1.1rem;
-    color: #000;
+    /* Eliminado: color: #000; */
 }
+
+/* Estilo para el servicio (italica) */
+/* NOTA: Tu HTML envuelve el servicio en cursivas (*Servicio*), lo cual es ideal */
+em { 
+    display: block;
+    font-style: italic;
+    /* Eliminado: color: #666; */
+    font-size: 0.95rem;
+    margin-top: 0.3rem;
+    font-weight: normal;
+}
+
+/* APLICAR ESPACIO ESPECÍFICO AL CUERPO DEL TEXTO DEL TESTIMONIO */
+p {
+    line-height: 1.6; 
+    margin-bottom: 1.5rem; 
+    /* Eliminado: color: #222; */
+}
+
 </style>
 
