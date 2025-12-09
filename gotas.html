@@ -3,16 +3,18 @@ layout: page
 title: "Mis Gotas"
 permalink: /gotas/
 ---
-
 <h2>Fragmentos aforísticos</h2>
 <div id="github-issues-feed">Cargando gotas...</div>
 <div id="github-pagination" style="margin-top:2em;"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <script>
 const repo = "KajiiNarumi/iasuarezv";
 const perPage = 10;
 let currentPage = 1;
-let isLoading = false; // Bandera para evitar múltiples cargas
-let hasMore = true;   // Bandera para saber si hay más páginas disponibles
+let isLoading = false;
+let hasMore = true;
 
 // --- Elementos del DOM ---
 const feedElement = document.getElementById('github-issues-feed');
@@ -46,7 +48,7 @@ function renderIssues(issues, append = false) {
         <span style="color:#888;">${new Date(issue.created_at).toLocaleString()}</span>
       </div>
       <h3 style="margin-top:0.5em;">${escapeHtml(issue.title)}</h3>
-      <div>${issue.body ? escapeHtml(issue.body).replace(/\n/g,"<br>") : ""}</div>
+      <div>${issue.body ? marked.parse(issue.body) : ""}</div> 
       <div style="margin-top:1em;">
         <a href="${issue.html_url}" target="_blank">Comentar en GitHub</a>
       </div>
@@ -69,7 +71,7 @@ function renderIssues(issues, append = false) {
               <img src="${comment.user.avatar_url}" alt="${comment.user.login}" style="width:24px;border-radius:50%;vertical-align:middle;">
               <strong>${escapeHtml(comment.user.login)}</strong>
               <span style="color:#999;">${new Date(comment.created_at).toLocaleString()}</span>
-              <div>${escapeHtml(comment.body).replace(/\n/g,"<br>")}</div>
+              <div>${marked.parse(comment.body)}</div> 
             </li>`;
           });
           commentHtml += "</ul>";
@@ -96,14 +98,12 @@ function updateLoadMoreButton() {
         } else {
             loadMoreBtn.innerText = "Fin de las gotas.";
             loadMoreBtn.disabled = true;
-            // Opcional: Ocultar completamente el botón si prefieres que no haya mensaje al final
-            // loadMoreBtn.style.display = 'none'; 
         }
     }
 }
 
 function loadIssues(page, append = false) {
-  if (isLoading || (append && !hasMore)) return; // Evita doble carga o cargar si ya no hay más
+  if (isLoading || (append && !hasMore)) return;
 
   isLoading = true;
   updateLoadMoreButton();
@@ -112,7 +112,6 @@ function loadIssues(page, append = false) {
     currentPage = page;
   }
 
-  // Solo mostramos el mensaje de "Cargando gotas..." si es la primera carga (no appending)
   if (!append) {
     feedElement.innerHTML = "Cargando gotas...";
   }
@@ -123,13 +122,12 @@ function loadIssues(page, append = false) {
       isLoading = false;
       renderIssues(issues, append);
 
-      // Determina si hay más gotas para la siguiente página
       hasMore = issues.length === perPage;
       updateLoadMoreButton();
     })
     .catch(error => {
         isLoading = false;
-        hasMore = false; // Asume que no hay más si hubo un error
+        hasMore = false;
         updateLoadMoreButton();
         console.error("Error al cargar issues:", error);
     });
@@ -139,13 +137,9 @@ function loadIssues(page, append = false) {
 // Lógica de Scroll Infinito Automático
 // ------------------------------------------
 window.addEventListener('scroll', () => {
-    // Definimos el umbral: 500px antes de llegar al final de la página
     const scrollThreshold = 500; 
-    
-    // Calcula si la posición de scroll está cerca del fondo
     const nearBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - scrollThreshold);
 
-    // Si estamos cerca del fondo, no estamos cargando, y hay más contenido, cargamos la siguiente página
     if (nearBottom && !isLoading && hasMore) {
         loadIssues(currentPage + 1, true);
     }
