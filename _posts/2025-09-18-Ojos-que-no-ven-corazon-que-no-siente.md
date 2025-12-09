@@ -1,12 +1,12 @@
 ---
 layout: post
-name: "I. Antoine Suárez V."
+author:
+  name: "I. Antoine Suárez V."
 title: "Ojos que no ven, corazón que no siente"
 date: 2025-09-18
 image:
   path: /images/2025-09-18-Ojos-que-no-ven-corazon-que-no-siente.jpg
   caption: "Foto de Arnold Dogelis en Unsplash"
-  image_alt: "Bosque nevado en penumbra"
 excerpt: "Reflexión sobre cómo enfrentamos la realidad, el miedo al cambio y la importancia de tomar decisiones conscientes en momentos difíciles de la vida."
 ---
 
