@@ -14,7 +14,9 @@
 #- title: Libreta
 #  url: /libreta/
 - title: Mi Tinta
-  url: /tinta/
+  url: /tinta
+- title: Mi Pluma
+  url: /pluma
 - title: Mis Gotas
   url: /gotas
 #- title: Galeria
