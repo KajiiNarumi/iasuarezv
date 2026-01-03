@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://iasuarezv.com/sitemap.xml
