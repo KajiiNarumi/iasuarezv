@@ -61,7 +61,7 @@ La presencia digital no debe construirse de manera improvisada. Debe partir de u
 **Tiempo estimado:** 2 a 4 semanas.  
 **Inversión:** $12,500 MXN (honorarios).
 
-[*Ejemplo 1*](https://sites.google.com/view/daetrum)  |  [*Ejemplo 2*](https://sites.google.com/view/kyonkymiory)
+> [*Ejemplo 1*](https://sites.google.com/view/daetrum)  |  [*Ejemplo 2*](https://sites.google.com/view/kyonkymiory)
 
 ---
 
@@ -87,7 +87,7 @@ La presencia digital no debe construirse de manera improvisada. Debe partir de u
 **Tiempo estimado:** 4 a 8 semanas.  
 **Inversión:** $19,500 MXN.
 
-[*Ejemplo 1*](https://mirsuarez.com/)  |  [*Ejemplo 2*](https://imefel.carrd.co/)
+> [*Ejemplo 1*](https://mirsuarez.com/)  |  [*Ejemplo 2*](https://imefel.carrd.co/)
 
 ---
 
@@ -114,7 +114,7 @@ La gestión completa del proceso creativo y estratégico se realiza internamente
 **Tiempo estimado:** 6 a 10 semanas.  
 **Inversión:** $29,500 MXN.
 
-[*Ejemplo 1*](https://experthum.mirsuarez.com/)  |  [*Ejemplo 2*](https://iasuarezv.com/)
+> [*Ejemplo 1*](https://experthum.mirsuarez.com/)  |  [*Ejemplo 2*](https://iasuarezv.com/)
 
 ---
 
