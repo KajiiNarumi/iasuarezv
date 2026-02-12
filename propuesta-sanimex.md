@@ -27,7 +27,7 @@ Después del análisis preliminar realizado, se identifican los siguientes punto
 Publicaciones repetitivas, sin estructura estratégica, no generan autoridad ni confianza.
 
 **Enfoque mal dirigido**  
-La ausencia de un sitio *web* propio limita el posicionamiento en Google, que es donde los usuarios buscan servicios relacionados con trámites de salubridad.
+La ausencia de un sitio *web* propio limita el posicionamiento en *Google*, que es donde los usuarios buscan servicios relacionados con trámites de salubridad.
 
 ---
 
@@ -37,7 +37,7 @@ Construir una presencia digital profesional que permita:
 
 - Generar confianza y autoridad.
 - Facilitar el contacto directo con clientes potenciales.
-- Posicionar la marca en búsquedas relevantes en Google.
+- Posicionar la marca en búsquedas relevantes en *Google*.
 - Diferenciarse claramente de marcas homónimas.
 
 Es necesario que la presencia digital evite construirse de manera improvisada. Se propone partir de una base sólida: identidad visual, estructura clara y estrategia coherente.
@@ -82,7 +82,7 @@ Es necesario que la presencia digital evite construirse de manera improvisada. S
   - Proceso de trabajo
   - Preguntas frecuentes
   - Contacto directo a *WhatsApp*
-- Optimización SEO básica.
+- Optimización *SEO* básica.
 - Configuración técnica completa.
 - 4 rondas de revisión.
 
@@ -93,7 +93,7 @@ Es necesario que la presencia digital evite construirse de manera improvisada. S
 
 ---
 
-# Propuesta 3 – Posicionamiento Estratégico y Branding Profesional
+# Propuesta 3 – Posicionamiento Estratégico y *Branding* Profesional
 
 Este plan está pensado para empresas que desean construir una marca sólida desde la base, evitando improvisaciones o rediseños futuros.
 
