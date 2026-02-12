@@ -11,23 +11,23 @@ meta_custom: <meta name="robots" content="noindex, nofollow">
 
 ---
 
-## Diagnóstico Actual (Por qué no está convirtiendo)
+## Diagnóstico Actual (¿Por qué no está llegando a las personas correctas?)
 
 Después del análisis preliminar realizado, se identifican los siguientes puntos:
 
-- Actualmente no existe un sitio web formal.
-- La presencia digital se limita principalmente a Facebook.
+- Actualmente no existe un sitio *web* formal.
+- La presencia digital se limita principalmente a *Facebook*.
 - Existe una marca homónima ya posicionada en otro sector.
 - No hay una identidad visual consolidada.
 - No existe una estrategia clara de captación digital.
 
 ### Problemas detectados
 
-**Inconsistencia en Redes:**  
-Publicaciones repetitivas sin estructura estratégica no generan autoridad ni confianza.
+**No existe una estrategia real**  
+Publicaciones repetitivas, sin estructura estratégica, no generan autoridad ni confianza.
 
-**Falta de Canal Oficial:**  
-La ausencia de un sitio web propio limita el posicionamiento en Google, que es donde los usuarios buscan servicios relacionados con trámites de salubridad.
+**Enfoque mal dirigido**  
+La ausencia de un sitio *web* propio limita el posicionamiento en Google, que es donde los usuarios buscan servicios relacionados con trámites de salubridad.
 
 ---
 
@@ -40,7 +40,7 @@ Construir una presencia digital profesional que permita:
 - Posicionar la marca en búsquedas relevantes en Google.
 - Diferenciarse claramente de marcas homónimas.
 
-La presencia digital no debe construirse de manera improvisada. Debe partir de una base sólida: identidad visual, estructura clara y estrategia coherente.
+Es necesario que la presencia digital evite construirse de manera improvisada. Se propone partir de una base sólida: identidad visual, estructura clara y estrategia coherente.
 
 ---
 
@@ -51,15 +51,16 @@ La presencia digital no debe construirse de manera improvisada. Debe partir de u
 - Asesoría estratégica para resolver los problemas críticos detectados.
 - Optimización de 1 perfil social.
 - Sugerencias de imagen de marca (orientación visual).
-- Página web simple:
+- Página *web* simple:
+  - Contratación de dominio personalizado* (www.tu-marca.com)
   - Inicio
   - Servicios
-  - Contacto directo a WhatsApp
+  - Contacto directo a *WhatsApp*
 - Diseño limpio, estructurado y profesional.
 - 4 rondas de revisión.
 
-**Tiempo estimado:** 2 a 4 semanas.  
-**Inversión:** $12,500 MXN (honorarios).
+**Desarrollo del proyecto:** De 2 a 4 semanas.  
+**Inversión:** $12,500 MXN (honorarios libres de impuestos).
 
 > [*Ejemplo 1*](https://sites.google.com/view/daetrum)  |  [*Ejemplo 2*](https://sites.google.com/view/kyonkymiory)
 
@@ -74,17 +75,18 @@ La presencia digital no debe construirse de manera improvisada. Debe partir de u
   - Logo simple
   - Paleta de colores
   - Tipografías recomendadas
-- Página web alojada:
+- Página *web* minimalista:
+  - Alojamiento para mayor flexibilidad del sitio**
   - Inicio
   - Servicios
   - Proceso de trabajo
   - Preguntas frecuentes
-  - Contacto directo a WhatsApp
+  - Contacto directo a *WhatsApp*
 - Optimización SEO básica.
 - Configuración técnica completa.
 - 4 rondas de revisión.
 
-**Tiempo estimado:** 4 a 8 semanas.  
+**Desarrollo del proyecto:** De 4 a 8 semanas.  
 **Inversión:** $19,500 MXN.
 
 > [*Ejemplo 1*](https://mirsuarez.com/)  |  [*Ejemplo 2*](https://imefel.carrd.co/)
@@ -111,7 +113,7 @@ Este plan está pensado para empresas que desean construir una marca sólida des
 En este plan, el contratante no necesita buscar diseñador ni coordinar proveedores externos.  
 La gestión completa del proceso creativo y estratégico se realiza internamente bajo dirección profesional.
 
-**Tiempo estimado:** 6 a 10 semanas.  
+**Desarrollo del proyecto:** De 6 a 10 semanas.  
 **Inversión:** $29,500 MXN.
 
 > [*Ejemplo 1*](https://experthum.mirsuarez.com/)  |  [*Ejemplo 2*](https://iasuarezv.com/)
@@ -120,7 +122,7 @@ La gestión completa del proceso creativo y estratégico se realiza internamente
 
 ## Dominio y Alojamiento
 
-El dominio y el alojamiento son contratados a nombre del cliente.
+El dominio y el alojamiento son contratados anualmente. En caso de que el contratante lo requiera, se puede hacer migración de los servicios a su cuenta, pero todo el mantenimiento dependerá del contratante.
 
 - Dominio: desde $400 MXN anuales.
 - Alojamiento: desde $700 MXN anuales.
@@ -151,8 +153,8 @@ Una vez entregado el proyecto:
 ## Condiciones de Trabajo
 
 - Información y materiales proporcionados por el contratante.
-- 50% de anticipo para iniciar proyecto.
-- 50% contra entrega antes de publicación.
+- 50% de anticipo para iniciar el proyecto.
+- 50% contra entrega antes de la publicación.
 - Cambios fuera del alcance inicial se cotizan por separado.
 
 ---
@@ -188,5 +190,3 @@ La captación es consecuencia de una base sólida.
 - Si el proyecto se detiene por más de 30 días naturales sin respuesta del cliente, se considerará pausado.
 - Para reactivar un proyecto pausado podrá aplicarse un ajuste de costos dependiendo del tiempo transcurrido.
 - En caso de cancelación definitiva, los materiales desarrollados hasta el momento podrán entregarse únicamente si el saldo pendiente ha sido liquidado.
-
-
