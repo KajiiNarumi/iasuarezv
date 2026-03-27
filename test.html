@@ -8,67 +8,77 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@400&display=swap" rel="stylesheet">
 
 <style>
-body{
+html, body{
   margin:0;
+  height:100%;
   overflow:hidden;
-  transition:0.5s;
 }
 
-/* SPLIT */
+/* SPLIT BASE */
 .split{
   position:absolute;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
+  text-align:center;
   transition:0.6s;
+  width:50%;
+  height:100vh;
+  top:0;
+  cursor:pointer;
 }
 
 .left{
+  left:0;
   background:#fff;
   color:#000;
   font-family:'Playfair Display', serif;
 }
 
 .right{
+  right:0;
   background:#000;
   color:#fff;
   font-family:'Inter', sans-serif;
 }
 
 h1{
-  font-size:clamp(1.8rem,3vw,2.4rem);
-  margin:0 0 20px;
+  font-size:clamp(2rem,3vw,2.5rem);
+  margin:0;
+  transition:0.4s;
+}
+
+/* mover título cuando hay contenido */
+body.light .left h1,
+body.dark .right h1{
+  transform:translateY(-80px);
 }
 
 /* CONTENIDO */
 .content{
+  position:absolute;
+  top:60%;
+  left:50%;
+  transform:translate(-50%, -50%);
   opacity:0;
   transition:0.4s;
-  text-align:center;
   font-size:0.9rem;
+  pointer-events:none;
 }
 
 body.light .left .content,
 body.dark .right .content{
   opacity:1;
+  pointer-events:auto;
 }
 
-/* DESKTOP */
-.split{
-  width:50%;
-  height:100%;
-  top:0;
-}
-
-.left{ left:0;}
-.right{ right:0;}
-
-body.light .right{ width:0;}
+/* ESTADOS */
 body.light .left{ width:100%;}
+body.light .right{ width:0;}
 
-body.dark .left{ width:0;}
 body.dark .right{ width:100%;}
+body.dark .left{ width:0;}
 
 /* MOBILE */
 @media(max-width:768px){
@@ -88,11 +98,11 @@ body.dark .right{ width:100%;}
   }
 }
 
-/* TOGGLE */
+/* BOTÓN ORIGINAL RESTAURADO */
 .toggle{
   position:absolute;
-  width:52px;
-  height:52px;
+  width:50px;
+  height:50px;
   border-radius:50%;
   top:50%;
   left:50%;
@@ -100,23 +110,33 @@ body.dark .right{ width:100%;}
   display:flex;
   overflow:hidden;
   z-index:10;
-  transition:0.6s;
+  transition:0.5s;
+  opacity:0;
+}
+
+/* aparece solo cuando eliges */
+body.light .toggle,
+body.dark .toggle{
+  opacity:1;
 }
 
 .half{
   width:50%;
   height:100%;
-  cursor:pointer;
 }
 
-/* COLORES DINÁMICOS */
+/* colores base */
+.white{ background:#fff;}
+.black{ background:#000;}
+
+/* contraste dinámico */
 body.light .white{ background:#000;}
 body.light .black{ background:#fff;}
 
 body.dark .white{ background:#fff;}
 body.dark .black{ background:#000;}
 
-/* POSICIÓN + GIRO */
+/* posición y giro bonito */
 body.light .toggle{
   left:8%;
   transform:translate(-50%,-50%) rotate(180deg);
@@ -124,7 +144,7 @@ body.light .toggle{
 
 body.dark .toggle{
   left:92%;
-  transform:translate(-50%,-50%) rotate(0deg);
+  transform:translate(-50%,-50%);
 }
 
 /* FOOTER */
@@ -135,6 +155,13 @@ footer{
   text-align:center;
   font-size:0.8rem;
   padding:10px;
+  opacity:0;
+  transition:0.3s;
+}
+
+body.light footer,
+body.dark footer{
+  opacity:1;
 }
 
 footer a{
@@ -154,16 +181,16 @@ body.dark footer{ color:#fff;}
 
 body.light footer::before{ background:#000;}
 body.dark footer::before{ background:#fff;}
-body:not(.light):not(.dark) footer::before{ background:#888;}
 
 </style>
 </head>
 
 <body>
 
-<!-- LADO BLANCO -->
+<!-- BLANCO -->
 <div class="split left" onclick="setMode('light')">
   <h1>AntuanSV</h1>
+
   <div class="content">
     Mi contenido XXX<br><br>
     Fansly - VIP<br>
@@ -174,18 +201,19 @@ body:not(.light):not(.dark) footer::before{ background:#888;}
   </div>
 </div>
 
-<!-- LADO NEGRO -->
+<!-- NEGRO -->
 <div class="split right" onclick="setMode('dark')">
   <h1>I. Antoine Suárez V.</h1>
+
   <div class="content">
     Escritor · Fotógrafo · Aforista
   </div>
 </div>
 
-<!-- BOTÓN -->
-<div class="toggle">
-  <div class="half white" onclick="toggleMode('white', event)"></div>
-  <div class="half black" onclick="toggleMode('black', event)"></div>
+<!-- BOTÓN BONITO -->
+<div class="toggle" onclick="toggleMode()">
+  <div class="half white"></div>
+  <div class="half black"></div>
 </div>
 
 <footer>
@@ -196,21 +224,14 @@ body:not(.light):not(.dark) footer::before{ background:#888;}
 
 <script>
 function setMode(mode){
-  document.body.className=mode;
+  document.body.className = mode;
 }
 
-/* lógica correcta del botón */
-function toggleMode(side,e){
-  e.stopPropagation();
-
-  if(document.body.classList.contains('light')){
-    if(side==='black') setMode('dark');
-  }else if(document.body.classList.contains('dark')){
-    if(side==='white') setMode('light');
+function toggleMode(){
+  if(document.body.className === "light"){
+    setMode("dark");
   }else{
-    /* estado inicial */
-    if(side==='white') setMode('light');
-    if(side==='black') setMode('dark');
+    setMode("light");
   }
 }
 </script>
