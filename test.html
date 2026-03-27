@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Dualidad</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .split {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.6s ease;
+  }
+
+  .left {
+    left: 0;
+    background: #fff;
+    color: #000;
+    font-family: 'DM Serif Display', serif;
+  }
+
+  .right {
+    right: 0;
+    background: #000;
+    color: #fff;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  h1 {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    text-align: center;
+    padding: 20px;
+    pointer-events: none;
+  }
+
+  /* estados desktop */
+  body.light .right { width: 0; }
+  body.light .left { width: 100%; }
+
+  body.dark .left { width: 0; }
+  body.dark .right { width: 100%; }
+
+  /* círculo */
+  .toggle {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    overflow: hidden;
+    z-index: 10;
+    transition: all 0.6s ease;
+  }
+
+  /* movimiento + rotación completa */
+  body.light .toggle {
+    left: 8%;
+    transform: translate(-50%, -50%) rotate(180deg);
+  }
+
+  body.dark .toggle {
+    left: 92%;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .half {
+    width: 50%;
+    height: 100%;
+  }
+
+  /* contraste REAL dinámico */
+  body.light .white { background: #000; }
+  body.light .black { background: #fff; }
+
+  body.dark .white { background: #fff; }
+  body.dark .black { background: #000; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+
+    .split {
+      width: 100%;
+      height: 50%;
+    }
+
+    .left {
+      top: 0;
+      left: 0;
+    }
+
+    .right {
+      top: 50%;
+      left: 0;
+    }
+
+    body.light .right {
+      height: 0;
+    }
+
+    body.light .left {
+      height: 100%;
+    }
+
+    body.dark .left {
+      height: 0;
+    }
+
+    body.dark .right {
+      height: 100%;
+    }
+
+    body.light .toggle {
+      top: 8%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(180deg);
+    }
+
+    body.dark .toggle {
+      top: 92%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+  }
+
+</style>
+</head>
+
+<body>
+
+<div class="split left" onclick="setMode('light')">
+  <h1>AntuanSV</h1>
+</div>
+
+<div class="split right" onclick="setMode('dark')">
+  <h1>I. Antoine Suárez V.</h1>
+</div>
+
+<div class="toggle" onclick="handleToggle(event)">
+  <div class="half white"></div>
+  <div class="half black"></div>
+</div>
+
+<script>
+function setMode(mode) {
+  document.body.classList.remove('light', 'dark');
+  document.body.classList.add(mode);
+}
+
+function handleToggle(e) {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+
+  const isLeft = clickX < rect.width / 2;
+
+  if (isLeft) {
+    setMode('light');
+  } else {
+    setMode('dark');
+  }
+}
+</script>
+
+</body>
+</html>
