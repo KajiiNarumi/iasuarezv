@@ -27,7 +27,7 @@ html, body{
   height:100vh;
   top:0;
   cursor:pointer;
-  overflow-y:auto;
+  overflow:hidden; /* 🔥 sin scroll inicial */
 }
 
 .left{
@@ -44,15 +44,46 @@ html, body{
   font-family:'Inter', sans-serif;
 }
 
+/* activar scroll SOLO cuando se abre */
+body.light .left,
+body.dark .right{
+  overflow-y:auto;
+}
+
+/* H1 */
 h1{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
   font-size:clamp(2.4rem,4vw,3rem);
   margin:0;
   transition:0.4s;
 }
 
+/* subtítulos */
+.subtitle{
+  position:absolute;
+  top:calc(50% + 40px);
+  left:50%;
+  transform:translate(-50%, -50%);
+  font-size:1rem;
+  font-style:italic;
+  opacity:0.7;
+  transition:0.4s;
+}
+
+/* mover al activar */
 body.light .left h1,
 body.dark .right h1{
-  transform:translateY(-140px);
+  top:40px;
+  transform:translate(-50%, 0);
+}
+
+body.light .left .subtitle,
+body.dark .right .subtitle{
+  top:85px;
+  transform:translate(-50%, 0);
 }
 
 /* CONTENIDO */
@@ -63,10 +94,8 @@ body.dark .right h1{
   transform:translateX(-50%);
   width:85%;
   max-width:520px;
-
   opacity:0;
   transition:0.4s;
-
   pointer-events:none;
 }
 
@@ -82,13 +111,11 @@ body.dark .right .content{
   font-size:1.1rem;
 }
 
-/* etiqueta */
 .label{
   opacity:0.5;
   margin-right:6px;
 }
 
-/* links */
 .link{
   text-decoration:underline;
   color:inherit;
@@ -115,7 +142,6 @@ body.dark .right .content{
   transform:translateX(4px);
 }
 
-/* ocultar */
 .hidden{
   display:none;
 }
@@ -127,7 +153,24 @@ body.light .right{ width:0;}
 body.dark .right{ width:100%;}
 body.dark .left{ width:0;}
 
-/* BOTÓN CIRCULAR */
+/* MOBILE */
+@media(max-width:768px){
+  .split{
+    width:100%;
+    height:50%;
+  }
+
+  .left{ top:0; left:0;}
+  .right{ top:50%; left:0;}
+  
+  body.light .split,
+  body.dark .split{
+    height:100%;
+    top:0;
+  }
+}
+
+/* BOTÓN */
 .toggle{
   position:absolute;
   width:50px;
@@ -196,28 +239,17 @@ footer::before{
   margin-bottom:8px;
 }
 
-body.light footer{
-  color:#000;
-}
+body.light footer{ color:#000;}
+body.dark footer{ color:#fff;}
 
-body.dark footer{
-  color:#fff;
-}
-
-body.light footer::before{
-  background:#000;
-}
-
-body.dark footer::before{
-  background:#fff;
-}
+body.light footer::before{ background:#000;}
+body.dark footer::before{ background:#fff;}
 
 footer a{
   color:inherit;
   text-decoration:underline;
 }
 
-/* quitar azul */
 a:visited{
   color:inherit;
 }
@@ -229,9 +261,9 @@ a:visited{
 <!-- BLANCO -->
 <div class="split left" onclick="setMode('light')">
   <h1>AntuanSV</h1>
+  <div class="subtitle">Actor de Contenido para Adultos</div>
 
   <div class="content">
-
     <div id="mainContent">
 
       <div class="row">
@@ -275,16 +307,16 @@ a:visited{
       </div>
 
     </div>
-
   </div>
 </div>
 
 <!-- NEGRO -->
 <div class="split right" onclick="setMode('dark')">
   <h1>I. Antoine Suárez V.</h1>
+  <div class="subtitle">Consultor Estratégico Personal</div>
 
   <div class="content">
-    <div class="row">Escritor · Fotógrafo · Aforista</div>
+    <div class="row">Blog · Escritura · Aforismos · Galería</div>
   </div>
 </div>
 
