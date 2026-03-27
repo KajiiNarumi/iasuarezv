@@ -49,22 +49,31 @@ h1{
   transition:0.4s;
 }
 
-/* mover título cuando hay contenido */
+/* mover título */
 body.light .left h1,
 body.dark .right h1{
-  transform:translateY(-80px);
+  transform:translateY(-120px);
 }
 
 /* CONTENIDO */
 .content{
   position:absolute;
-  top:60%;
+  top:55%;
   left:50%;
-  transform:translate(-50%, -50%);
+  transform:translateX(-50%);
+  width:80%;
+  max-width:400px;
+
   opacity:0;
   transition:0.4s;
+
   font-size:0.9rem;
+  text-align:left;
   pointer-events:none;
+
+  max-height:50vh;
+  overflow-y:auto;
+  padding-bottom:20px;
 }
 
 body.light .left .content,
@@ -82,7 +91,6 @@ body.dark .left{ width:0;}
 
 /* MOBILE */
 @media(max-width:768px){
-
   .split{
     width:100%;
     height:50%;
@@ -98,7 +106,7 @@ body.dark .left{ width:0;}
   }
 }
 
-/* BOTÓN ORIGINAL RESTAURADO */
+/* BOTÓN */
 .toggle{
   position:absolute;
   width:50px;
@@ -114,7 +122,6 @@ body.dark .left{ width:0;}
   opacity:0;
 }
 
-/* aparece solo cuando eliges */
 body.light .toggle,
 body.dark .toggle{
   opacity:1;
@@ -125,18 +132,15 @@ body.dark .toggle{
   height:100%;
 }
 
-/* colores base */
 .white{ background:#fff;}
 .black{ background:#000;}
 
-/* contraste dinámico */
 body.light .white{ background:#000;}
 body.light .black{ background:#fff;}
 
 body.dark .white{ background:#fff;}
 body.dark .black{ background:#000;}
 
-/* posición y giro bonito */
 body.light .toggle{
   left:8%;
   transform:translate(-50%,-50%) rotate(180deg);
@@ -182,12 +186,78 @@ body.dark footer{ color:#fff;}
 body.light footer::before{ background:#000;}
 body.dark footer::before{ background:#fff;}
 
+/* LINKS ELEGANTES */
+.links{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-top:15px;
+}
 
+.links a{
+  text-decoration:none;
+  color:inherit;
+  display:block;
+  position:relative;
+  transition:0.3s;
+}
 
+.links a strong{
+  font-weight:500;
+  letter-spacing:0.5px;
+}
 
+.links a span{
+  display:block;
+  font-size:0.75rem;
+  opacity:0.6;
+  margin-top:2px;
+}
 
-  
+/* línea sutil */
+.links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-2px;
+  width:0%;
+  height:1px;
+  background:currentColor;
+  transition:0.3s;
+}
 
+.links a:hover::after{
+  width:100%;
+}
+
+.links a:hover{
+  transform:translateX(4px);
+  opacity:0.85;
+}
+
+/* mini links */
+.links.small{
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+}
+
+.links.small a{
+  font-size:0.75rem;
+  opacity:0.7;
+}
+
+.cta{
+  margin-top:20px;
+  font-size:0.9rem;
+  opacity:0.8;
+}
+
+/* eliminar azul */
+a:visited{
+  color:inherit;
+}
 </style>
 </head>
 
@@ -197,13 +267,62 @@ body.dark footer::before{ background:#fff;}
 <div class="split left" onclick="setMode('light')">
   <h1>AntuanSV</h1>
 
+  <div class="content">
 
+    <h2>Mi contenido XXX</h2>
 
+    <p>
+      Acceso directo a lo exclusivo, lo íntimo y lo que no se publica en ningún otro lado.
+    </p>
 
+    <div class="links">
 
+      <a href="https://fansly.com/IASuarezV/posts" target="_blank">
+        <strong>Fansly</strong>
+        <span>VIP · contenido exclusivo</span>
+      </a>
 
+      <a href="https://es.stripchat.com/AntuanSV" target="_blank">
+        <strong>Stripchat</strong>
+        <span>En vivo · interacción real</span>
+      </a>
 
+      <a href="https://es.xhamster.com/gay/creators/antuansv" target="_blank">
+        <strong>Solo</strong>
+        <span>xHamster · avances</span>
+      </a>
 
+      <a href="https://faphouse.com/es/gay/models/antuansv-4men" target="_blank">
+        <strong>FapHouse</strong>
+        <span>videos completos</span>
+      </a>
+
+      <a href="https://es.xhamster.com/creators/antuansv" target="_blank">
+        <strong>Colaboraciones</strong>
+        <span>xHamster · trailers</span>
+      </a>
+
+      <a href="https://faphouse.com/es/models/antuansv" target="_blank">
+        <strong>Colaboraciones</strong>
+        <span>FapHouse · contenido completo</span>
+      </a>
+
+    </div>
+
+    <p class="cta">
+      ¿Quieres crear contenido?
+    </p>
+
+    <div class="links small">
+      <a href="https://onlyfans.com/?ref=288562500" target="_blank">OnlyFans</a>
+      <a href="https://fansly.com/application/form?r=AntuanSV" target="_blank">Fansly</a>
+      <a href="https://stripchat.com/IASuarezV/follow-me" target="_blank">Stripchat</a>
+      <a href="https://es.xhamster.com/creator?refid=kHamD" target="_blank">xHamster</a>
+      <a href="https://fhrdr.com/go/dYTtw" target="_blank">FapHouse</a>
+    </div>
+
+  </div>
+</div>
 
 <!-- NEGRO -->
 <div class="split right" onclick="setMode('dark')">
@@ -214,7 +333,7 @@ body.dark footer::before{ background:#fff;}
   </div>
 </div>
 
-<!-- BOTÓN BONITO -->
+<!-- BOTÓN -->
 <div class="toggle" onclick="toggleMode()">
   <div class="half white"></div>
   <div class="half black"></div>
