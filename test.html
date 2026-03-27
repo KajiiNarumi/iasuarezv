@@ -13,7 +13,41 @@ body {
   overflow: hidden;
 }
 
-/* BASE */
+/* HEADER / FOOTER */
+header, footer {
+  position: fixed;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  z-index: 20;
+  transition: all 0.5s ease;
+}
+
+header { top: 0; }
+footer { bottom: 0; }
+
+/* ocultos al inicio */
+body.start header,
+body.start footer {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* LIGHT MODE */
+body.light header,
+body.light footer {
+  background: #000;
+  color: #fff;
+}
+
+/* DARK MODE */
+body.dark header,
+body.dark footer {
+  background: #fff;
+  color: #000;
+}
+
+/* SPLIT */
 .split {
   position: absolute;
   width: 50%;
@@ -41,24 +75,23 @@ body {
 }
 
 h1 {
-  font-size: clamp(1.6rem, 4vw, 2.4rem);
-  text-align: center;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
   padding: 20px;
-  pointer-events: none;
 }
 
-/* ESTADO INICIAL */
-body.start .left { width: 50%; }
-body.start .right { width: 50%; }
+/* ESTADOS DESKTOP */
+body.start .left,
+body.start .right {
+  width: 50%;
+}
 
-/* ESTADOS */
 body.light .left { width: 100%; }
 body.light .right { width: 0; }
 
 body.dark .right { width: 100%; }
 body.dark .left { width: 0; }
 
-/* CÍRCULO */
+/* TOGGLE */
 .toggle {
   position: absolute;
   width: 48px;
@@ -73,11 +106,6 @@ body.dark .left { width: 0; }
   transition: all 0.6s ease;
 }
 
-/* POSICIÓN */
-body.start .toggle {
-  left: 50%;
-}
-
 body.light .toggle {
   left: 8%;
   transform: translate(-50%, -50%) rotate(180deg);
@@ -85,7 +113,7 @@ body.light .toggle {
 
 body.dark .toggle {
   left: 92%;
-  transform: translate(-50%, -50%) rotate(0deg);
+  transform: translate(-50%, -50%);
 }
 
 .half {
@@ -100,24 +128,32 @@ body.light .black { background: #fff; }
 body.dark .white { background: #fff; }
 body.dark .black { background: #000; }
 
-/* MOBILE (sin romper layout) */
+/* MOBILE INTRO (vertical SOLO en start) */
 @media (max-width: 768px) {
 
+  body.start .split {
+    width: 100%;
+    height: 50%;
+  }
+
+  body.start .left {
+    top: 0;
+  }
+
+  body.start .right {
+    top: 50%;
+  }
+
+  /* cuando eliges → vuelve a horizontal */
+  body.light .split,
+  body.dark .split {
+    width: 100%;
+    height: 100%;
+    top: 0;
+  }
+
   h1 {
-    font-size: clamp(1.2rem, 5vw, 1.6rem);
-  }
-
-  .toggle {
-    width: 42px;
-    height: 42px;
-  }
-
-  body.light .toggle {
-    left: 12%;
-  }
-
-  body.dark .toggle {
-    left: 88%;
+    font-size: clamp(1.4rem, 6vw, 2rem);
   }
 }
 
@@ -125,6 +161,9 @@ body.dark .black { background: #000; }
 </head>
 
 <body class="start">
+
+<header>Header</header>
+<footer>Footer</footer>
 
 <div class="split left" onclick="setMode('light')">
   <h1>AntuanSV</h1>
@@ -156,7 +195,7 @@ function handleToggle(e) {
   }
 }
 
-/* FORZAR estado inicial SIEMPRE */
+/* siempre iniciar limpio */
 window.addEventListener('load', () => {
   document.body.className = 'start';
 });
