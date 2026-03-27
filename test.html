@@ -61,10 +61,10 @@ h1{
   transition:0.4s;
 }
 
-/* SUBTITULO (más pequeño y separado) */
+/* SUBTITULO */
 .subtitle{
   position:absolute;
-  top:calc(50% + 55px);
+  top:calc(50% + 70px);
   left:50%;
   transform:translate(-50%, -50%);
   font-size:0.85rem;
@@ -83,11 +83,40 @@ body.dark .right h1{
 
 body.light .left .subtitle,
 body.dark .right .subtitle{
-  top:75px;
+  top:95px;
   transform:translate(-50%, 0);
 }
 
-/* CONTENIDO (más centrado real) */
+/* MOBILE ajuste real */
+@media(max-width:768px){
+
+  .split{
+    width:100%;
+    height:50%;
+  }
+
+  .left{ top:0; left:0;}
+  .right{ top:50%; left:0;}
+
+  body.light .split,
+  body.dark .split{
+    height:100%;
+    top:0;
+  }
+
+  body.light .left .subtitle,
+  body.dark .right .subtitle{
+    top:25vh;
+    transform:translate(-50%, 0);
+  }
+
+  body.light .left h1,
+  body.dark .right h1{
+    top:20px;
+  }
+}
+
+/* CONTENIDO */
 .content{
   position:absolute;
   top:52%;
@@ -95,7 +124,6 @@ body.dark .right .subtitle{
   transform:translate(-50%, -50%);
   width:85%;
   max-width:520px;
-
   opacity:0;
   transition:0.4s;
   pointer-events:none;
@@ -155,23 +183,6 @@ body.light .right{ width:0;}
 body.dark .right{ width:100%;}
 body.dark .left{ width:0;}
 
-/* MOBILE */
-@media(max-width:768px){
-  .split{
-    width:100%;
-    height:50%;
-  }
-
-  .left{ top:0; left:0;}
-  .right{ top:50%; left:0;}
-
-  body.light .split,
-  body.dark .split{
-    height:100%;
-    top:0;
-  }
-}
-
 /* BOTÓN */
 .toggle{
   position:absolute;
@@ -217,7 +228,7 @@ body.dark .toggle{
   transform:translate(-50%,-50%);
 }
 
-/* FOOTER */
+/* FOOTER oculto por defecto */
 footer{
   position:fixed;
   bottom:0;
@@ -229,6 +240,7 @@ footer{
   transition:0.3s;
 }
 
+/* mostrar solo en modo activo */
 body.light footer,
 body.dark footer{
   opacity:1;
@@ -252,8 +264,26 @@ footer a{
   text-decoration:underline;
 }
 
-a:visited{
+/* LINKS EXTRA ocultos hasta activar */
+.footer-links{
+  position:absolute;
+  bottom:60px;
+  width:100%;
+  text-align:center;
+  font-size:0.8rem;
+  opacity:0;
+  transition:0.3s;
+}
+
+body.light .left .footer-links,
+body.dark .right .footer-links{
+  opacity:0.6;
+}
+
+.footer-links a{
   color:inherit;
+  text-decoration:underline;
+  margin:0 4px;
 }
 </style>
 </head>
@@ -307,6 +337,12 @@ a:visited{
       </div>
     </div>
   </div>
+
+  <div class="footer-links">
+    <a href="https://x.com/IASuarezV" target="_blank">X</a> · <a href="https://www.instagram.com/i.asuarezv/" target="_blank">Instagram</a><br>
+    
+    
+  </div>
 </div>
 
 <div class="split right" onclick="setMode('dark')">
@@ -316,6 +352,13 @@ a:visited{
   <div class="content">
     <div class="row">Blog · Escritura · Aforismos · Galería</div>
   </div>
+
+  <div class="footer-links">
+    <a href="https://bsky.app/profile/iasuarezv.com" target="_blank">Bluesky</a> · <a href="https://vero.co/iasuarezv" target="_blank">Vero</a> · <a href="https://onlyfans.com/iasuarezv" target="_blank">OnlyFans</a><br>
+    
+    
+    
+  </div>
 </div>
 
 <div class="toggle" onclick="toggleMode()">
@@ -324,8 +367,7 @@ a:visited{
 </div>
 
 <footer>
-<a href="#">Enlaces</a> ·
-<a href="#">RSS</a><br>
+<a href="#">Enlaces</a> · <a href="#">RSS</a><br>
 © 2026 I. Antoine Suárez V.
 </footer>
 
