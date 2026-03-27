@@ -14,7 +14,7 @@ html, body{
   overflow:hidden;
 }
 
-/* SPLIT BASE */
+/* SPLIT */
 .split{
   position:absolute;
   display:flex;
@@ -27,6 +27,7 @@ html, body{
   height:100vh;
   top:0;
   cursor:pointer;
+  overflow-y:auto;
 }
 
 .left{
@@ -44,15 +45,14 @@ html, body{
 }
 
 h1{
-  font-size:clamp(2rem,3vw,2.5rem);
+  font-size:clamp(2.4rem,4vw,3rem);
   margin:0;
   transition:0.4s;
 }
 
-/* mover título */
 body.light .left h1,
 body.dark .right h1{
-  transform:translateY(-120px);
+  transform:translateY(-140px);
 }
 
 /* CONTENIDO */
@@ -61,25 +61,63 @@ body.dark .right h1{
   top:55%;
   left:50%;
   transform:translateX(-50%);
-  width:80%;
-  max-width:400px;
+  width:85%;
+  max-width:520px;
 
   opacity:0;
   transition:0.4s;
 
-  font-size:0.9rem;
-  text-align:left;
   pointer-events:none;
-
-  max-height:50vh;
-  overflow-y:auto;
-  padding-bottom:20px;
 }
 
 body.light .left .content,
 body.dark .right .content{
   opacity:1;
   pointer-events:auto;
+}
+
+/* FILAS */
+.row{
+  margin:16px 0;
+  font-size:1.1rem;
+}
+
+/* etiqueta */
+.label{
+  opacity:0.5;
+  margin-right:6px;
+}
+
+/* links */
+.link{
+  text-decoration:underline;
+  color:inherit;
+  margin:0 6px;
+  transition:0.3s;
+}
+
+.link:hover{
+  opacity:0.6;
+}
+
+/* BOTÓN TEXTO */
+.text-btn{
+  margin-top:30px;
+  margin-bottom:25px;
+  cursor:pointer;
+  font-size:1rem;
+  opacity:0.6;
+  transition:0.3s;
+}
+
+.text-btn:hover{
+  opacity:1;
+  transform:translateX(4px);
+}
+
+/* ocultar */
+.hidden{
+  display:none;
 }
 
 /* ESTADOS */
@@ -89,24 +127,7 @@ body.light .right{ width:0;}
 body.dark .right{ width:100%;}
 body.dark .left{ width:0;}
 
-/* MOBILE */
-@media(max-width:768px){
-  .split{
-    width:100%;
-    height:50%;
-  }
-
-  .left{ top:0;}
-  .right{ top:50%;}
-
-  body.light .split,
-  body.dark .split{
-    height:100%;
-    top:0;
-  }
-}
-
-/* BOTÓN */
+/* BOTÓN CIRCULAR */
 .toggle{
   position:absolute;
   width:50px;
@@ -157,8 +178,8 @@ footer{
   bottom:0;
   width:100%;
   text-align:center;
-  font-size:0.8rem;
-  padding:10px;
+  font-size:0.85rem;
+  padding:12px;
   opacity:0;
   transition:0.3s;
 }
@@ -168,11 +189,6 @@ body.dark footer{
   opacity:1;
 }
 
-footer a{
-  color:inherit;
-  text-decoration:none;
-}
-
 footer::before{
   content:"";
   display:block;
@@ -180,81 +196,28 @@ footer::before{
   margin-bottom:8px;
 }
 
-body.light footer{ color:#000;}
-body.dark footer{ color:#fff;}
-
-body.light footer::before{ background:#000;}
-body.dark footer::before{ background:#fff;}
-
-/* LINKS ELEGANTES */
-.links{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  margin-top:15px;
+body.light footer{
+  color:#000;
 }
 
-.links a{
-  text-decoration:none;
+body.dark footer{
+  color:#fff;
+}
+
+body.light footer::before{
+  background:#000;
+}
+
+body.dark footer::before{
+  background:#fff;
+}
+
+footer a{
   color:inherit;
-  display:block;
-  position:relative;
-  transition:0.3s;
+  text-decoration:underline;
 }
 
-.links a strong{
-  font-weight:500;
-  letter-spacing:0.5px;
-}
-
-.links a span{
-  display:block;
-  font-size:0.75rem;
-  opacity:0.6;
-  margin-top:2px;
-}
-
-/* línea sutil */
-.links a::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:-2px;
-  width:0%;
-  height:1px;
-  background:currentColor;
-  transition:0.3s;
-}
-
-.links a:hover::after{
-  width:100%;
-}
-
-.links a:hover{
-  transform:translateX(4px);
-  opacity:0.85;
-}
-
-/* mini links */
-.links.small{
-  flex-direction:row;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:10px;
-}
-
-.links.small a{
-  font-size:0.75rem;
-  opacity:0.7;
-}
-
-.cta{
-  margin-top:20px;
-  font-size:0.9rem;
-  opacity:0.8;
-}
-
-/* eliminar azul */
+/* quitar azul */
 a:visited{
   color:inherit;
 }
@@ -269,56 +232,48 @@ a:visited{
 
   <div class="content">
 
-    <h2>Mi contenido XXX</h2>
+    <div id="mainContent">
 
-    <p>
-      Acceso directo a lo exclusivo, lo íntimo y lo que no se publica en ningún otro lado.
-    </p>
+      <div class="row">
+        <a class="link" href="https://fansly.com/IASuarezV/posts" target="_blank">Fansly</a> ·
+        <a class="link" href="https://es.stripchat.com/AntuanSV" target="_blank">Stripchat</a>
+      </div>
 
-    <div class="links">
+      <div class="row">
+        <span class="label">xHamster</span>
+        <a class="link" href="https://es.xhamster.com/gay/creators/antuansv" target="_blank">Solo</a> ·
+        <a class="link" href="https://es.xhamster.com/creators/antuansv" target="_blank">Colaboraciones</a>
+      </div>
 
-      <a href="https://fansly.com/IASuarezV/posts" target="_blank">
-        <strong>Fansly</strong>
-        <span>VIP · contenido exclusivo</span>
-      </a>
+      <div class="row">
+        <span class="label">FapHouse</span>
+        <a class="link" href="https://faphouse.com/es/gay/models/antuansv-4men" target="_blank">Solo</a> ·
+        <a class="link" href="https://faphouse.com/es/models/antuansv" target="_blank">Colaboraciones</a>
+      </div>
 
-      <a href="https://es.stripchat.com/AntuanSV" target="_blank">
-        <strong>Stripchat</strong>
-        <span>En vivo · interacción real</span>
-      </a>
-
-      <a href="https://es.xhamster.com/gay/creators/antuansv" target="_blank">
-        <strong>Solo</strong>
-        <span>xHamster · avances</span>
-      </a>
-
-      <a href="https://faphouse.com/es/gay/models/antuansv-4men" target="_blank">
-        <strong>FapHouse</strong>
-        <span>videos completos</span>
-      </a>
-
-      <a href="https://es.xhamster.com/creators/antuansv" target="_blank">
-        <strong>Colaboraciones</strong>
-        <span>xHamster · trailers</span>
-      </a>
-
-      <a href="https://faphouse.com/es/models/antuansv" target="_blank">
-        <strong>Colaboraciones</strong>
-        <span>FapHouse · contenido completo</span>
-      </a>
+      <div class="text-btn" onclick="showCreators(event)">
+        ¿Quieres ser creador?
+      </div>
 
     </div>
 
-    <p class="cta">
-      ¿Quieres crear contenido?
-    </p>
+    <div id="creatorContent" class="hidden">
 
-    <div class="links small">
-      <a href="https://onlyfans.com/?ref=288562500" target="_blank">OnlyFans</a>
-      <a href="https://fansly.com/application/form?r=AntuanSV" target="_blank">Fansly</a>
-      <a href="https://stripchat.com/IASuarezV/follow-me" target="_blank">Stripchat</a>
-      <a href="https://es.xhamster.com/creator?refid=kHamD" target="_blank">xHamster</a>
-      <a href="https://fhrdr.com/go/dYTtw" target="_blank">FapHouse</a>
+      <div class="row">
+        <a class="link" href="https://onlyfans.com/?ref=288562500" target="_blank">OnlyFans</a> ·
+        <a class="link" href="https://fansly.com/application/form?r=AntuanSV" target="_blank">Fansly</a>
+      </div>
+
+      <div class="row">
+        <a class="link" href="https://stripchat.com/IASuarezV/follow-me" target="_blank">Stripchat</a> ·
+        <a class="link" href="https://es.xhamster.com/creator?refid=kHamD" target="_blank">xHamster</a> ·
+        <a class="link" href="https://fhrdr.com/go/dYTtw" target="_blank">FapHouse</a>
+      </div>
+
+      <div class="text-btn" onclick="showMain(event)">
+        ← Volver
+      </div>
+
     </div>
 
   </div>
@@ -329,7 +284,7 @@ a:visited{
   <h1>I. Antoine Suárez V.</h1>
 
   <div class="content">
-    Escritor · Fotógrafo · Aforista
+    <div class="row">Escritor · Fotógrafo · Aforista</div>
   </div>
 </div>
 
@@ -340,8 +295,8 @@ a:visited{
 </div>
 
 <footer>
-<a href="https://iasuarezv.carrd.co">Enlaces a redes sociales</a> |
-<a href="https://iasuarezv.com/atom.xml">Feed RSS</a><br>
+<a href="https://iasuarezv.carrd.co">Enlaces</a> ·
+<a href="https://iasuarezv.com/atom.xml">RSS</a><br>
 © 2026 I. Antoine Suárez V.
 </footer>
 
@@ -351,11 +306,20 @@ function setMode(mode){
 }
 
 function toggleMode(){
-  if(document.body.className === "light"){
-    setMode("dark");
-  }else{
-    setMode("light");
-  }
+  document.body.className =
+    document.body.className === "light" ? "dark" : "light";
+}
+
+function showCreators(e){
+  e.stopPropagation();
+  mainContent.classList.add("hidden");
+  creatorContent.classList.remove("hidden");
+}
+
+function showMain(e){
+  e.stopPropagation();
+  creatorContent.classList.add("hidden");
+  mainContent.classList.remove("hidden");
 }
 </script>
 
