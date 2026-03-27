@@ -92,52 +92,59 @@
   body.dark .black { background: #000; }
 
   /* MOBILE */
-  @media (max-width: 768px) {
+ @media (max-width: 768px) {
 
-    .split {
-      width: 100%;
-      height: 50%;
-    }
-
-    .left {
-      top: 0;
-      left: 0;
-    }
-
-    .right {
-      top: 50%;
-      left: 0;
-    }
-
-    body.light .right {
-      height: 0;
-    }
-
-    body.light .left {
-      height: 100%;
-    }
-
-    body.dark .left {
-      height: 0;
-    }
-
-    body.dark .right {
-      height: 100%;
-    }
-
-    body.light .toggle {
-      top: 8%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(180deg);
-    }
-
-    body.dark .toggle {
-      top: 92%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(0deg);
-    }
+  .split {
+    width: 100%;
+    height: 50%;
+    transition: all 0.6s ease;
   }
 
+  .left {
+    top: 0;
+    left: 0;
+  }
+
+  .right {
+    top: 50%;
+    left: 0;
+  }
+
+  /* 🔥 aquí está el fix real */
+  body.light .right {
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  body.light .left {
+    height: 100%;
+    opacity: 1;
+  }
+
+  body.dark .left {
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  body.dark .right {
+    height: 100%;
+    opacity: 1;
+  }
+
+  body.light .toggle {
+    top: 8%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+  }
+
+  body.dark .toggle {
+    top: 92%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+}
 </style>
 </head>
 
