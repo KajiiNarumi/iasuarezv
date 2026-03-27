@@ -47,6 +47,10 @@ h1 {
   pointer-events: none;
 }
 
+/* 🔥 ESTADO INICIAL */
+body.start .left { width: 50%; }
+body.start .right { width: 50%; }
+
 /* DESKTOP */
 body.light .right { width: 0; }
 body.light .left { width: 100%; }
@@ -69,6 +73,12 @@ body.dark .right { width: 100%; }
   transition: all 0.6s ease;
 }
 
+/* oculto al inicio */
+body.start .toggle {
+  opacity: 1;
+}
+
+/* movimiento */
 body.light .toggle {
   left: 8%;
   transform: translate(-50%, -50%) rotate(180deg);
@@ -84,14 +94,14 @@ body.dark .toggle {
   height: 100%;
 }
 
-/* CONTRASTE */
+/* contraste */
 body.light .white { background: #000; }
 body.light .black { background: #fff; }
 
 body.dark .white { background: #fff; }
 body.dark .black { background: #000; }
 
-/* 🔥 MOBILE BIEN HECHO */
+/* MOBILE */
 @media (max-width: 768px) {
 
   .split {
@@ -99,19 +109,14 @@ body.dark .black { background: #000; }
     height: 100%;
   }
 
-  .left {
-    top: 0;
-    left: 0;
+  body.start .left {
     transform: translateY(0);
   }
 
-  .right {
-    top: 0;
-    left: 0;
+  body.start .right {
     transform: translateY(100%);
   }
 
-  /* estados reales con movimiento */
   body.light .left {
     transform: translateY(0);
   }
@@ -128,24 +133,21 @@ body.dark .black { background: #000; }
     transform: translateY(0);
   }
 
-  /* círculo */
   body.light .toggle {
     top: 10%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(180deg);
   }
 
   body.dark .toggle {
     top: 90%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(0deg);
   }
 }
 
 </style>
 </head>
 
-<body>
+<body class="start">
 
 <div class="split left" onclick="setMode('light')">
   <h1>AntuanSV</h1>
@@ -162,7 +164,7 @@ body.dark .black { background: #000; }
 
 <script>
 function setMode(mode) {
-  document.body.classList.remove('light', 'dark');
+  document.body.classList.remove('start','light','dark');
   document.body.classList.add(mode);
 }
 
@@ -176,6 +178,12 @@ function handleToggle(e) {
     setMode('dark');
   }
 }
+
+/* 🔥 FORZAR estado inicial SIEMPRE al recargar */
+window.addEventListener('load', () => {
+  document.body.classList.remove('light','dark');
+  document.body.classList.add('start');
+});
 </script>
 
 </body>
