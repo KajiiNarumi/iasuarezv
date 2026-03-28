@@ -1,5 +1,7 @@
 ---
 layout: post
+author:
+  name: "I. Antoine Suárez V."
 title: "¿Vale la pena crecer en redes sociales?"
 date: 2028-03-28
 excerpt: "Cuando empezamos a crear contenido en internet solemos iniciar con la plataforma que el influencer que conocemos usa o recomienda, sin embargo..."
