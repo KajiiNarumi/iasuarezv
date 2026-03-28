@@ -2,8 +2,8 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-title: "Vale la pena crecer en redes sociales"
-date: 2028-03-28
+title: "¿Vale la pena crecer en redes sociales?"
+date: 2026-03-28
 image:
   path: /images/logo.png
   caption: "I. Antoine Suárez V."
