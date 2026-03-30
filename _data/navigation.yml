@@ -13,14 +13,14 @@
 #  id: theme-toggle
 #- title: Libreta
 #  url: /libreta/
-- title: Mi Tinta
-  url: /tinta
-- title: Mi Pluma
-  url: /pluma
-- title: Mis Gotas
-  url: /gotas
-#- title: Galeria
-#  url: /galeria/
-- title: Experiencias
-  url: /experiencias/
+- title: Aforismos
+  url: /aforismos 
+- title: Blog
+  url: /blog
+- title: Escritos
+  url: /escritos
+- title: Galeria
+  url: /galeria/
+#- title: Experiencias
+#  url: /experiencias/
 
