@@ -69,21 +69,14 @@ entries_layout: list
 </style>
 
 
-    <div class="autobiografia-col left">
-<p>"Consultor estratégico personal, fotógrafo, escritor, tarotista... y explorador de la condición humana.
 
-Con un estilo que él mismo autodenomina "minimalismo barrocal" mezcla lo fundamental y visceral del ser, buscando que cada palabra o gesto sea un puente directo entre lo que duele, lo que late y lo que se siente.
-
-En paralelo, impulsa el proyecto Kajii Narumi, espacio de conocimiento práctico y humano donde comparte herramientas accesibles de tecnología, siempre con la intención de acompañar el crecimiento personal sin dogmas ni pretensiones.
-
-Reconocido como Arctic Code Vault Contributor en GitHub, su código abierto se preserva en el depósito ártico como parte del legado digital de la humanidad.
-
-Su trabajo, tanto en lo físico como en lo digital, parte de una misma búsqueda: conectar con lo auténtico, lo roto y lo profundamente vivo que habita en cada persona."</p>
-    </div>
 
 
 
 <div class="autobiografia-wrapper">
+<p>"Consultor estratégico personal, fotógrafo, escritor, tarotista... y explorador de la condición humana. Con un estilo que él mismo autodenomina "minimalismo barrocal" mezcla lo fundamental y visceral del ser, buscando que cada palabra o gesto sea un puente directo entre lo que duele, lo que late y lo que se siente. En paralelo, impulsa el proyecto Kajii Narumi, espacio de conocimiento práctico y humano donde comparte herramientas accesibles de tecnología, siempre con la intención de acompañar el crecimiento personal sin dogmas ni pretensiones. Reconocido como Arctic Code Vault Contributor en GitHub, su código abierto se preserva en el depósito ártico como parte del legado digital de la humanidad. Su trabajo, tanto en lo físico como en lo digital, parte de una misma búsqueda: conectar con lo auténtico, lo roto y lo profundamente vivo que habita en cada persona."</p>
+
+  
   <h1 class="autobiografia-title">Autobiografía</h1>
   <p>En nuestra vida hay sucesos que nos orillan a tomar ciertas decisiones. En mi caso tuve la dicha de tener familiares y amigos que me apoyaron en momentos duros y gracias a ellos, generé aficiones que hoy en día son mis mayores ventajas competitivas. Esto me lleva a no renegar de las tragedias que he vivido por que éstas me han generado muchas dichas que ahora son momentos muy apreciados.</p>
   <div class="autobiografia-columns">
