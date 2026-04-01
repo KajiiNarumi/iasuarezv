@@ -4,30 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Visualizador Privado</title>
     <style>
-        body { font-family: sans-serif; max-width: 500px; margin: 20px auto; padding: 10px; text-align: center; background: #111; color: #eee; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; }
-        button { padding: 10px 20px; cursor: pointer; border-radius: 5px; border: none; background: #007bff; color: white; font-weight: bold; }
-        button:hover { background: #0056b3; }
-        #container { margin-top: 20px; min-height: 400px; }
-        iframe { width: 100%; height: 500px; border: none; border-radius: 10px; }
+        body { background: #000; color: #555; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 20px; }
+        .controls { width: 100%; max-width: 400px; margin-bottom: 20px; }
+        input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #222; background: #111; color: #888; border-radius: 4px; outline: none; }
+        .btn-group { display: flex; gap: 5px; }
+        button { flex: 1; padding: 8px; cursor: pointer; border: none; border-radius: 4px; background: #222; color: #aaa; font-size: 12px; }
+        button:hover { background: #333; }
+        
+        /* Contenedor que recorta la interfaz de Instagram */
+        #viewport {
+            width: 320px; 
+            height: 500px; 
+            overflow: hidden; 
+            border-radius: 15px;
+            border: 1px solid #1a1a1a;
+            position: relative;
+            background: #000;
+        }
+        
+        iframe {
+            width: 320px;
+            height: 600px; /* Más alto para que los controles de IG queden abajo */
+            border: none;
+            position: absolute;
+            top: -50px; /* Sube el video para ocultar el encabezado de IG */
+        }
     </style>
 </head>
 <body>
 
-    <h2>Control de Reel</h2>
-    
-    <input type="text" id="url" placeholder="Pega el enlace del Reel aquí">
-    <input type="number" id="timer" placeholder="Segundos para recargar (ej. 30)">
-    
-    <div style="margin-top: 10px;">
-        <button onclick="iniciar()">Ver e Iniciar Ciclo</button>
-        <button onclick="recargar()" style="background: #444;">Recarga Manual</button>
+    <div class="controls">
+        <input type="text" id="url" placeholder="Enlace del Reel">
+        <input type="number" id="timer" placeholder="Segundos (0 = manual)">
+        <div class="btn-group">
+            <button onclick="iniciar()">CARGAR</button>
+            <button onclick="recargar()">RECARGA FORZADA</button>
+        </div>
     </div>
 
-    <div id="container">
-        </div>
+    <div id="viewport">
+        <div id="container"></div>
+    </div>
 
     <script>
         let intervalo = null;
@@ -35,40 +53,30 @@
         function iniciar() {
             const rawUrl = document.getElementById('url').value;
             const segundos = parseInt(document.getElementById('timer').value) * 1000;
-            
-            if (!rawUrl) return alert("Pega un enlace válido");
+            if (!rawUrl) return;
 
-            // Limpiar intervalo anterior si existe
             if (intervalo) clearInterval(intervalo);
+            cargar(rawUrl);
 
-            cargarIframe(rawUrl);
-
-            // Iniciar recarga automática si se puso un tiempo
             if (segundos > 0) {
-                intervalo = setInterval(() => {
-                    recargar();
-                }, segundos);
+                intervalo = setInterval(recargar, segundos);
             }
         }
 
-        function cargarIframe(url) {
+        function cargar(url) {
             const container = document.getElementById('container');
-            // Asegurar que termine en /embed para evitar bloqueos
-            let embedUrl = url.split('?')[0]; 
-            if (!embedUrl.endsWith('/')) embedUrl += '/';
-            embedUrl += 'embed';
-
-            container.innerHTML = `<iframe id="reproductor" src="${embedUrl}"></iframe>`;
+            let cleanUrl = url.split('?')[0];
+            if (!cleanUrl.endsWith('/')) cleanUrl += '/';
+            // Se usa el parámetro omit_script para una carga más limpia
+            container.innerHTML = `<iframe id="reproductor" src="${cleanUrl}embed/?utm_source=ig_embed&amp;amp;rb_captcha_v3_status=1"></iframe>`;
         }
 
         function recargar() {
             const frame = document.getElementById('reproductor');
             if (frame) {
-                frame.src = frame.src; // Forzar recarga del iframe
-                console.log("Recargado: " + new Date().toLocaleTimeString());
+                frame.src = frame.src;
             }
         }
     </script>
-
 </body>
 </html>
