@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Visualizador Privado</title>
+    <style>
+        body { font-family: sans-serif; max-width: 500px; margin: 20px auto; padding: 10px; text-align: center; background: #111; color: #eee; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; }
+        button { padding: 10px 20px; cursor: pointer; border-radius: 5px; border: none; background: #007bff; color: white; font-weight: bold; }
+        button:hover { background: #0056b3; }
+        #container { margin-top: 20px; min-height: 400px; }
+        iframe { width: 100%; height: 500px; border: none; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>Control de Reel</h2>
+    
+    <input type="text" id="url" placeholder="Pega el enlace del Reel aquí">
+    <input type="number" id="timer" placeholder="Segundos para recargar (ej. 30)">
+    
+    <div style="margin-top: 10px;">
+        <button onclick="iniciar()">Ver e Iniciar Ciclo</button>
+        <button onclick="recargar()" style="background: #444;">Recarga Manual</button>
+    </div>
+
+    <div id="container">
+        </div>
+
+    <script>
+        let intervalo = null;
+
+        function iniciar() {
+            const rawUrl = document.getElementById('url').value;
+            const segundos = parseInt(document.getElementById('timer').value) * 1000;
+            
+            if (!rawUrl) return alert("Pega un enlace válido");
+
+            // Limpiar intervalo anterior si existe
+            if (intervalo) clearInterval(intervalo);
+
+            cargarIframe(rawUrl);
+
+            // Iniciar recarga automática si se puso un tiempo
+            if (segundos > 0) {
+                intervalo = setInterval(() => {
+                    recargar();
+                }, segundos);
+            }
+        }
+
+        function cargarIframe(url) {
+            const container = document.getElementById('container');
+            // Asegurar que termine en /embed para evitar bloqueos
+            let embedUrl = url.split('?')[0]; 
+            if (!embedUrl.endsWith('/')) embedUrl += '/';
+            embedUrl += 'embed';
+
+            container.innerHTML = `<iframe id="reproductor" src="${embedUrl}"></iframe>`;
+        }
+
+        function recargar() {
+            const frame = document.getElementById('reproductor');
+            if (frame) {
+                frame.src = frame.src; // Forzar recarga del iframe
+                console.log("Recargado: " + new Date().toLocaleTimeString());
+            }
+        }
+    </script>
+
+</body>
+</html>
