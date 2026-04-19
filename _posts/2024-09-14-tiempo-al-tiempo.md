@@ -3,6 +3,7 @@ layout: post
 author:
   name: "I. Antoine Suárez V."
 title: "Tiempo al Tiempo"
+tags: [Conciencia y ritmo]
 date: 2024-09-14
 image:
   path: /images/2024-09-14-tiempo-al-tiempo.jpg
