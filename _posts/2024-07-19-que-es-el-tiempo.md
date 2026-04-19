@@ -3,6 +3,7 @@ layout: post
 author:
   name: "I. Antoine Suárez V."
 title: "¿Qué es el tiempo?"
+tags: [Punto de vista]
 date: 2024-07-19
 image:
   path: /images/2024-07-19-que-es-el-tiempo.jpg
