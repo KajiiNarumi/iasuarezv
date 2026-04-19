@@ -3,6 +3,7 @@ layout: post
 author:
   name: "I. Antoine Suárez V."
 title: "Soy quien soy"
+tags: [Conciencia y ritmo]
 date: 2024-07-26
 image:
   path: /images/2024-07-26-soy-quien-soy.jpg
