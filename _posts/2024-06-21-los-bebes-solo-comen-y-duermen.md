@@ -3,7 +3,7 @@ layout: post
 author:
   name: "I. Antoine Suárez V."
 categories: [Reflexiones]
-tags: [paternidad, crianza, bebés, emociones]
+tags: [Paternidad TEA]
 title: "Los bebés solo comen y duermen..."
 date: 2024-06-21
 image:
