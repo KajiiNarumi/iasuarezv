@@ -3,6 +3,7 @@ layout: post
 author:
   name: "I. Antoine Suárez V."
 title: "No me niego a usar redes sociales, pero..."
+tags: [Conciencia y ritmo]
 date: 2024-10-05
 image:
   path: /images/2024-10-05-no-me-niego-redes-sociales.jpg
