@@ -3,6 +3,7 @@ layout: post
 author:
   name: "I. Antoine Suárez V."
 title: "No estoy solo"
+tags: [Paternidad TEA]
 date: 2024-09-30
 image:
   path: /images/2024-09-30-no-estoy-solo.jpg
