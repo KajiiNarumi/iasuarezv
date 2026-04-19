@@ -3,6 +3,7 @@ layout: post
 author:
   name: "I. Antoine Suárez V."
 title: "Una visión de pájaro"
+tags: [Punto de vista]
 date: 2024-06-28
 image:
   path: /images/2024-06-28-una-vision-de-pajaro.jpg
