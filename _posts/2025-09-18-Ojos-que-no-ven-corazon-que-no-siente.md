@@ -3,6 +3,7 @@ layout: post
 author:
   name: "I. Antoine Suárez V."
 title: "Ojos que no ven, corazón que no siente"
+tags: [Conciencia y ritmo]
 date: 2025-09-18
 image:
   path: /images/2025-09-18-Ojos-que-no-ven-corazon-que-no-siente.jpg
