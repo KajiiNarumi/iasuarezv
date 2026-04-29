@@ -2,7 +2,7 @@
 layout: post
 author:
   name: "I. Antoine Suárez V."
-title: "Nuestra Navidad con Xolbock"
+title: "Una navidad pagana"
 tags: [Tradición viva]
 date: 2025-12-31
 image:
