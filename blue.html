@@ -62,9 +62,7 @@ height:80px;
 border-radius:50%;
 }
 
-.profile-info{
-flex:1;
-}
+.profile-info{flex:1;}
 
 .profile-info h2{
 margin:0;
@@ -124,20 +122,30 @@ display:none;
 justify-content:center;
 align-items:center;
 z-index:999;
+padding:20px;
 }
 
-.modal.active{
-display:flex;
-}
+.modal.active{display:flex;}
 
 .modal-box{
-width:95%;
+width:100%;
 max-width:1100px;
 height:90vh;
 background:#111;
 display:flex;
 border-radius:12px;
 overflow:hidden;
+position:relative;
+}
+
+/* cerrar */
+.close{
+position:absolute;
+top:10px;
+right:15px;
+font-size:28px;
+cursor:pointer;
+z-index:20;
 }
 
 /* imagen */
@@ -155,11 +163,25 @@ max-height:100%;
 object-fit:contain;
 }
 
-/* texto */
+/* info */
 .modal-info{
 flex:1;
 padding:25px;
 overflow:auto;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.btn-post{
+display:inline-block;
+padding:8px 14px;
+border:1px solid #444;
+border-radius:20px;
+color:#fff;
+text-decoration:none;
+font-size:14px;
+width:max-content;
 }
 
 /* nav */
@@ -167,20 +189,23 @@ overflow:auto;
 position:absolute;
 top:50%;
 transform:translateY(-50%);
-background:rgba(0,0,0,.5);
+background:rgba(0,0,0,.6);
 border:none;
 color:#fff;
-width:40px;
-height:40px;
+width:42px;
+height:42px;
 border-radius:50%;
 cursor:pointer;
+z-index:15;
 }
 
-.prev{left:15px;}
-.next{right:15px;}
+.prev{left:10px;}
+.next{right:10px;}
 
 /* móvil */
 @media(max-width:768px){
+
+.modal{padding:10px;}
 
 .modal-box{
 flex-direction:column;
@@ -194,8 +219,15 @@ flex:none;
 }
 
 .modal-info{
-height:auto;
+padding:15px;
 }
+
+.nav{
+top:45%;
+}
+
+.prev{left:5px;}
+.next{right:5px;}
 
 }
 </style>
@@ -212,17 +244,23 @@ height:auto;
 <div id="gallery" class="grid"></div>
 
 <div id="modal" class="modal">
+<div class="modal-box">
+
+<div class="close" id="closeBtn">✕</div>
+
 <button class="nav prev" id="prev">❮</button>
 <button class="nav next" id="next">❯</button>
 
-<div class="modal-box">
 <div class="modal-img">
 <img id="mImg">
 </div>
+
 <div class="modal-info">
+<a id="postLink" class="btn-post" target="_blank">Ver publicación</a>
 <div id="mText"></div>
 <div id="mLikes"></div>
 </div>
+
 </div>
 </div>
 
@@ -239,6 +277,7 @@ input.addEventListener("keypress",e=>{if(e.key==="Enter")btn.click();});
 btn.onclick=()=>{const u=input.value.trim().replace("@","");if(u)load(u);};
 
 modal.onclick=e=>{if(e.target===modal)modal.classList.remove("active");};
+document.getElementById("closeBtn").onclick=()=>modal.classList.remove("active");
 
 async function load(user){
 
@@ -257,8 +296,6 @@ data.feed.forEach(item=>{
 const post=item.post;
 
 let imgs=[];
-
-/* 🔥 TODAS LAS RUTAS REALES */
 if(post.embed?.images) imgs.push(...post.embed.images);
 if(post.embed?.media?.images) imgs.push(...post.embed.media.images);
 if(post.record?.embed?.images) imgs.push(...post.record.embed.images);
@@ -272,12 +309,13 @@ images.push({
 thumb:`https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
 full:`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
 text:post.record?.text||"",
-likes:post.likeCount||0
+likes:post.likeCount||0,
+cid:cid
 });
 });
 });
 
-/* PERFIL */
+/* perfil */
 document.getElementById("profile").innerHTML=`
 <div class="profile">
 <img src="${prof.avatar||''}">
@@ -290,7 +328,7 @@ document.getElementById("profile").innerHTML=`
 </div>
 `;
 
-/* GRID */
+/* grid */
 gallery.innerHTML="";
 images.forEach((img,i)=>{
 const d=document.createElement("div");
@@ -304,9 +342,12 @@ gallery.appendChild(d);
 function open(i){
 index=i;
 const d=images[i];
+
 document.getElementById("mImg").src=d.full;
 document.getElementById("mText").innerText=d.text;
 document.getElementById("mLikes").innerText=`❤️ ${d.likes}`;
+document.getElementById("postLink").href=`https://bsky.app/profile/${input.value}/post/${d.cid}`;
+
 modal.classList.add("active");
 }
 
