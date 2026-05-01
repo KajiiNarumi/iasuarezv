@@ -3,219 +3,219 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galesky | AntuanSV</title>
+<title>Galesky</title>
 
 <style>
-:root {
-    --bg:#000;
-    --text-main:#fff;
-    --text-dim:#aaa;
-    --line:rgba(255,255,255,0.15);
+:root{
+--bg:#000;
+--text:#fff;
+--dim:#aaa;
+--line:#222;
 }
 
 body{
-    margin:0;
-    background:var(--bg);
-    color:var(--text-main);
-    font-family:-apple-system,system-ui,sans-serif;
+margin:0;
+background:var(--bg);
+color:var(--text);
+font-family:system-ui;
 }
 
-/* BUSCADOR */
-.search-container{
-    max-width:900px;
-    margin:20px auto;
-    padding:0 20px;
-    display:flex;
-}
-.search-container input{
-    flex:1;
-    padding:14px 22px;
-    background:#111;
-    border:1px solid #333;
-    color:#fff;
-    border-radius:30px 0 0 30px;
-}
-.search-container button{
-    padding:0 30px;
-    border:none;
-    background:#fff;
-    border-radius:0 30px 30px 0;
-    cursor:pointer;
+/* buscador */
+.search{
+max-width:900px;
+margin:20px auto;
+display:flex;
+padding:0 20px;
 }
 
-/* PERFIL */
+.search input{
+flex:1;
+padding:14px;
+background:#111;
+border:1px solid #333;
+color:#fff;
+border-radius:30px 0 0 30px;
+}
+
+.search button{
+padding:0 25px;
+border:none;
+background:#fff;
+border-radius:0 30px 30px 0;
+cursor:pointer;
+}
+
+/* perfil */
 .profile{
-    max-width:900px;
-    margin:0 auto 10px;
-    padding:20px;
-    display:flex;
-    gap:25px;
-    align-items:center;
-    border-bottom:1px solid var(--line);
+max-width:900px;
+margin:auto;
+padding:20px;
+display:flex;
+gap:20px;
+border-bottom:1px solid var(--line);
+align-items:center;
 }
+
 .profile img{
-    width:90px;
-    height:90px;
-    border-radius:50%;
-}
-.profile-info h2{margin:0;font-size:24px;}
-.profile-info p{color:var(--text-dim);}
-.img-count{color:#1da1f2;font-weight:bold;}
-
-.btn-view{
-    background:#fff;
-    color:#000;
-    padding:10px 22px;
-    border-radius:25px;
-    text-decoration:none;
+width:80px;
+height:80px;
+border-radius:50%;
 }
 
-/* GRID */
+.profile-info h2{margin:0;font-size:22px;}
+.profile-info p{margin:6px 0;color:var(--dim);}
+.profile-info span{font-size:14px;color:var(--dim);}
+
+/* grid */
 .grid{
-    max-width:1000px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:4px;
-    padding:4px;
+max-width:1000px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:6px;
+padding:6px;
 }
+
 .card{
-    aspect-ratio:1/1;
-    overflow:hidden;
-    background:#111;
-    cursor:pointer;
+aspect-ratio:1/1;
+overflow:hidden;
+border-radius:10px;
+cursor:pointer;
+background:#111;
 }
+
 .card img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-/* MODAL */
-.modal-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.9);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:10000;
-}
-.modal-overlay.active{display:flex;}
-
-.modal-window{
-    background:#111;
-    border-radius:15px;
-    width:95%;
-    max-width:1000px;
-    max-height:85vh;
-    display:flex;
-    overflow:hidden;
-    position:relative;
+/* modal */
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.9);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
 }
 
-.btn-nav{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    background:rgba(0,0,0,0.5);
-    border:none;
-    color:#fff;
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    cursor:pointer;
-}
-.btn-prev{left:15px;}
-.btn-next{right:15px;}
+.modal.active{display:flex;}
 
-.modal-img-container{
-    flex:1.5;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#000;
+.modal-box{
+width:95%;
+max-width:1100px;
+height:90vh;
+background:#111;
+display:flex;
+border-radius:12px;
+overflow:hidden;
 }
-.modal-img-container img{
-    max-width:100%;
-    max-height:100%;
+
+/* imagen */
+.modal-img{
+flex:1.5;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.modal-img img{
+max-width:100%;
+max-height:100%;
+object-fit:contain;
+}
+
+/* texto */
+.modal-info{
+flex:1;
+padding:25px;
+overflow:auto;
+}
+
+/* nav */
+.nav{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:rgba(0,0,0,.5);
+border:none;
+color:#fff;
+width:40px;
+height:40px;
+border-radius:50%;
+cursor:pointer;
+}
+
+.prev{left:15px;}
+.next{right:15px;}
+
+/* móvil */
+@media(max-width:768px){
+
+.modal-box{
+flex-direction:column;
+height:95vh;
+}
+
+.modal-img{
+width:100%;
+aspect-ratio:1/1;
+flex:none;
 }
 
 .modal-info{
-    flex:1;
-    padding:30px;
-    overflow-y:auto;
+height:auto;
 }
-.modal-likes{color:#1da1f2;font-weight:bold;}
+
+}
 </style>
 </head>
 
 <body>
 
-<div class="search-container">
-<input id="userInput">
+<div class="search">
+<input id="userInput" placeholder="usuario">
 <button id="goBtn">Buscar</button>
 </div>
 
-<div id="profileTarget"></div>
+<div id="profile"></div>
 <div id="gallery" class="grid"></div>
 
-<div id="modal" class="modal-overlay">
-<div class="modal-window">
-<button class="btn-nav btn-prev" id="prevBtn">❮</button>
-<button class="btn-nav btn-next" id="nextBtn">❯</button>
+<div id="modal" class="modal">
+<button class="nav prev" id="prev">❮</button>
+<button class="nav next" id="next">❯</button>
 
-<div class="modal-img-container">
-<img id="modalImg">
+<div class="modal-box">
+<div class="modal-img">
+<img id="mImg">
 </div>
-
 <div class="modal-info">
-<div id="modalLikes" class="modal-likes"></div>
-<div id="modalText"></div>
+<div id="mText"></div>
+<div id="mLikes"></div>
 </div>
-
 </div>
 </div>
 
 <script>
-let allImages=[];
-let currentIndex=0;
+let images=[];
+let index=0;
 
 const input=document.getElementById("userInput");
-const goBtn=document.getElementById("goBtn");
+const btn=document.getElementById("goBtn");
+const gallery=document.getElementById("gallery");
 const modal=document.getElementById("modal");
 
-/* BUSCAR */
-input.addEventListener("keypress",e=>{if(e.key==="Enter")goBtn.click();});
-goBtn.onclick=()=>{const u=input.value.trim().replace("@","");if(u)load(u);};
+input.addEventListener("keypress",e=>{if(e.key==="Enter")btn.click();});
+btn.onclick=()=>{const u=input.value.trim();if(u)load(u);};
 
-/* CERRAR */
-modal.onclick=e=>{if(e.target===modal)closeModal();};
-function closeModal(){
-    modal.classList.remove("active");
-    document.body.style.overflow="auto";
-}
+modal.onclick=e=>{if(e.target===modal)modal.classList.remove("active");};
 
-/* BUSCADOR RECURSIVO */
-function findImages(obj,arr=[]){
-    if(!obj||typeof obj!=="object")return arr;
+async function load(user){
 
-    if(obj.image||obj.thumb||obj.ref){
-        arr.push(obj);
-    }
-
-    for(let k in obj){
-        if(typeof obj[k]==="object"){
-            findImages(obj[k],arr);
-        }
-    }
-    return arr;
-}
-
-/* LOAD */
-async function load(handle){
-
-const didRes=await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
+const didRes=await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${user}`);
 const {did}=await didRes.json();
 
 const profRes=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
@@ -224,24 +224,21 @@ const prof=await profRes.json();
 const feedRes=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=100`);
 const data=await feedRes.json();
 
-allImages=[];
+images=[];
 
+/* SOLO IMÁGENES REALES */
 data.feed.forEach(item=>{
 const post=item.post;
-const seen=new Set();
 
-/* 🔥 FIX CLAVE */
-let rawImgs=[];
-rawImgs=rawImgs.concat(findImages(post.embed));
-rawImgs=rawImgs.concat(findImages(post.record?.embed));
+let imgs=[];
+if(post.embed?.images) imgs=post.embed.images;
+if(post.embed?.media?.images) imgs=post.embed.media.images;
 
-rawImgs.forEach(img=>{
-const cid=img.image?.ref?.$link||img.image?.$link||img.ref?.$link;
-if(!cid||seen.has(cid))return;
+imgs.forEach(img=>{
+const cid=img.image?.ref?.$link||img.image?.$link;
+if(!cid) return;
 
-seen.add(cid);
-
-allImages.push({
+images.push({
 thumb:`https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
 full:`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
 text:post.record?.text||"",
@@ -250,57 +247,50 @@ likes:post.likeCount||0
 });
 });
 
-/* PERFIL */
-document.getElementById("profileTarget").innerHTML=`
+/* perfil */
+document.getElementById("profile").innerHTML=`
 <div class="profile">
 <img src="${prof.avatar||''}">
 <div class="profile-info">
-<h2>${prof.displayName||handle}</h2>
+<h2>${prof.displayName||user}</h2>
 <p>${prof.description||""}</p>
-<span class="img-count">📸 ${allImages.length}</span>
+<span>${images.length} imágenes</span>
 </div>
-<a href="https://bsky.app/profile/${handle}" target="_blank" class="btn-view">Ver perfil</a>
 </div>
 `;
 
-/* GRID */
-const gal=document.getElementById("gallery");
-gal.innerHTML="";
-
-allImages.forEach((img,i)=>{
-const card=document.createElement("div");
-card.className="card";
-card.innerHTML=`<img src="${img.thumb}">`;
-card.onclick=()=>openModal(i);
-gal.appendChild(card);
+/* grid */
+gallery.innerHTML="";
+images.forEach((img,i)=>{
+const d=document.createElement("div");
+d.className="card";
+d.innerHTML=`<img src="${img.thumb}">`;
+d.onclick=()=>open(i);
+gallery.appendChild(d);
 });
 }
 
-/* MODAL */
-function openModal(i){
-if(i<0||i>=allImages.length)return;
-
-currentIndex=i;
-const d=allImages[i];
-
-document.getElementById("modalImg").src=d.full;
-document.getElementById("modalText").innerText=d.text;
-document.getElementById("modalLikes").innerText=`❤️ ${d.likes}`;
-
+/* modal */
+function open(i){
+index=i;
+const d=images[i];
+document.getElementById("mImg").src=d.full;
+document.getElementById("mText").innerText=d.text;
+document.getElementById("mLikes").innerText=`❤️ ${d.likes}`;
 modal.classList.add("active");
-document.body.style.overflow="hidden";
 }
 
-document.getElementById("nextBtn").onclick=e=>{
+document.getElementById("next").onclick=e=>{
 e.stopPropagation();
-openModal(currentIndex+1);
+if(index<images.length-1)open(index+1);
 };
 
-document.getElementById("prevBtn").onclick=e=>{
+document.getElementById("prev").onclick=e=>{
 e.stopPropagation();
-openModal(currentIndex-1);
+if(index>0)open(index-1);
 };
 
+/* inicio */
 load("iasuarezv.com");
 </script>
 
