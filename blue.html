@@ -1,243 +1,308 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galesky | AntuanSV</title>
-    <style>
-        :root {
-            --bg: #000;
-            --text-main: #fff;
-            --text-dim: #aaa;
-            --line: rgba(255, 255, 255, 0.15);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galesky | AntuanSV</title>
 
-        body {
-            margin: 0; background: var(--bg); color: var(--text-main);
-            font-family: -apple-system, system-ui, sans-serif;
-        }
+<style>
+:root {
+    --bg:#000;
+    --text-main:#fff;
+    --text-dim:#aaa;
+    --line:rgba(255,255,255,0.15);
+}
 
-        /* BUSCADOR */
-        .search-container {
-            max-width: 900px; margin: 20px auto; padding: 0 20px; display: flex;
-        }
-        .search-container input {
-            flex: 1; padding: 14px 22px; background: #111; border: 1px solid #333;
-            color: #fff; border-radius: 30px 0 0 30px; outline: none; font-size: 16px;
-        }
-        .search-container button {
-            padding: 0 30px; border: none; background: #fff;
-            border-radius: 0 30px 30px 0; cursor: pointer; font-weight: bold;
-        }
+body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text-main);
+    font-family:-apple-system,system-ui,sans-serif;
+}
 
-        /* PERFIL (SOLO LÍNEA ESTÉTICA) */
-        .profile {
-            max-width: 900px; margin: 0 auto 10px auto; padding: 20px;
-            display: flex; align-items: center; gap: 25px;
-            border-bottom: 1px solid var(--line);
-        }
-        .profile img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; }
-        .profile-info { flex: 1; }
-        .profile-info h2 { margin: 0; font-size: 24px; }
-        .profile-info p { color: var(--text-dim); margin: 8px 0; font-size: 15px; line-height: 1.4; }
-        .img-count { color: #1da1f2; font-weight: bold; font-size: 14px; display: block; margin-top: 5px; }
-        
-        .btn-view {
-            background: #fff; color: #000; padding: 10px 22px;
-            border-radius: 25px; text-decoration: none; font-size: 14px; font-weight: bold;
-        }
+/* BUSCADOR */
+.search-container{
+    max-width:900px;
+    margin:20px auto;
+    padding:0 20px;
+    display:flex;
+}
+.search-container input{
+    flex:1;
+    padding:14px 22px;
+    background:#111;
+    border:1px solid #333;
+    color:#fff;
+    border-radius:30px 0 0 30px;
+}
+.search-container button{
+    padding:0 30px;
+    border:none;
+    background:#fff;
+    border-radius:0 30px 30px 0;
+    cursor:pointer;
+}
 
-        /* GRID */
-        .grid {
-            max-width: 1000px; margin: auto;
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 4px; padding: 4px;
-        }
-        .card { aspect-ratio: 1/1; overflow: hidden; background: #111; cursor: pointer; }
-        .card img { width: 100%; height: 100%; object-fit: cover; }
+/* PERFIL */
+.profile{
+    max-width:900px;
+    margin:0 auto 10px;
+    padding:20px;
+    display:flex;
+    gap:25px;
+    align-items:center;
+    border-bottom:1px solid var(--line);
+}
+.profile img{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+}
+.profile-info h2{margin:0;font-size:24px;}
+.profile-info p{color:var(--text-dim);}
+.img-count{color:#1da1f2;font-weight:bold;}
 
-        /* MODAL / LIGHTBOX */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
-            display: none; justify-content: center; align-items: center; z-index: 10000;
-            padding: 20px;
-        }
-        .modal-overlay.active { display: flex; }
+.btn-view{
+    background:#fff;
+    color:#000;
+    padding:10px 22px;
+    border-radius:25px;
+    text-decoration:none;
+}
 
-        .modal-window {
-            background: #111; border-radius: 15px; overflow: hidden;
-            width: 95%; max-width: 1000px; max-height: 85vh;
-            display: flex; flex-direction: row; position: relative;
-        }
+/* GRID */
+.grid{
+    max-width:1000px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:4px;
+    padding:4px;
+}
+.card{
+    aspect-ratio:1/1;
+    overflow:hidden;
+    background:#111;
+    cursor:pointer;
+}
+.card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
 
-        .btn-nav {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(0,0,0,0.5); border: none; color: #fff;
-            width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10;
-        }
-        .btn-prev { left: 15px; }
-        .btn-next { right: 15px; }
+/* MODAL */
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.9);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:10000;
+}
+.modal-overlay.active{display:flex;}
 
-        /* PC LAYOUT */
-        .modal-img-container {
-            flex: 1.5; background: #000; display: flex; align-items: center; justify-content: center;
-        }
-        .modal-img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.modal-window{
+    background:#111;
+    border-radius:15px;
+    width:95%;
+    max-width:1000px;
+    max-height:85vh;
+    display:flex;
+    overflow:hidden;
+    position:relative;
+}
 
-        .modal-info {
-            flex: 1; padding: 30px; display: flex; flex-direction: column; overflow-y: auto;
-        }
-        .modal-likes { font-size: 20px; font-weight: bold; color: #1da1f2; margin-bottom: 15px; }
-        .modal-text { font-size: 17px; line-height: 1.6; color: #fff; }
+.btn-nav{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,0.5);
+    border:none;
+    color:#fff;
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    cursor:pointer;
+}
+.btn-prev{left:15px;}
+.btn-next{right:15px;}
 
-        /* MÓVIL LAYOUT */
-        @media (max-width: 768px) {
-            .profile { flex-direction: column; text-align: center; gap: 15px; }
-            .modal-window { flex-direction: column; width: 90%; max-height: 90vh; }
-            .modal-img-container {
-                width: 90%; aspect-ratio: 1/1; margin: 20px auto 0 auto; flex: none; border-radius: 10px; overflow: hidden;
-            }
-            .modal-info { flex: 1; padding: 20px; text-align: center; }
-            .btn-nav { top: 40%; }
-        }
-    </style>
+.modal-img-container{
+    flex:1.5;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#000;
+}
+.modal-img-container img{
+    max-width:100%;
+    max-height:100%;
+}
+
+.modal-info{
+    flex:1;
+    padding:30px;
+    overflow-y:auto;
+}
+.modal-likes{color:#1da1f2;font-weight:bold;}
+</style>
 </head>
+
 <body>
 
 <div class="search-container">
-    <input id="userInput" placeholder="Nombre de usuario (ej: iasuarezv.com)">
-    <button id="goBtn">Buscar</button>
+<input id="userInput">
+<button id="goBtn">Buscar</button>
 </div>
 
 <div id="profileTarget"></div>
 <div id="gallery" class="grid"></div>
 
 <div id="modal" class="modal-overlay">
-    <div class="modal-window" id="modalWindow">
-        <button class="btn-nav btn-prev" id="prevBtn">❮</button>
-        <button class="btn-nav btn-next" id="nextBtn">❯</button>
-        <div class="modal-img-container"><img id="modalImg"></div>
-        <div class="modal-info">
-            <div id="modalLikes" class="modal-likes"></div>
-            <div id="modalText" class="modal-text"></div>
-        </div>
-    </div>
+<div class="modal-window">
+<button class="btn-nav btn-prev" id="prevBtn">❮</button>
+<button class="btn-nav btn-next" id="nextBtn">❯</button>
+
+<div class="modal-img-container">
+<img id="modalImg">
+</div>
+
+<div class="modal-info">
+<div id="modalLikes" class="modal-likes"></div>
+<div id="modalText"></div>
+</div>
+
+</div>
 </div>
 
 <script>
-let allImages = [];
-let currentIndex = 0;
+let allImages=[];
+let currentIndex=0;
 
-const input = document.getElementById("userInput");
-const goBtn = document.getElementById("goBtn");
-const modal = document.getElementById("modal");
+const input=document.getElementById("userInput");
+const goBtn=document.getElementById("goBtn");
+const modal=document.getElementById("modal");
 
-// BUSCAR AL DAR ENTER
-input.addEventListener("keypress", (e) => { if (e.key === "Enter") goBtn.click(); });
+/* BUSCAR */
+input.addEventListener("keypress",e=>{if(e.key==="Enter")goBtn.click();});
+goBtn.onclick=()=>{const u=input.value.trim().replace("@","");if(u)load(u);};
 
-// CERRAR AL CLICAR AFUERA
-modal.onclick = (e) => { if (e.target === modal) closeModal(); };
-
-function closeModal() {
+/* CERRAR */
+modal.onclick=e=>{if(e.target===modal)closeModal();};
+function closeModal(){
     modal.classList.remove("active");
-    document.body.style.overflow = "auto";
+    document.body.style.overflow="auto";
 }
 
-goBtn.onclick = () => {
-    const user = input.value.trim().replace("@","");
-    if(user) load(user);
-};
+/* BUSCADOR RECURSIVO */
+function findImages(obj,arr=[]){
+    if(!obj||typeof obj!=="object")return arr;
 
-// EXTRACCIÓN RECURSIVA PARA EVITAR EL "ELSE IF"
-function findImages(obj, imagesFound = []) {
-    if (!obj || typeof obj !== 'object') return imagesFound;
-    
-    if (obj.thumb || (obj.image && obj.image.ref)) {
-        imagesFound.push(obj);
+    if(obj.image||obj.thumb||obj.ref){
+        arr.push(obj);
     }
-    
-    for (let key in obj) {
-        if (typeof obj[key] === 'object') {
-            findImages(obj[key], imagesFound);
+
+    for(let k in obj){
+        if(typeof obj[k]==="object"){
+            findImages(obj[k],arr);
         }
     }
-    return imagesFound;
+    return arr;
 }
 
-async function load(handle) {
-    try {
-        const didRes = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
-        const { did } = await didRes.json();
-        
-        const profRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
-        const prof = await profRes.json();
+/* LOAD */
+async function load(handle){
 
-        const feedRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=100`);
-        const data = await feedRes.json();
+const didRes=await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
+const {did}=await didRes.json();
 
-        allImages = [];
-        data.feed.forEach(item => {
-            const post = item.post;
-            const rawImgs = findImages(post.embed || post.record?.embed);
+const profRes=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
+const prof=await profRes.json();
 
-            rawImgs.forEach(img => {
-                const cid = img.image?.ref?.$link || img.image?.$link || img.ref?.$link;
-                if (cid) {
-                    allImages.push({
-                        thumb: `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
-                        full: `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
-                        text: post.record?.text || "",
-                        likes: post.likeCount || 0
-                    });
-                }
-            });
-        });
+const feedRes=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=100`);
+const data=await feedRes.json();
 
-        document.getElementById("profileTarget").innerHTML = `
-            <div class="profile">
-                <img src="${prof.avatar || ''}">
-                <div class="profile-info">
-                    <h2>${prof.displayName || handle}</h2>
-                    <p>${prof.description || ""}</p>
-                    <span class="img-count">📸 ${allImages.length} imágenes</span>
-                </div>
-                <a href="https://bsky.app/profile/${handle}" target="_blank" class="btn-view">Ver perfil</a>
-            </div>
-        `;
+allImages=[];
 
-        renderGallery();
-    } catch (e) { 
-        console.error(e);
-    }
+data.feed.forEach(item=>{
+const post=item.post;
+const seen=new Set();
+
+/* 🔥 FIX CLAVE */
+let rawImgs=[];
+rawImgs=rawImgs.concat(findImages(post.embed));
+rawImgs=rawImgs.concat(findImages(post.record?.embed));
+
+rawImgs.forEach(img=>{
+const cid=img.image?.ref?.$link||img.image?.$link||img.ref?.$link;
+if(!cid||seen.has(cid))return;
+
+seen.add(cid);
+
+allImages.push({
+thumb:`https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
+full:`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
+text:post.record?.text||"",
+likes:post.likeCount||0
+});
+});
+});
+
+/* PERFIL */
+document.getElementById("profileTarget").innerHTML=`
+<div class="profile">
+<img src="${prof.avatar||''}">
+<div class="profile-info">
+<h2>${prof.displayName||handle}</h2>
+<p>${prof.description||""}</p>
+<span class="img-count">📸 ${allImages.length}</span>
+</div>
+<a href="https://bsky.app/profile/${handle}" target="_blank" class="btn-view">Ver perfil</a>
+</div>
+`;
+
+/* GRID */
+const gal=document.getElementById("gallery");
+gal.innerHTML="";
+
+allImages.forEach((img,i)=>{
+const card=document.createElement("div");
+card.className="card";
+card.innerHTML=`<img src="${img.thumb}">`;
+card.onclick=()=>openModal(i);
+gal.appendChild(card);
+});
 }
 
-function renderGallery() {
-    const gal = document.getElementById("gallery");
-    gal.innerHTML = "";
-    allImages.forEach((img, i) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<img src="${img.thumb}" loading="lazy">`;
-        card.onclick = () => openModal(i);
-        gal.appendChild(card);
-    });
+/* MODAL */
+function openModal(i){
+if(i<0||i>=allImages.length)return;
+
+currentIndex=i;
+const d=allImages[i];
+
+document.getElementById("modalImg").src=d.full;
+document.getElementById("modalText").innerText=d.text;
+document.getElementById("modalLikes").innerText=`❤️ ${d.likes}`;
+
+modal.classList.add("active");
+document.body.style.overflow="hidden";
 }
 
-function openModal(i) {
-    if (i < 0 || i >= allImages.length) return;
-    currentIndex = i;
-    const data = allImages[i];
-    document.getElementById("modalImg").src = data.full;
-    document.getElementById("modalText").innerText = data.text;
-    document.getElementById("modalLikes").innerText = `❤️ ${data.likes}`;
-    modal.classList.add("active");
-    document.body.style.overflow = "hidden";
-}
+document.getElementById("nextBtn").onclick=e=>{
+e.stopPropagation();
+openModal(currentIndex+1);
+};
 
-document.getElementById("nextBtn").onclick = (e) => { e.stopPropagation(); openModal(currentIndex + 1); };
-document.getElementById("prevBtn").onclick = (e) => { e.stopPropagation(); openModal(currentIndex - 1); };
+document.getElementById("prevBtn").onclick=e=>{
+e.stopPropagation();
+openModal(currentIndex-1);
+};
 
 load("iasuarezv.com");
 </script>
+
 </body>
 </html>
