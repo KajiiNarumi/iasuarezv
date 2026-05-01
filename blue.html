@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Galería - iasuarezv</title>
+<style>
+body {
+  background: #000;
+  margin: 0;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 4px;
+}
+img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+</style>
+</head>
+<body>
+
+<div class="grid" id="gallery"></div>
+
+<script>
+const handle = "iasuarezv.com";
+const container = document.getElementById("gallery");
+
+async function getDid(handle) {
+  const res = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
+  const data = await res.json();
+  return data.did;
+}
+
+async function getPosts(did, cursor = "") {
+  const url = new URL("https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed");
+  url.searchParams.set("actor", did);
+  url.searchParams.set("limit", 50);
+  if (cursor) url.searchParams.set("cursor", cursor);
+
+  const res = await fetch(url);
+  return res.json();
+}
+
+function extractImages(feed) {
+  const images = [];
+
+  feed.forEach(item => {
+    const embed = item.post.embed;
+
+    if (embed && embed.$type === "app.bsky.embed.images") {
+      embed.images.forEach(img => {
+        images.push(img.fullsize);
+      });
+    }
+  });
+
+  return images;
+}
+
+function render(images) {
+  images.forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    container.appendChild(img);
+  });
+}
+
+(async () => {
+  let did = await getDid(handle);
+  let cursor = "";
+  let rounds = 3; // carga 150 posts aprox
+
+  for (let i = 0; i < rounds; i++) {
+    const data = await getPosts(did, cursor);
+    const imgs = extractImages(data.feed);
+    render(imgs);
+
+    if (!data.cursor) break;
+    cursor = data.cursor;
+  }
+})();
+</script>
+
+</body>
+</html>
