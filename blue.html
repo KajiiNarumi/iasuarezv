@@ -64,20 +64,9 @@ border-radius:50%;
 
 .profile-info{flex:1;}
 
-.profile-info h2{
-margin:0;
-font-size:22px;
-}
-
-.profile-info p{
-margin:6px 0;
-color:var(--dim);
-}
-
-.profile-info span{
-font-size:14px;
-color:var(--dim);
-}
+.profile-info h2{margin:0;font-size:22px;}
+.profile-info p{margin:6px 0;color:var(--dim);}
+.profile-info span{font-size:14px;color:var(--dim);}
 
 .btn-view{
 background:#111;
@@ -138,7 +127,6 @@ overflow:hidden;
 position:relative;
 }
 
-/* cerrar */
 .close{
 position:absolute;
 top:10px;
@@ -148,7 +136,6 @@ cursor:pointer;
 z-index:20;
 }
 
-/* imagen */
 .modal-img{
 flex:1.5;
 background:#000;
@@ -163,7 +150,6 @@ max-height:100%;
 object-fit:contain;
 }
 
-/* info */
 .modal-info{
 flex:1;
 padding:25px;
@@ -184,7 +170,6 @@ font-size:14px;
 width:max-content;
 }
 
-/* nav */
 .nav{
 position:absolute;
 top:50%;
@@ -202,33 +187,14 @@ z-index:15;
 .prev{left:10px;}
 .next{right:10px;}
 
-/* móvil */
 @media(max-width:768px){
-
 .modal{padding:10px;}
-
-.modal-box{
-flex-direction:column;
-height:95vh;
-}
-
-.modal-img{
-width:100%;
-aspect-ratio:1/1;
-flex:none;
-}
-
-.modal-info{
-padding:15px;
-}
-
-.nav{
-top:45%;
-}
-
+.modal-box{flex-direction:column;height:95vh;}
+.modal-img{width:100%;aspect-ratio:1/1;flex:none;}
+.modal-info{padding:15px;}
+.nav{top:45%;}
 .prev{left:5px;}
 .next{right:5px;}
-
 }
 </style>
 </head>
@@ -267,6 +233,7 @@ top:45%;
 <script>
 let images=[];
 let index=0;
+let currentHandle=""; // 👈 ESTE ES EL FIX REAL
 
 const input=document.getElementById("userInput");
 const btn=document.getElementById("goBtn");
@@ -280,6 +247,8 @@ modal.onclick=e=>{if(e.target===modal)modal.classList.remove("active");};
 document.getElementById("closeBtn").onclick=()=>modal.classList.remove("active");
 
 async function load(user){
+
+currentHandle = user; // 🔥 guardamos el usuario real
 
 const didRes=await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${user}`);
 const {did}=await didRes.json();
@@ -347,10 +316,11 @@ document.getElementById("mImg").src=d.full;
 document.getElementById("mText").innerText=d.text;
 document.getElementById("mLikes").innerText=`❤️ ${d.likes}`;
 
-/* URL REAL */
+/* URL CORRECTA */
 const parts = d.uri.split('/');
 const postId = parts[parts.length - 1];
-document.getElementById("postLink").href=`https://bsky.app/profile/${input.value}/post/${postId}`;
+
+document.getElementById("postLink").href=`https://bsky.app/profile/${currentHandle}/post/${postId}`;
 
 modal.classList.add("active");
 }
