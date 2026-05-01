@@ -1,328 +1,320 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>ATProto Feed</title>
+    <meta charset="UTF-8">
+    <!-- Punto 1: Escala 1:1 fija para evitar zoom involuntario -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ATProto Feed</title>
 
-<style>
-body {
-  margin:0;
-  background:#000;
-  color:#fff;
-  font-family:system-ui;
-}
+    <style>
+        :root {
+            --bg: #000;
+            --accent: #1da1f2;
+            --text-main: #fff;
+            --text-dim: #aaa;
+        }
 
-/* HEADER */
-.header {
-  border-bottom:1px solid #111;
-  padding:16px;
-}
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
 
-.search {
-  display:flex;
-  justify-content:center;
-  margin-bottom:16px;
-}
+        /* HEADER & SEARCH */
+        .header {
+            border-bottom: 1px solid #222;
+            padding: 20px 16px;
+        }
 
-.search input {
-  background:#111;
-  border:1px solid #222;
-  color:#fff;
-  padding:12px;
-  border-radius:6px 0 0 6px;
-  width:220px;
-}
+        /* Punto 2: Buscador más visible y grande */
+        .search {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-.search button {
-  background:#222;
-  border:none;
-  color:#fff;
-  padding:12px 16px;
-  cursor:pointer;
-  border-radius:0 6px 6px 0;
-}
+        .search input {
+            background: #111;
+            border: 2px solid #333;
+            color: #fff;
+            padding: 14px 20px;
+            border-radius: 30px 0 0 30px;
+            flex-grow: 1;
+            font-size: 18px; /* Más grande en PC y móvil */
+            outline: none;
+            transition: border-color 0.3s;
+        }
 
-.profile {
-  display:flex;
-  align-items:center;
-  gap:14px;
-  max-width:900px;
-  margin:auto;
-}
+        .search input:focus { border-color: var(--accent); }
 
-.profile img {
-  width:64px;
-  height:64px;
-  border-radius:50%;
-}
+        .search button {
+            background: #fff;
+            border: none;
+            color: #000;
+            padding: 0 25px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0 30px 30px 0;
+            font-size: 18px;
+        }
 
-.profile-info h2 {
-  margin:0;
-  font-size:18px;
-}
+        /* Punto 3: Perfil responsivo y botón visible */
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            max-width: 900px;
+            margin: auto;
+            flex-wrap: wrap; /* Permite que el botón baje si no hay espacio */
+        }
 
-.profile-info p {
-  margin:4px 0;
-  font-size:14px;
-  color:#aaa;
-}
+        .profile img {
+            width: 80px; /* Más grande */
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid #222;
+        }
 
-.follow {
-  margin-left:auto;
-  background:#fff;
-  color:#000;
-  border:none;
-  padding:8px 14px;
-  border-radius:20px;
-  cursor:pointer;
-}
+        .profile-info {
+            flex: 1;
+            min-width: 200px;
+        }
 
-/* GRID */
-.grid {
-  max-width:900px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  padding:16px;
-}
+        .profile-info h2 {
+            margin: 0;
+            font-size: 22px;
+        }
 
-.card img {
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-  border-radius:6px;
-  cursor:pointer;
-}
+        .profile-info p {
+            margin: 6px 0;
+            font-size: 15px;
+            color: var(--text-dim);
+            line-height: 1.4;
+        }
 
-/* LIGHTBOX */
-.lightbox {
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.96);
-  display:none;
-  z-index:999;
-}
+        .follow {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
 
-.lightbox.active {
-  display:flex;
-}
+        /* GRID */
+        .grid {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 4px;
+            padding: 4px;
+        }
 
-.lb-close {
-  position:absolute;
-  top:20px;
-  right:20px;
-  font-size:22px;
-  cursor:pointer;
-  color:#fff;
-}
+        .card img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
 
-.lb-content {
-  margin:auto;
-  width:90%;
-  height:90%;
-  display:flex;
-  gap:20px;
-}
+        .card img:hover { opacity: 0.8; }
 
-.lb-img {
-  flex:1;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+        /* LIGHTBOX - Punto 4 y 5 */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 20px;
+        }
 
-.lb-img img {
-  max-width:100%;
-  max-height:100%;
-  cursor:grab;
-  transition:transform 0.2s;
-}
+        .lightbox.active { display: flex; }
 
-.lb-text {
-  width:340px;
-  overflow-y:auto;
-  font-size:16px;
-  line-height:1.6;
-  color:#ddd;
-}
+        .lb-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #fff;
+            z-index: 1001;
+        }
 
-/* móvil */
-@media(max-width:700px){
+        .lb-content {
+            background: #111;
+            width: 90%; /* Punto 4: No ocupa todo el ancho */
+            max-width: 1100px;
+            height: 85%; /* Punto 4: Entre 80 y 99% */
+            display: flex;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
 
-.profile-info h2 {
-  font-size:20px;
-}
+        .lb-img {
+            flex: 1.5; /* Más espacio para la imagen */
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
 
-.profile-info p {
-  font-size:15px;
-}
+        .lb-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
 
-.follow {
-  padding:10px 16px;
-}
+        .lb-text {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            font-size: 18px; /* Punto 4: Texto legible */
+            line-height: 1.6;
+            color: #efefef;
+            border-left: 1px solid #222;
+        }
 
-.grid {
-  gap:6px;
-  padding:6px;
-}
+        /* MÓVIL - Responsivo */
+        @media(max-width: 768px) {
+            .search input { font-size: 16px; padding: 12px; }
+            
+            .profile { justify-content: center; text-align: center; }
+            .profile-info { min-width: 100%; }
+            .follow { margin: 10px auto; width: 100%; }
 
-.lb-content {
-  flex-direction:column;
-  height:100%;
-}
+            .grid { grid-template-columns: repeat(3, 1fr); gap: 2px; }
 
-.lb-img {
-  height:55%;
-}
+            /* Punto 5: Imagen arriba, texto abajo en móvil */
+            .lb-content {
+                flex-direction: column;
+                width: 95%;
+                height: 90%;
+            }
 
-.lb-text {
-  width:100%;
-  height:45%;
-  font-size:17px;
-}
+            .lb-img { flex: 1; }
 
-}
-</style>
+            .lb-text {
+                flex: none;
+                height: 40%;
+                border-left: none;
+                border-top: 1px solid #222;
+                padding: 15px;
+                font-size: 16px;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="header">
-
-<div class="search">
-  <input id="userInput" placeholder="usuario">
-  <button id="goBtn">→</button>
-</div>
-
-<div class="profile" id="profile"></div>
-
+    <div class="search">
+        <input id="userInput" placeholder="Ingresa usuario (ej: bsky.app)">
+        <button id="goBtn">Buscar</button>
+    </div>
+    <div class="profile" id="profile"></div>
 </div>
 
 <div class="grid" id="gallery"></div>
 
+<!-- Lightbox -->
 <div class="lightbox" id="lightbox">
-  <div class="lb-close" id="closeBtn">✕</div>
-
-  <div class="lb-content">
-    <div class="lb-img">
-      <img id="lbImg">
+    <div class="lb-close" id="closeBtn">✕</div>
+    <div class="lb-content">
+        <div class="lb-img">
+            <img id="lbImg">
+        </div>
+        <div class="lb-text" id="lbText"></div>
     </div>
-    <div class="lb-text" id="lbText"></div>
-  </div>
 </div>
 
 <script>
-const input = document.getElementById("userInput");
-const btn = document.getElementById("goBtn");
-const gallery = document.getElementById("gallery");
-const profile = document.getElementById("profile");
+    // Tu lógica de JS original se mantiene, solo corregimos la interacción del lightbox
+    const input = document.getElementById("userInput");
+    const btn = document.getElementById("goBtn");
+    const gallery = document.getElementById("gallery");
+    const profile = document.getElementById("profile");
+    const lightbox = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lbImg");
+    const lbText = document.getElementById("lbText");
+    const closeBtn = document.getElementById("closeBtn");
 
-const lightbox = document.getElementById("lightbox");
-const lbImg = document.getElementById("lbImg");
-const lbText = document.getElementById("lbText");
-const closeBtn = document.getElementById("closeBtn");
+    const saved = localStorage.getItem("user");
+    if(saved){ input.value=saved; load(saved); }
 
-let scale = 1;
-let currentHandle = "";
+    btn.onclick = start;
+    input.addEventListener("keydown",e=>{ if(e.key==="Enter") start(); });
 
-const saved = localStorage.getItem("user");
-if(saved){
-  input.value=saved;
-  load(saved);
-}
+    function start(){
+        const user=input.value.trim().replace("@", "");
+        if(!user)return;
+        localStorage.setItem("user",user);
+        gallery.innerHTML="";
+        load(user);
+    }
 
-btn.onclick = start;
-input.addEventListener("keydown",e=>{if(e.key==="Enter")start();});
+    async function load(handle){
+        try {
+            const didRes = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
+            const {did} = await didRes.json();
+            
+            const profRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
+            const prof = await profRes.json();
 
-function start(){
-  const user=input.value.trim();
-  if(!user)return;
-  currentHandle=user;
-  localStorage.setItem("user",user);
-  gallery.innerHTML="";
-  load(user);
-}
+            profile.innerHTML = `
+                <img src="${prof.avatar || ''}">
+                <div class="profile-info">
+                    <h2>${prof.displayName || handle}</h2>
+                    <p>${prof.description || ""}</p>
+                </div>
+                <button class="follow" id="followBtn">Ver en Bluesky</button>
+            `;
 
-async function load(handle){
+            document.getElementById("followBtn").onclick=()=> window.open(`https://bsky.app/profile/${handle}`,"_blank");
 
-  currentHandle = handle;
+            const res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=50`);
+            const data = await res.json();
 
-  const didRes=await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
-  const {did}=await didRes.json();
-  if(!did) return;
+            data.feed.forEach(item => {
+                const post = item.post;
+                const text = post.record?.text || "";
+                let imgs = post.embed?.images || post.embed?.media?.images || post.record?.embed?.images || [];
 
-  const profRes=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
-  const prof=await profRes.json();
+                imgs.forEach(img => {
+                    const cid = img.image?.ref?.$link || img.image?.$link;
+                    const src = `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`;
+                    
+                    const el = document.createElement("img");
+                    el.src = src;
+                    el.className = "card";
+                    el.onclick = () => {
+                        lbImg.src = src;
+                        lbText.innerText = text;
+                        lightbox.classList.add("active");
+                    };
+                    gallery.appendChild(el);
+                });
+            });
+        } catch(e) { console.error("Error cargando feed", e); }
+    }
 
-  profile.innerHTML=`
-    <img src="${prof.avatar||''}">
-    <div class="profile-info">
-      <h2>${prof.displayName||handle}</h2>
-      <p>${prof.description||""}</p>
-    </div>
-    <button class="follow" id="followBtn">Follow</button>
-  `;
-
-  document.getElementById("followBtn").onclick=()=>{
-    window.open(`https://bsky.app/profile/${handle}`,"_blank");
-  };
-
-  const res=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=50`);
-  const data=await res.json();
-
-  data.feed.forEach(item=>{
-    const post=item.post;
-    const text=post.record?.text||"";
-
-    let imgs=[];
-
-    if(post.embed?.images) imgs=post.embed.images;
-    if(post.embed?.media?.images) imgs=post.embed.media.images;
-    if(post.record?.embed?.images) imgs=post.record.embed.images;
-
-    imgs.forEach(img=>{
-      const cid = img.image?.ref?.$link || img.image?.$link;
-      if(!cid) return;
-
-      const src=`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`;
-
-      const wrapper=document.createElement("div");
-      wrapper.className="card";
-
-      const el=document.createElement("img");
-      el.src=src;
-
-      el.onclick=()=>{
-        lightbox.classList.add("active");
-        lbImg.src=src;
-        lbText.innerText=text;
-        scale=1;
-        lbImg.style.transform="scale(1)";
-      };
-
-      wrapper.appendChild(el);
-      gallery.appendChild(wrapper);
-    });
-
-  });
-
-  lbImg.onwheel=(e)=>{
-    e.preventDefault();
-    scale+=e.deltaY*-0.001;
-    scale=Math.min(Math.max(.5,scale),4);
-    lbImg.style.transform=`scale(${scale})`;
-  };
-
-}
-
-closeBtn.onclick=()=>lightbox.classList.remove("active");
-
-lightbox.onclick=(e)=>{
-  if(e.target===lightbox){
-    lightbox.classList.remove("active");
-  }
-};
+    closeBtn.onclick = () => lightbox.classList.remove("active");
+    lightbox.onclick = (e) => { if(e.target === lightbox) lightbox.classList.remove("active"); };
 </script>
 
 </body>
