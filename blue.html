@@ -2,79 +2,138 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Debug ATProto</title>
+<title>ATProto Viewer</title>
+
 <style>
-body { background:#000; color:#0f0; font-family:monospace; }
-img { width:150px; height:150px; object-fit:cover; }
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: system-ui, sans-serif;
+}
+
+header {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #222;
+}
+
+input {
+  padding: 8px;
+  background: #111;
+  border: 1px solid #333;
+  color: #fff;
+  width: 250px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 6px;
+  padding: 10px;
+}
+
+.card {
+  background: #111;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
 </style>
 </head>
+
 <body>
 
-<div id="log"></div>
-<div id="gallery"></div>
+<header>
+  <input id="userInput" placeholder="usuario (ej: iasuarezv.com)">
+</header>
+
+<div class="grid" id="gallery"></div>
 
 <script>
-const handle = "iasuarezv.com";
-const log = (msg) => document.getElementById("log").innerHTML += msg + "<br>";
+const input = document.getElementById("userInput");
 const gallery = document.getElementById("gallery");
 
-async function run() {
+// cargar último usuario
+const savedUser = localStorage.getItem("atproto_user");
+if (savedUser) {
+  input.value = savedUser;
+  load(savedUser);
+}
+
+// enter para cargar
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    const user = input.value.trim();
+    if (!user) return;
+
+    localStorage.setItem("atproto_user", user);
+    gallery.innerHTML = "";
+    load(user);
+  }
+});
+
+async function load(handle) {
   try {
-    log("Resolviendo DID...");
-
     const didRes = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
-    const didData = await didRes.json();
+    const { did } = await didRes.json();
 
-    if (!didData.did) {
-      log("ERROR: no DID");
+    if (!did) {
+      alert("Usuario no válido");
       return;
     }
 
-    log("DID: " + didData.did);
+    let cursor = "";
+    let rounds = 3;
 
-    const feedRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${didData.did}&limit=50`);
-    const feedData = await feedRes.json();
+    for (let i = 0; i < rounds; i++) {
+      const url = new URL("https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed");
+      url.searchParams.set("actor", did);
+      url.searchParams.set("limit", 50);
+      if (cursor) url.searchParams.set("cursor", cursor);
 
-    if (!feedData.feed) {
-      log("ERROR: feed vacío");
-      return;
-    }
+      const res = await fetch(url);
+      const data = await res.json();
 
-    log("Posts recibidos: " + feedData.feed.length);
+      data.feed.forEach(item => {
+        const post = item.post;
 
-    let count = 0;
+        let images = [];
 
-    feedData.feed.forEach(item => {
-      const post = item.post;
+        if (post.embed?.images) images = post.embed.images;
+        if (post.embed?.media?.images) images = post.embed.media.images;
+        if (post.record?.embed?.images) images = post.record.embed.images;
 
-      // intenta varias rutas posibles
-      let embeds = [];
+        images.forEach(img => {
+          // construir URL correcta
+          const cid = img.image.ref.$link;
+          const src = `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`;
 
-      if (post.embed?.images) embeds = post.embed.images;
-      if (post.embed?.media?.images) embeds = post.embed.media.images;
-      if (post.record?.embed?.images) embeds = post.record.embed.images;
+          const card = document.createElement("div");
+          card.className = "card";
 
-      embeds.forEach(img => {
-        const el = document.createElement("img");
-        el.src = img.thumb || img.fullsize;
-        gallery.appendChild(el);
-        count++;
+          const image = document.createElement("img");
+          image.src = src;
+
+          card.appendChild(image);
+          gallery.appendChild(card);
+        });
       });
-    });
 
-    log("Imágenes encontradas: " + count);
-
-    if (count === 0) {
-      log("No hay imágenes en estos posts (o no vienen en embed estándar)");
+      if (!data.cursor) break;
+      cursor = data.cursor;
     }
 
   } catch (e) {
-    log("ERROR: " + e.message);
     console.error(e);
   }
 }
-
-run();
 </script>
 
 </body>
