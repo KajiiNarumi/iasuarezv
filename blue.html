@@ -54,6 +54,7 @@ display:flex;
 gap:20px;
 border-bottom:1px solid var(--line);
 align-items:center;
+flex-wrap:wrap;
 }
 
 .profile img{
@@ -65,17 +66,57 @@ border-radius:50%;
 .profile-info{flex:1;}
 
 .profile-info h2{margin:0;font-size:22px;}
-.profile-info p{margin:6px 0;color:var(--dim);}
-.profile-info span{font-size:14px;color:var(--dim);}
 
-.btn-view{
+.profile-info p{
+margin:6px 0;
+color:var(--dim);
+line-height:1.4;
+word-break:break-word;
+display:-webkit-box;
+-webkit-line-clamp:3;
+-webkit-box-orient:vertical;
+overflow:hidden;
+}
+
+.profile-actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.btn{
 background:#111;
 border:1px solid #444;
 color:#fff;
-padding:8px 18px;
+padding:6px 12px;
 border-radius:20px;
-text-decoration:none;
+cursor:pointer;
+font-size:13px;
+}
+
+/* albums */
+.albums{
+max-width:1000px;
+margin:10px auto;
+display:flex;
+gap:10px;
+overflow-x:auto;
+padding:10px;
+}
+
+.album-btn{
+padding:6px 12px;
+border:1px solid #333;
+border-radius:20px;
+cursor:pointer;
+white-space:nowrap;
 font-size:14px;
+color:var(--dim);
+}
+
+.album-btn.active{
+color:#fff;
+border-color:#fff;
 }
 
 /* grid */
@@ -118,84 +159,33 @@ padding:20px;
 
 .modal-box{
 width:100%;
-max-width:1100px;
-height:90vh;
+max-width:1000px;
+max-height:90vh;
 background:#111;
-display:flex;
 border-radius:12px;
-overflow:hidden;
-position:relative;
-}
-
-.close{
-position:absolute;
-top:10px;
-right:15px;
-font-size:28px;
-cursor:pointer;
-z-index:20;
-}
-
-.modal-img{
-flex:1.5;
-background:#000;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-.modal-img img{
-max-width:100%;
-max-height:100%;
-object-fit:contain;
-}
-
-.modal-info{
-flex:1;
-padding:25px;
 overflow:auto;
+padding:20px;
+}
+
+.user-list{
 display:flex;
 flex-direction:column;
 gap:10px;
 }
 
-.btn-post{
-display:inline-block;
-padding:8px 14px;
-border:1px solid #444;
-border-radius:20px;
-color:#fff;
-text-decoration:none;
-font-size:14px;
-width:max-content;
-}
-
-.nav{
-position:absolute;
-top:50%;
-transform:translateY(-50%);
-background:rgba(0,0,0,.6);
-border:none;
-color:#fff;
-width:42px;
-height:42px;
-border-radius:50%;
+.user-item{
+display:flex;
+align-items:center;
+gap:10px;
 cursor:pointer;
-z-index:15;
 }
 
-.prev{left:10px;}
-.next{right:10px;}
-
-@media(max-width:768px){
-.modal{padding:10px;}
-.modal-box{flex-direction:column;height:95vh;}
-.modal-img{width:100%;aspect-ratio:1/1;flex:none;}
-.modal-info{padding:15px;}
-.nav{top:45%;}
-.prev{left:5px;}
-.next{right:5px;}
+.user-item img{
+width:40px;
+height:40px;
+border-radius:50%;
 }
+
 </style>
 </head>
 
@@ -207,48 +197,51 @@ z-index:15;
 </div>
 
 <div id="profile"></div>
+<div id="albums" class="albums"></div>
 <div id="gallery" class="grid"></div>
 
 <div id="modal" class="modal">
-<div class="modal-box">
-
-<div class="close" id="closeBtn">✕</div>
-
-<button class="nav prev" id="prev">❮</button>
-<button class="nav next" id="next">❯</button>
-
-<div class="modal-img">
-<img id="mImg">
-</div>
-
-<div class="modal-info">
-<a id="postLink" class="btn-post" target="_blank">Ver publicación</a>
-<div id="mText"></div>
-<div id="mLikes"></div>
-</div>
-
-</div>
+<div class="modal-box" id="modalContent"></div>
 </div>
 
 <script>
 let images=[];
-let index=0;
-let currentHandle=""; // 👈 ESTE ES EL FIX REAL
+let filtered=[];
+let currentHandle="";
 
 const input=document.getElementById("userInput");
 const btn=document.getElementById("goBtn");
 const gallery=document.getElementById("gallery");
+const albumsBar=document.getElementById("albums");
 const modal=document.getElementById("modal");
+const modalContent=document.getElementById("modalContent");
+
+/* persistencia */
+const saved=localStorage.getItem("user")||"iasuarezv.com";
+input.value=saved;
+
+/* detectar URL tipo /user */
+const pathUser=location.pathname.replace("/","");
+if(pathUser){
+load(pathUser);
+}else{
+load(saved);
+}
 
 input.addEventListener("keypress",e=>{if(e.key==="Enter")btn.click();});
-btn.onclick=()=>{const u=input.value.trim().replace("@","");if(u)load(u);};
+btn.onclick=()=>{
+const u=input.value.trim().replace("@","");
+if(!u) return;
+localStorage.setItem("user",u);
+history.pushState({}, "", "/"+u);
+load(u);
+};
 
 modal.onclick=e=>{if(e.target===modal)modal.classList.remove("active");};
-document.getElementById("closeBtn").onclick=()=>modal.classList.remove("active");
 
 async function load(user){
 
-currentHandle = user; // 🔥 guardamos el usuario real
+currentHandle=user;
 
 const didRes=await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${user}`);
 const {did}=await didRes.json();
@@ -260,6 +253,7 @@ const feedRes=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAut
 const data=await feedRes.json();
 
 images=[];
+const tagMap={};
 
 data.feed.forEach(item=>{
 const post=item.post;
@@ -270,16 +264,24 @@ if(post.embed?.media?.images) imgs.push(...post.embed.media.images);
 if(post.record?.embed?.images) imgs.push(...post.record.embed.images);
 if(post.record?.embed?.media?.images) imgs.push(...post.record.embed.media.images);
 
+const text=post.record?.text||"";
+const tags=(text.match(/#\w+/g)||[]).map(t=>t.toLowerCase());
+
 imgs.forEach(img=>{
 const cid=img.image?.ref?.$link||img.image?.$link;
 if(!cid) return;
 
-images.push({
+const imageData={
 thumb:`https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
-full:`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
-text:post.record?.text||"",
-likes:post.likeCount||0,
-uri: post.uri
+text:text,
+tags:tags
+};
+
+images.push(imageData);
+
+tags.forEach(tag=>{
+if(!tagMap[tag]) tagMap[tag]=[];
+tagMap[tag].push(imageData);
 });
 });
 });
@@ -293,53 +295,107 @@ document.getElementById("profile").innerHTML=`
 <p>${prof.description||""}</p>
 <span>${images.length} imágenes</span>
 </div>
-<a href="https://bsky.app/profile/${user}" target="_blank" class="btn-view">Ver perfil</a>
+
+<div class="profile-actions">
+<button class="btn" onclick="showFollows('${did}')">Siguiendo</button>
+<button class="btn" onclick="showFollowers('${did}')">Seguidores</button>
+<button class="btn" onclick="shareProfile()">Compartir</button>
+</div>
 </div>
 `;
 
-/* grid */
-gallery.innerHTML="";
-images.forEach((img,i)=>{
-const d=document.createElement("div");
-d.className="card";
-d.innerHTML=`<img src="${img.thumb}">`;
-d.onclick=()=>open(i);
-gallery.appendChild(d);
+renderAlbums(tagMap);
+
+filtered=[...images];
+renderGallery();
+}
+
+/* albums */
+function renderAlbums(tagMap){
+albumsBar.innerHTML="";
+
+const allBtn=document.createElement("div");
+allBtn.className="album-btn active";
+allBtn.innerText="Todo";
+allBtn.onclick=()=>{
+filtered=[...images];
+setActive(allBtn);
+renderGallery();
+};
+albumsBar.appendChild(allBtn);
+
+Object.keys(tagMap).forEach(tag=>{
+const btn=document.createElement("div");
+btn.className="album-btn";
+btn.innerText=tag.replace("#","");
+btn.onclick=()=>{
+filtered=tagMap[tag];
+setActive(btn);
+renderGallery();
+};
+albumsBar.appendChild(btn);
 });
 }
 
-function open(i){
-index=i;
-const d=images[i];
+function setActive(el){
+document.querySelectorAll(".album-btn").forEach(b=>b.classList.remove("active"));
+el.classList.add("active");
+}
 
-document.getElementById("mImg").src=d.full;
-document.getElementById("mText").innerText=d.text;
-document.getElementById("mLikes").innerText=`❤️ ${d.likes}`;
+/* gallery */
+function renderGallery(){
+gallery.innerHTML="";
+filtered.forEach(img=>{
+const d=document.createElement("div");
+d.className="card";
 
-/* URL CORRECTA */
-const parts = d.uri.split('/');
-const postId = parts[parts.length - 1];
+const im=new Image();
+im.src=img.thumb;
 
-document.getElementById("postLink").href=`https://bsky.app/profile/${currentHandle}/post/${postId}`;
+im.onload=()=>{
+d.appendChild(im);
+gallery.appendChild(d);
+};
+});
+}
+
+/* seguidores */
+async function showFollows(did){
+const res=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.graph.getFollows?actor=${did}&limit=50`);
+const data=await res.json();
+renderUsers(data.follows);
+}
+
+async function showFollowers(did){
+const res=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.graph.getFollowers?actor=${did}&limit=50`);
+const data=await res.json();
+renderUsers(data.followers);
+}
+
+function renderUsers(list){
+modalContent.innerHTML='<div class="user-list"></div>';
+const container=modalContent.querySelector(".user-list");
+
+list.forEach(u=>{
+const div=document.createElement("div");
+div.className="user-item";
+div.innerHTML=`<img src="${u.avatar||''}"><span>${u.handle}</span>`;
+div.onclick=()=>{
+modal.classList.remove("active");
+load(u.handle);
+};
+container.appendChild(div);
+});
 
 modal.classList.add("active");
 }
 
-document.getElementById("next").onclick=e=>{
-e.stopPropagation();
-if(index<images.length-1)open(index+1);
-};
-
-document.getElementById("prev").onclick=e=>{
-e.stopPropagation();
-if(index>0)open(index-1);
-};
-
-
-<!-- Cambia "iasurezv.com" por tu usuario de bluesky -->
-load("iasuarezv.com");
-
-<!-- Cambia "iasurezv.com" por tu usuario de bluesky -->
+/* compartir */
+function shareProfile(){
+const url=location.origin+"/"+currentHandle;
+navigator.clipboard.writeText(url);
+alert("Copiado: "+url);
+}
 </script>
 
 </body>
