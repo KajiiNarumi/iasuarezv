@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Galesky</title>
 
 <style>
@@ -18,16 +18,16 @@ body{
     margin:0;
     background:var(--bg);
     color:var(--text-main);
-    font-family:system-ui;
+    font-family:system-ui, -apple-system, sans-serif;
 }
 
 /* HEADER */
-.header{padding:20px 16px;border-bottom:1px solid #222;}
+.header{padding:20px 16px; border-bottom:1px solid #222;}
 
 .search{
     display:flex;
     max-width:600px;
-    margin:auto;
+    margin:0 auto 20px auto;
 }
 
 .search input{
@@ -37,6 +37,7 @@ body{
     border:2px solid #333;
     color:#fff;
     border-radius:30px 0 0 30px;
+    outline:none;
 }
 
 .search button{
@@ -45,6 +46,7 @@ body{
     background:#fff;
     border-radius:0 30px 30px 0;
     cursor:pointer;
+    font-weight:bold;
 }
 
 .profile{
@@ -53,19 +55,21 @@ body{
     display:flex;
     gap:16px;
     align-items:center;
+    flex-wrap: wrap;
 }
 
 .profile img{
     width:80px;
     height:80px;
     border-radius:50%;
+    object-fit: cover;
 }
 
-.profile-info{flex:1;}
+.profile-info{flex:1; min-width:200px;}
 .profile-info h2{margin:0;font-size:22px;}
-.profile-info p{color:#aaa;font-size:15px;}
+.profile-info p{color:#aaa;font-size:14px; margin:5px 0;}
 
-.img-count{color:var(--accent);font-size:13px;}
+.img-count{color:var(--accent);font-size:13px; font-weight: bold;}
 
 .follow{
     padding:10px 20px;
@@ -73,6 +77,30 @@ body{
     border-radius:25px;
     background:#fff;
     cursor:pointer;
+    font-weight:bold;
+}
+
+/* FILTROS */
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.filter-btn {
+    background: #222;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
 }
 
 /* GRID */
@@ -90,6 +118,7 @@ body{
     overflow:hidden;
     position:relative;
     cursor:pointer;
+    background: #111;
 }
 
 .card img{
@@ -102,29 +131,34 @@ body{
     position:absolute;
     bottom:8px;
     right:8px;
-    background:rgba(0,0,0,.6);
+    background:rgba(0,0,0,.7);
     padding:4px 8px;
     border-radius:12px;
-    font-size:12px;
+    font-size:11px;
 }
 
 /* LIGHTBOX */
 .lightbox{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.95);
+    background:rgba(0,0,0,.98);
     display:none;
     justify-content:center;
     align-items:center;
+    z-index: 1000;
 }
 
 .lightbox.active{display:flex;}
 
 .lb-content{
-    width:90%;
+    width:95%;
+    max-width: 1100px;
     height:90%;
     display:flex;
     background:#111;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
 }
 
 .lb-img{
@@ -132,31 +166,64 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
+    background: #000;
 }
 
 .lb-img img{
     max-width:100%;
     max-height:100%;
+    object-fit: contain;
 }
 
 .lb-text-area{
     flex:1;
-    padding:20px;
+    padding:25px;
     display:flex;
     flex-direction:column;
+    border-left: 1px solid #222;
 }
 
 .lb-text{
     flex:1;
     overflow:auto;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .lb-close{
     position:absolute;
     top:20px;
     right:20px;
-    font-size:30px;
+    font-size:35px;
     cursor:pointer;
+    z-index: 1010;
+    color: #fff;
+}
+
+/* BOTONES NAV */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: none;
+    padding: 20px 10px;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 1005;
+}
+
+.prev-btn { left: 0; border-radius: 0 5px 5px 0; }
+.next-btn { right: 0; border-radius: 5px 0 0 5px; }
+
+/* MÓVIL */
+@media(max-width:768px){
+    .lb-content { flex-direction: column; height: 95%; }
+    .lb-img { flex: 0 0 60%; }
+    .lb-text-area { flex: 0 0 40%; border-left: none; border-top: 1px solid #222; padding: 15px; }
+    .nav-btn { padding: 15px 8px; background: rgba(0,0,0,0.5); }
+    .grid { grid-template-columns: repeat(3, 1fr); gap: 2px; }
 }
 </style>
 </head>
@@ -165,21 +232,31 @@ body{
 
 <div class="header">
     <div class="search">
-        <input id="userInput">
+        <input id="userInput" placeholder="usuario.bsky.social">
         <button id="goBtn">Buscar</button>
     </div>
     <div id="profile" class="profile"></div>
+</div>
+
+<div class="filters">
+    <button class="filter-btn active" onclick="filterMedia('all')">Todo</button>
+    <button class="filter-btn" onclick="filterMedia('image')">Fotos</button>
+    <button class="filter-btn" onclick="filterMedia('video')">Videos</button>
 </div>
 
 <div id="gallery" class="grid"></div>
 
 <div id="lightbox" class="lightbox">
     <div class="lb-close" id="closeBtn">✕</div>
-    <div class="lb-content">
+    
+    <button class="nav-btn prev-btn" id="prevBtn">❮</button>
+    <button class="nav-btn next-btn" id="nextBtn">❯</button>
+
+    <div class="lb-content" id="lbMain">
         <div class="lb-img"><img id="lbImg"></div>
         <div class="lb-text-area">
             <div id="lbText" class="lb-text"></div>
-            <div id="lbStats"></div>
+            <div id="lbStats" style="margin-top:10px; color:var(--accent); font-weight:bold;"></div>
         </div>
     </div>
 </div>
@@ -197,8 +274,11 @@ const lbImg=document.getElementById("lbImg");
 const lbText=document.getElementById("lbText");
 const lbStats=document.getElementById("lbStats");
 const closeBtn=document.getElementById("closeBtn");
+const prevBtn=document.getElementById("prevBtn");
+const nextBtn=document.getElementById("nextBtn");
 
-let allImages=[];
+let allMedia=[];
+let filteredMedia=[];
 let currentIndex=0;
 
 const saved=localStorage.getItem("user")||DEFAULT_USER;
@@ -213,79 +293,129 @@ function start(){
     if(!user)return;
     localStorage.setItem("user",user);
     gallery.innerHTML="";
-    allImages=[];
+    allMedia=[];
     load(user);
 }
 
 async function load(handle){
+    try {
+        const didRes=await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
+        const {did}=await didRes.json();
+        if(!did)return;
 
-const didRes=await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
-const {did}=await didRes.json();
-if(!did)return;
+        const profRes=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
+        const prof=await profRes.json();
 
-const profRes=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
-const prof=await profRes.json();
+        const res=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=100`);
+        const data=await res.json();
 
-const res=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=100`);
-const data=await res.json();
+        data.feed.forEach(item=>{
+            const post=item.post;
+            const text=post.record?.text||"";
+            const likes=post.likeCount||0;
 
-data.feed.forEach(item=>{
-const post=item.post;
-const text=post.record?.text||"";
-const likes=post.likeCount||0;
+            // Fotos
+            let rawImgs=[];
+            if(post.embed?.images) rawImgs.push(...post.embed.images);
+            if(post.embed?.media?.images) rawImgs.push(...post.embed.media.images);
+            if(post.record?.embed?.images) rawImgs.push(...post.record.embed.images);
+            if(post.record?.embed?.media?.images) rawImgs.push(...post.record.embed.media.images);
 
-/* 🔥 FIX DEFINITIVO */
-let rawImgs=[];
-if(post.embed?.images) rawImgs.push(...post.embed.images);
-if(post.embed?.media?.images) rawImgs.push(...post.embed.media.images);
-if(post.record?.embed?.images) rawImgs.push(...post.record.embed.images);
-if(post.record?.embed?.media?.images) rawImgs.push(...post.record.embed.media.images);
+            rawImgs.forEach(img=>{
+                const cid=img.image?.ref?.$link||img.image?.$link;
+                if(cid) {
+                    allMedia.push({
+                        type: 'image',
+                        thumb:`https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
+                        full:`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
+                        text, likes
+                    });
+                }
+            });
 
-rawImgs.forEach(img=>{
-const cid=img.image?.ref?.$link||img.image?.$link;
-if(!cid)return;
+            // Vídeos (Detección básica)
+            if(post.embed?.$type === "app.bsky.embed.video#view" || post.record?.embed?.$type === "app.bsky.embed.video") {
+                allMedia.push({
+                    type: 'video',
+                    thumb: post.embed?.thumbnail || '',
+                    full: post.embed?.thumbnail || '', // Por ahora mostramos thumbnail
+                    text: text + " [Vídeo]",
+                    likes
+                });
+            }
+        });
 
-allImages.push({
-thumb:`https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
-full:`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
-text,
-likes
-});
-});
-});
+        profile.innerHTML=`
+            <img src="${prof.avatar||''}">
+            <div class="profile-info">
+                <h2>${prof.displayName||handle}</h2>
+                <p>${prof.description||""}</p>
+                <div class="img-count">📦 ${allMedia.length} elementos</div>
+            </div>
+            <button class="follow" onclick="window.open('https://bsky.app/profile/${handle}')">Perfil</button>
+        `;
 
-profile.innerHTML=`
-<img src="${prof.avatar||''}">
-<div class="profile-info">
-<h2>${prof.displayName||handle}</h2>
-<p>${prof.description||""}</p>
-<div class="img-count">📸 ${allImages.length}</div>
-</div>
-<button class="follow" onclick="window.open('https://bsky.app/profile/${handle}')">Ver</button>
-`;
+        filterMedia('all');
 
-allImages.forEach((img,i)=>{
-const card=document.createElement("div");
-card.className="card";
-card.innerHTML=`<img src="${img.thumb}"><div class="card-stats">❤️ ${img.likes}</div>`;
-card.onclick=()=>openLightbox(i);
-gallery.appendChild(card);
-});
+    } catch(e) { console.error("Error cargando:", e); }
+}
+
+function filterMedia(type) {
+    // UI de botones
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    event?.target?.classList?.add('active');
+
+    filteredMedia = type === 'all' ? allMedia : allMedia.filter(m => m.type === type);
+    renderGallery();
+}
+
+function renderGallery() {
+    gallery.innerHTML = "";
+    filteredMedia.forEach((item, i) => {
+        const card=document.createElement("div");
+        card.className="card";
+        const icon = item.type === 'video' ? '<div style="position:absolute; top:5px; left:5px; background:rgba(0,0,0,0.5); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center;">▶</div>' : '';
+        card.innerHTML=`
+            ${icon}
+            <img src="${item.thumb}" loading="lazy">
+            <div class="card-stats">❤️ ${item.likes}</div>
+        `;
+        card.onclick=()=>openLightbox(i);
+        gallery.appendChild(card);
+    });
 }
 
 function openLightbox(i){
-currentIndex=i;
-const d=allImages[i];
-lbImg.src=d.full;
-lbText.innerText=d.text;
-lbStats.innerText=`❤️ ${d.likes}`;
-lightbox.classList.add("active");
+    if(i < 0 || i >= filteredMedia.length) return;
+    currentIndex=i;
+    const d=filteredMedia[i];
+    lbImg.src=d.full;
+    lbText.innerText=d.text;
+    lbStats.innerText=`❤️ ${d.likes} likes`;
+    lightbox.classList.add("active");
 }
 
+function next() { openLightbox(currentIndex + 1); }
+function prev() { openLightbox(currentIndex - 1); }
+
+// Eventos
+prevBtn.onclick = (e) => { e.stopPropagation(); prev(); };
+nextBtn.onclick = (e) => { e.stopPropagation(); next(); };
+
 closeBtn.onclick=()=>lightbox.classList.remove("active");
-lightbox.onclick=e=>{if(e.target===lightbox)lightbox.classList.remove("active");};
+
+lightbox.onclick=e=>{
+    if(e.target===lightbox || e.target.id === "lbMain") lightbox.classList.remove("active");
+};
+
+// Teclado
+document.addEventListener("keydown", e => {
+    if(!lightbox.classList.contains("active")) return;
+    if(e.key === "ArrowRight") next();
+    if(e.key === "ArrowLeft") prev();
+    if(e.key === "Escape") lightbox.classList.remove("active");
+});
 
 </script>
-
 </body>
 </html>
