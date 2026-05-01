@@ -92,6 +92,7 @@ padding:6px 12px;
 border-radius:20px;
 cursor:pointer;
 font-size:13px;
+text-decoration:none;
 }
 
 /* albums */
@@ -163,27 +164,48 @@ max-width:1000px;
 max-height:90vh;
 background:#111;
 border-radius:12px;
-overflow:auto;
-padding:20px;
+overflow:hidden;
+display:flex;
+flex-direction:row;
+position:relative;
 }
 
-.user-list{
+.close{
+position:absolute;
+top:10px;
+right:15px;
+font-size:28px;
+cursor:pointer;
+z-index:20;
+}
+
+.modal-img{
+flex:1.5;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.modal-img img{
+max-width:100%;
+max-height:100%;
+object-fit:contain;
+}
+
+.modal-info{
+flex:1;
+padding:20px;
+overflow:auto;
 display:flex;
 flex-direction:column;
 gap:10px;
 }
 
-.user-item{
-display:flex;
-align-items:center;
-gap:10px;
-cursor:pointer;
-}
-
-.user-item img{
-width:40px;
-height:40px;
-border-radius:50%;
+/* móvil */
+@media(max-width:768px){
+.modal-box{flex-direction:column;height:95vh;}
+.modal-img{aspect-ratio:1/1;}
 }
 
 </style>
@@ -201,12 +223,26 @@ border-radius:50%;
 <div id="gallery" class="grid"></div>
 
 <div id="modal" class="modal">
-<div class="modal-box" id="modalContent"></div>
+<div class="modal-box">
+<div class="close" id="closeBtn">✕</div>
+
+<div class="modal-img">
+<img id="mImg">
+</div>
+
+<div class="modal-info">
+<a id="postLink" class="btn" target="_blank">Ver publicación</a>
+<div id="mText"></div>
+<div id="mLikes"></div>
+</div>
+
+</div>
 </div>
 
 <script>
 let images=[];
 let filtered=[];
+let index=0;
 let currentHandle="";
 
 const input=document.getElementById("userInput");
@@ -214,30 +250,29 @@ const btn=document.getElementById("goBtn");
 const gallery=document.getElementById("gallery");
 const albumsBar=document.getElementById("albums");
 const modal=document.getElementById("modal");
-const modalContent=document.getElementById("modalContent");
+
+/* URL PARAM */
+const params=new URLSearchParams(window.location.search);
+const urlUser=params.get("user");
 
 /* persistencia */
 const saved=localStorage.getItem("user")||"iasuarezv.com";
-input.value=saved;
+const initialUser=urlUser||saved;
 
-/* detectar URL tipo /user */
-const pathUser=location.pathname.replace("/","");
-if(pathUser){
-load(pathUser);
-}else{
-load(saved);
-}
+input.value=initialUser;
+load(initialUser);
 
 input.addEventListener("keypress",e=>{if(e.key==="Enter")btn.click();});
+
 btn.onclick=()=>{
 const u=input.value.trim().replace("@","");
-if(!u) return;
+if(!u)return;
 localStorage.setItem("user",u);
-history.pushState({}, "", "/"+u);
-load(u);
+window.location.search=`?user=${u}`;
 };
 
 modal.onclick=e=>{if(e.target===modal)modal.classList.remove("active");};
+document.getElementById("closeBtn").onclick=()=>modal.classList.remove("active");
 
 async function load(user){
 
@@ -269,11 +304,14 @@ const tags=(text.match(/#\w+/g)||[]).map(t=>t.toLowerCase());
 
 imgs.forEach(img=>{
 const cid=img.image?.ref?.$link||img.image?.$link;
-if(!cid) return;
+if(!cid)return;
 
 const imageData={
 thumb:`https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
+full:`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
 text:text,
+likes:post.likeCount||0,
+uri:post.uri,
 tags:tags
 };
 
@@ -297,8 +335,7 @@ document.getElementById("profile").innerHTML=`
 </div>
 
 <div class="profile-actions">
-<button class="btn" onclick="showFollows('${did}')">Siguiendo</button>
-<button class="btn" onclick="showFollowers('${did}')">Seguidores</button>
+<a class="btn" href="https://bsky.app/profile/${user}" target="_blank">Ver perfil</a>
 <button class="btn" onclick="shareProfile()">Compartir</button>
 </div>
 </div>
@@ -345,7 +382,7 @@ el.classList.add("active");
 /* gallery */
 function renderGallery(){
 gallery.innerHTML="";
-filtered.forEach(img=>{
+filtered.forEach((img,i)=>{
 const d=document.createElement("div");
 d.className="card";
 
@@ -354,45 +391,31 @@ im.src=img.thumb;
 
 im.onload=()=>{
 d.appendChild(im);
+d.onclick=()=>open(i);
 gallery.appendChild(d);
 };
 });
 }
 
-/* seguidores */
-async function showFollows(did){
-const res=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.graph.getFollows?actor=${did}&limit=50`);
-const data=await res.json();
-renderUsers(data.follows);
-}
+/* modal */
+function open(i){
+index=i;
+const d=filtered[i];
 
-async function showFollowers(did){
-const res=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.graph.getFollowers?actor=${did}&limit=50`);
-const data=await res.json();
-renderUsers(data.followers);
-}
+document.getElementById("mImg").src=d.full;
+document.getElementById("mText").innerText=d.text;
+document.getElementById("mLikes").innerText=`❤️ ${d.likes}`;
 
-function renderUsers(list){
-modalContent.innerHTML='<div class="user-list"></div>';
-const container=modalContent.querySelector(".user-list");
-
-list.forEach(u=>{
-const div=document.createElement("div");
-div.className="user-item";
-div.innerHTML=`<img src="${u.avatar||''}"><span>${u.handle}</span>`;
-div.onclick=()=>{
-modal.classList.remove("active");
-load(u.handle);
-};
-container.appendChild(div);
-});
+const parts=d.uri.split('/');
+const postId=parts[parts.length-1];
+document.getElementById("postLink").href=`https://bsky.app/profile/${currentHandle}/post/${postId}`;
 
 modal.classList.add("active");
 }
 
 /* compartir */
 function shareProfile(){
-const url=location.origin+"/"+currentHandle;
+const url=`${location.origin}?user=${currentHandle}`;
 navigator.clipboard.writeText(url);
 alert("Copiado: "+url);
 }
