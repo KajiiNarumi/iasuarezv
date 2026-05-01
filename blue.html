@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Galesky</title>
+    <title>Galesky | AntuanSV</title>
     <style>
         :root {
             --bg: #000;
@@ -17,87 +17,107 @@
             margin: 0;
             background: var(--bg);
             color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            overflow-x: hidden;
+            font-family: -apple-system, system-ui, sans-serif;
         }
 
-        /* HEADER */
-        .header { padding: 20px 16px; border-bottom: 1px solid #222; }
-        .search { display: flex; max-width: 600px; margin: 0 auto 20px auto; }
+        /* HEADER RESTAURADO */
+        .header { 
+            padding: 40px 20px; 
+            border-bottom: 1px solid #222; 
+            max-width: 900px; 
+            margin: auto; 
+        }
+        
+        .search { display: flex; margin-bottom: 30px; }
         .search input {
-            flex: 1; padding: 14px; background: #111; border: 2px solid #333;
-            color: #fff; border-radius: 30px 0 0 30px; outline: none;
+            flex: 1; padding: 15px 20px; background: #111; border: 2px solid #333;
+            color: #fff; border-radius: 30px 0 0 30px; outline: none; font-size: 16px;
         }
         .search button {
-            padding: 0 25px; border: none; background: #fff;
+            padding: 0 30px; border: none; background: #fff;
             border-radius: 0 30px 30px 0; cursor: pointer; font-weight: bold;
         }
 
-        .profile { max-width: 900px; margin: auto; display: flex; gap: 16px; align-items: center; }
-        .profile img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
-        .profile-info h2 { margin: 0; font-size: 18px; }
-        .img-count { color: var(--accent); font-size: 12px; font-weight: bold; }
+        .profile { display: flex; gap: 25px; align-items: center; }
+        .profile img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #222; }
+        .profile-info h2 { margin: 0; font-size: 28px; }
+        .profile-info p { color: var(--text-dim); margin: 8px 0; line-height: 1.4; }
+        .img-count { color: var(--accent); font-weight: bold; font-size: 14px; }
 
-        /* GRID */
+        /* GRID - VOLVEMOS A LAS 3 COLUMNAS */
         .grid {
-            max-width: 1200px; margin: auto; display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            max-width: 1000px; margin: 20px auto; 
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 4px; padding: 4px;
         }
-        .card { aspect-ratio: 1/1; overflow: hidden; position: relative; cursor: pointer; background: #111; }
+        .card { aspect-ratio: 1/1; overflow: hidden; background: #111; cursor: pointer; }
         .card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* LIGHTBOX RE-ESTRUCTURADO */
+        /* LIGHTBOX PROFESIONAL */
         .lightbox {
-            position: fixed; inset: 0; background: #000;
-            display: none; flex-direction: column; z-index: 2000;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            display: none; flex-direction: column; z-index: 9999;
         }
         .lightbox.active { display: flex; }
 
-        /* BARRA SUPERIOR LIGHTBOX */
-        .lb-header {
+        /* CONTROLES SUPERIORES */
+        .lb-nav-top {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 20px; background: rgba(0,0,0,0.8); z-index: 2010;
+            padding: 15px 20px; background: #000;
         }
-        .close-btn { font-size: 30px; cursor: pointer; }
-        .bsky-link {
-            color: var(--accent); text-decoration: none; font-size: 14px;
-            border: 1px solid var(--accent); padding: 5px 12px; border-radius: 15px;
+        .close-x { font-size: 35px; cursor: pointer; line-height: 1; }
+        .btn-link { 
+            color: #fff; text-decoration: none; background: var(--accent); 
+            padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 14px;
         }
 
-        .lb-main { flex: 1; display: flex; overflow: hidden; position: relative; }
-
-        /* ÁREA DE IMAGEN */
-        .lb-img-container {
+        /* CUERPO DEL LIGHTBOX */
+        .lb-body { 
+            flex: 1; display: flex; overflow: hidden; position: relative; 
+        }
+        
+        .lb-img-box {
             flex: 2; display: flex; align-items: center; justify-content: center;
-            background: #000; position: relative;
+            padding: 10px; background: #000;
         }
-        .lb-img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .lb-img-box img { 
+            max-width: 100%; max-height: 100%; object-fit: contain; 
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
 
-        /* ÁREA DE TEXTO */
-        .lb-info {
-            flex: 1; background: #111; padding: 25px; display: flex;
+        .lb-aside {
+            flex: 1; background: #111; padding: 30px; display: flex;
             flex-direction: column; border-left: 1px solid #222; overflow-y: auto;
         }
-        .lb-text { font-size: 16px; line-height: 1.5; margin-bottom: 20px; }
-        .lb-stats { color: var(--accent); font-weight: bold; margin-top: auto; }
+        .lb-text { font-size: 18px; line-height: 1.6; margin-bottom: 20px; }
+        .lb-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid #222; }
 
-        /* BOTONES DE NAVEGACIÓN */
-        .nav-btn {
+        /* BOTONES LATERALES NAVEGACIÓN */
+        .side-nav {
             position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(255,255,255,0.1); border: none; color: #fff;
-            padding: 20px 15px; cursor: pointer; font-size: 24px; border-radius: 5px;
+            background: rgba(255,255,255,0.05); border: none; color: #fff;
+            padding: 30px 15px; cursor: pointer; font-size: 30px; transition: 0.3s;
+            z-index: 10;
         }
-        .prev-btn { left: 10px; }
-        .next-btn { right: 10px; }
+        .side-nav:hover { background: rgba(255,255,255,0.15); }
+        .prev-btn { left: 0; border-radius: 0 10px 10px 0; }
+        .next-btn { right: 0; border-radius: 10px 0 0 10px; }
 
-        /* RESPONSIVE MÓVIL */
+        /* MÓVIL */
         @media (max-width: 768px) {
-            .lb-main { flex-direction: column; }
-            .lb-img-container { flex: 0 0 60vh; } /* Imagen ocupa el 60% del alto */
-            .lb-info { flex: 1; border-left: none; border-top: 1px solid #222; padding: 15px; }
-            .nav-btn { padding: 10px; background: rgba(0,0,0,0.4); top: 30vh; }
-            .grid { grid-template-columns: repeat(3, 1fr); }
+            .header { padding: 20px; }
+            .profile { flex-direction: column; text-align: center; gap: 15px; }
+            .profile img { width: 80px; height: 80px; }
+            .profile-info h2 { font-size: 22px; }
+            
+            .grid { grid-template-columns: repeat(3, 1fr); gap: 2px; }
+
+            .lb-body { flex-direction: column; }
+            .lb-img-box { flex: 0 0 65%; padding: 0; } /* Asegura que la imagen tenga espacio */
+            .lb-aside { flex: 1; border-left: none; border-top: 1px solid #222; padding: 20px; }
+            
+            .side-nav { padding: 15px 10px; background: rgba(0,0,0,0.5); top: 32%; }
         }
     </style>
 </head>
@@ -113,23 +133,24 @@
 
 <div id="gallery" class="grid"></div>
 
-<!-- LIGHTBOX -->
 <div id="lightbox" class="lightbox">
-    <div class="lb-header">
-        <a id="bskyLink" class="bsky-link" target="_blank">Ver en Bluesky</a>
-        <div class="close-btn" id="closeBtn">✕</div>
+    <div class="lb-nav-top">
+        <a id="bskyLink" class="btn-link" target="_blank">Ver en Bluesky</a>
+        <div class="close-x" id="closeBtn">✕</div>
     </div>
     
-    <div class="lb-main">
-        <button class="nav-btn prev-btn" id="prevBtn">❮</button>
-        <div class="lb-img-container">
+    <div class="lb-body">
+        <button class="side-nav prev-btn" id="prevBtn">❮</button>
+        
+        <div class="lb-img-box">
             <img id="lbImg">
         </div>
-        <button class="nav-btn next-btn" id="nextBtn">❯</button>
+        
+        <button class="side-nav next-btn" id="nextBtn">❯</button>
 
-        <div class="lb-info">
+        <div class="lb-aside">
             <div id="lbText" class="lb-text"></div>
-            <div id="lbStats" class="lb-stats"></div>
+            <div class="lb-footer" id="lbStats"></div>
         </div>
     </div>
 </div>
@@ -149,7 +170,6 @@ const lbText = document.getElementById("lbText");
 const lbStats = document.getElementById("lbStats");
 const bskyLink = document.getElementById("bskyLink");
 
-// Carga inicial
 const saved = localStorage.getItem("user") || DEFAULT_USER;
 input.value = saved;
 load(saved);
@@ -164,7 +184,7 @@ btn.onclick = () => {
 
 async function load(handle) {
     try {
-        gallery.innerHTML = "<p style='padding:20px'>Cargando...</p>";
+        gallery.innerHTML = "<p>Cargando galería...</p>";
         allImages = [];
 
         const didRes = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
@@ -184,11 +204,13 @@ async function load(handle) {
             const link = `https://bsky.app/profile/${handle}/post/${rkey}`;
 
             let imgs = [];
-            // Recolección exhaustiva de imágenes (Formatos de post y quote posts)
+            // 🔥 BUSQUEDA PROFUNDA PARA EVITAR IMÁGENES ROTAS
             if (post.embed?.images) imgs.push(...post.embed.images);
             if (post.embed?.media?.images) imgs.push(...post.embed.media.images);
             if (post.record?.embed?.images) imgs.push(...post.record.embed.images);
+            // Casos de Quote Posts o Reposts complejos
             if (post.embed?.record?.embed?.images) imgs.push(...post.embed.record.embed.images);
+            if (post.embed?.record?.record?.embed?.images) imgs.push(...post.embed.record.record.embed.images);
 
             imgs.forEach(img => {
                 const cid = img.image?.ref?.$link || img.image?.$link;
@@ -206,13 +228,14 @@ async function load(handle) {
             <img src="${prof.avatar || ''}">
             <div class="profile-info">
                 <h2>${prof.displayName || handle}</h2>
+                <p>${prof.description || ""}</p>
                 <div class="img-count">📸 ${allImages.length} imágenes</div>
             </div>
         `;
 
         renderGallery();
     } catch (e) {
-        gallery.innerHTML = "<p style='padding:20px'>Usuario no encontrado o error de API.</p>";
+        gallery.innerHTML = "<p>Error al cargar el perfil.</p>";
     }
 }
 
@@ -233,7 +256,7 @@ function openLightbox(i) {
     const data = allImages[i];
     lbImg.src = data.full;
     lbText.innerText = data.text;
-    lbStats.innerText = `❤️ ${data.likes}`;
+    lbStats.innerHTML = `<span style="font-size:20px">❤️ ${data.likes}</span>`;
     bskyLink.href = data.link;
     lightbox.classList.add("active");
     document.body.style.overflow = "hidden";
@@ -247,14 +270,12 @@ document.getElementById("closeBtn").onclick = () => {
 document.getElementById("nextBtn").onclick = (e) => { e.stopPropagation(); openLightbox(currentIndex + 1); };
 document.getElementById("prevBtn").onclick = (e) => { e.stopPropagation(); openLightbox(currentIndex - 1); };
 
-// Teclado
 document.addEventListener("keydown", e => {
     if (!lightbox.classList.contains("active")) return;
     if (e.key === "ArrowRight") openLightbox(currentIndex + 1);
     if (e.key === "ArrowLeft") openLightbox(currentIndex - 1);
     if (e.key === "Escape") document.getElementById("closeBtn").onclick();
 });
-
 </script>
 </body>
 </html>
