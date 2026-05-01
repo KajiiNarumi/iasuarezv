@@ -2,86 +2,79 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Galería - iasuarezv</title>
+<title>Debug ATProto</title>
 <style>
-body {
-  background: #000;
-  margin: 0;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 4px;
-}
-img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
+body { background:#000; color:#0f0; font-family:monospace; }
+img { width:150px; height:150px; object-fit:cover; }
 </style>
 </head>
 <body>
 
-<div class="grid" id="gallery"></div>
+<div id="log"></div>
+<div id="gallery"></div>
 
 <script>
 const handle = "iasuarezv.com";
-const container = document.getElementById("gallery");
+const log = (msg) => document.getElementById("log").innerHTML += msg + "<br>";
+const gallery = document.getElementById("gallery");
 
-async function getDid(handle) {
-  const res = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
-  const data = await res.json();
-  return data.did;
-}
+async function run() {
+  try {
+    log("Resolviendo DID...");
 
-async function getPosts(did, cursor = "") {
-  const url = new URL("https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed");
-  url.searchParams.set("actor", did);
-  url.searchParams.set("limit", 50);
-  if (cursor) url.searchParams.set("cursor", cursor);
+    const didRes = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
+    const didData = await didRes.json();
 
-  const res = await fetch(url);
-  return res.json();
-}
-
-function extractImages(feed) {
-  const images = [];
-
-  feed.forEach(item => {
-    const embed = item.post.embed;
-
-    if (embed && embed.$type === "app.bsky.embed.images") {
-      embed.images.forEach(img => {
-        images.push(img.fullsize);
-      });
+    if (!didData.did) {
+      log("ERROR: no DID");
+      return;
     }
-  });
 
-  return images;
-}
+    log("DID: " + didData.did);
 
-function render(images) {
-  images.forEach(src => {
-    const img = document.createElement("img");
-    img.src = src;
-    container.appendChild(img);
-  });
-}
+    const feedRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${didData.did}&limit=50`);
+    const feedData = await feedRes.json();
 
-(async () => {
-  let did = await getDid(handle);
-  let cursor = "";
-  let rounds = 3; // carga 150 posts aprox
+    if (!feedData.feed) {
+      log("ERROR: feed vacío");
+      return;
+    }
 
-  for (let i = 0; i < rounds; i++) {
-    const data = await getPosts(did, cursor);
-    const imgs = extractImages(data.feed);
-    render(imgs);
+    log("Posts recibidos: " + feedData.feed.length);
 
-    if (!data.cursor) break;
-    cursor = data.cursor;
+    let count = 0;
+
+    feedData.feed.forEach(item => {
+      const post = item.post;
+
+      // intenta varias rutas posibles
+      let embeds = [];
+
+      if (post.embed?.images) embeds = post.embed.images;
+      if (post.embed?.media?.images) embeds = post.embed.media.images;
+      if (post.record?.embed?.images) embeds = post.record.embed.images;
+
+      embeds.forEach(img => {
+        const el = document.createElement("img");
+        el.src = img.thumb || img.fullsize;
+        gallery.appendChild(el);
+        count++;
+      });
+    });
+
+    log("Imágenes encontradas: " + count);
+
+    if (count === 0) {
+      log("No hay imágenes en estos posts (o no vienen en embed estándar)");
+    }
+
+  } catch (e) {
+    log("ERROR: " + e.message);
+    console.error(e);
   }
-})();
+}
+
+run();
 </script>
 
 </body>
