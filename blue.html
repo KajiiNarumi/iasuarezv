@@ -19,31 +19,76 @@ header {
 }
 
 input {
-  padding: 8px;
+  padding: 10px;
   background: #111;
   border: 1px solid #333;
   color: #fff;
-  width: 250px;
+  width: 260px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px;
-  padding: 10px;
+  padding: 6px;
 }
 
 .card {
-  background: #111;
-  overflow: hidden;
-  border-radius: 6px;
+  cursor: pointer;
 }
 
 .card img {
   width: 100%;
-  height: 160px;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   display: block;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  display: none;
+  z-index: 999;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.modal img {
+  max-width: 60%;
+  object-fit: contain;
+}
+
+.modal-text {
+  padding: 20px;
+  width: 40%;
+  overflow-y: auto;
+}
+
+/* móvil */
+@media (max-width: 700px) {
+  .modal-content {
+    flex-direction: column;
+  }
+
+  .modal img {
+    max-width: 100%;
+    max-height: 60%;
+  }
+
+  .modal-text {
+    width: 100%;
+    height: 40%;
+  }
 }
 </style>
 </head>
@@ -51,23 +96,31 @@ input {
 <body>
 
 <header>
-  <input id="userInput" placeholder="usuario (ej: iasuarezv.com)">
+  <input id="userInput" placeholder="usuario">
 </header>
 
 <div class="grid" id="gallery"></div>
 
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <img id="modalImg">
+    <div class="modal-text" id="modalText"></div>
+  </div>
+</div>
+
 <script>
 const input = document.getElementById("userInput");
 const gallery = document.getElementById("gallery");
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modalImg");
+const modalText = document.getElementById("modalText");
 
-// cargar último usuario
-const savedUser = localStorage.getItem("atproto_user");
-if (savedUser) {
-  input.value = savedUser;
-  load(savedUser);
+const saved = localStorage.getItem("atproto_user");
+if (saved) {
+  input.value = saved;
+  load(saved);
 }
 
-// enter para cargar
 input.addEventListener("keydown", e => {
   if (e.key === "Enter") {
     const user = input.value.trim();
@@ -79,60 +132,46 @@ input.addEventListener("keydown", e => {
   }
 });
 
+modal.addEventListener("click", () => {
+  modal.classList.remove("active");
+});
+
 async function load(handle) {
-  try {
-    const didRes = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
-    const { did } = await didRes.json();
+  const didRes = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
+  const { did } = await didRes.json();
 
-    if (!did) {
-      alert("Usuario no válido");
-      return;
-    }
+  let res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=50`);
+  let data = await res.json();
 
-    let cursor = "";
-    let rounds = 3;
+  data.feed.forEach(item => {
+    const post = item.post;
+    const text = post.record.text || "";
 
-    for (let i = 0; i < rounds; i++) {
-      const url = new URL("https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed");
-      url.searchParams.set("actor", did);
-      url.searchParams.set("limit", 50);
-      if (cursor) url.searchParams.set("cursor", cursor);
+    let images = [];
+    if (post.embed?.images) images = post.embed.images;
+    if (post.embed?.media?.images) images = post.embed.media.images;
+    if (post.record?.embed?.images) images = post.record.embed.images;
 
-      const res = await fetch(url);
-      const data = await res.json();
+    images.forEach(img => {
+      const cid = img.image.ref.$link;
+      const src = `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`;
 
-      data.feed.forEach(item => {
-        const post = item.post;
+      const card = document.createElement("div");
+      card.className = "card";
 
-        let images = [];
+      const image = document.createElement("img");
+      image.src = src;
 
-        if (post.embed?.images) images = post.embed.images;
-        if (post.embed?.media?.images) images = post.embed.media.images;
-        if (post.record?.embed?.images) images = post.record.embed.images;
+      card.appendChild(image);
+      gallery.appendChild(card);
 
-        images.forEach(img => {
-          // construir URL correcta
-          const cid = img.image.ref.$link;
-          const src = `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`;
-
-          const card = document.createElement("div");
-          card.className = "card";
-
-          const image = document.createElement("img");
-          image.src = src;
-
-          card.appendChild(image);
-          gallery.appendChild(card);
-        });
-      });
-
-      if (!data.cursor) break;
-      cursor = data.cursor;
-    }
-
-  } catch (e) {
-    console.error(e);
-  }
+      card.onclick = () => {
+        modal.classList.add("active");
+        modalImg.src = src;
+        modalText.innerText = text;
+      };
+    });
+  });
 }
 </script>
 
