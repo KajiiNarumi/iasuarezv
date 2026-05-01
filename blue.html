@@ -7,10 +7,9 @@
     <style>
         :root {
             --bg: #000;
-            --accent: #1da1f2;
             --text-main: #fff;
             --text-dim: #aaa;
-            --line: rgba(255, 255, 255, 0.15); /* Línea casi blanca estética */
+            --line: rgba(255, 255, 255, 0.15);
         }
 
         body {
@@ -28,106 +27,104 @@
             display: flex;
         }
         .search-container input {
-            flex: 1; padding: 12px 20px; background: #111; border: 1px solid #333;
-            color: #fff; border-radius: 25px 0 0 25px; outline: none;
+            flex: 1; padding: 14px 22px; background: #111; border: 1px solid #333;
+            color: #fff; border-radius: 30px 0 0 30px; outline: none; font-size: 16px;
         }
         .search-container button {
-            padding: 0 25px; border: none; background: #fff;
-            border-radius: 0 25px 25px 0; cursor: pointer; font-weight: bold;
+            padding: 0 30px; border: none; background: #fff;
+            border-radius: 0 30px 30px 0; cursor: pointer; font-weight: bold;
         }
 
-        /* PERFIL SIN CUADRO GRIS */
+        /* PERFIL LIMPIO (SIN CUADRO GRIS) */
         .profile {
             max-width: 900px;
-            margin: 0 auto 20px auto;
+            margin: 0 auto 10px auto;
             padding: 20px;
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
             border-bottom: 1px solid var(--line); /* Línea delgada estética */
         }
-        .profile img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; }
+        .profile img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; }
         .profile-info { flex: 1; }
-        .profile-info h2 { margin: 0; font-size: 20px; }
-        .profile-info p { color: var(--text-dim); margin: 5px 0; font-size: 14px; }
+        .profile-info h2 { margin: 0; font-size: 24px; }
+        .profile-info p { color: var(--text-dim); margin: 8px 0; font-size: 15px; line-height: 1.4; }
+        .img-count { color: #1da1f2; font-weight: bold; font-size: 14px; display: block; margin-top: 5px; }
         
-        .btn-follow {
-            background: var(--accent); color: #fff; padding: 6px 15px;
-            border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold;
+        .btn-view {
+            background: #fff; color: #000; padding: 10px 20px;
+            border-radius: 25px; text-decoration: none; font-size: 14px; font-weight: bold;
         }
 
-        /* GRID */
+        /* GRID 3 COLUMNAS */
         .grid {
             max-width: 1000px; margin: auto;
             display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 2px; padding: 2px;
+            gap: 4px; padding: 4px;
         }
         .card { aspect-ratio: 1/1; overflow: hidden; background: #111; cursor: pointer; }
         .card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* MODAL / LIGHTBOX (No cubre toda la pantalla) */
+        /* MODAL */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
             display: none; justify-content: center; align-items: center; z-index: 10000;
             padding: 20px;
         }
         .modal-overlay.active { display: flex; }
 
         .modal-window {
-            background: #111; border-radius: 12px; overflow: hidden;
-            width: 95%; max-width: 900px; max-height: 90vh;
+            background: #111; border-radius: 15px; overflow: hidden;
+            width: 95%; max-width: 1000px; max-height: 85vh;
             display: flex; flex-direction: row; position: relative;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
 
-        /* NAVEGACIÓN DENTRO DEL MODAL */
+        /* NAVEGACIÓN */
         .btn-nav {
             position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(255,255,255,0.1); border: none; color: #fff;
-            width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10;
+            background: rgba(0,0,0,0.5); border: none; color: #fff;
+            width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10;
         }
-        .btn-prev { left: 10px; }
-        .btn-next { right: 10px; }
-        .btn-close { position: absolute; top: 10px; right: 10px; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; z-index: 11; }
+        .btn-prev { left: 15px; }
+        .btn-next { right: 15px; }
 
-        /* PC: Imagen Izquierda, Texto Derecha */
+        /* CONTENIDO MODAL PC */
         .modal-img-container {
             flex: 1.5; background: #000; display: flex; align-items: center; justify-content: center;
         }
         .modal-img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
         .modal-info {
-            flex: 1; padding: 25px; display: flex; flex-direction: column; overflow-y: auto;
+            flex: 1; padding: 30px; display: flex; flex-direction: column; overflow-y: auto;
         }
-        .modal-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .modal-text { font-size: 16px; line-height: 1.5; color: #ddd; }
+        .modal-likes { font-size: 20px; font-weight: bold; color: #1da1f2; margin-bottom: 15px; }
+        .modal-text { font-size: 17px; line-height: 1.6; color: #fff; }
 
-        /* MÓVIL: Imagen Arriba, Texto Abajo */
+        /* MÓVIL */
         @media (max-width: 768px) {
-            .modal-window { flex-direction: column; width: 90%; }
+            .profile { flex-direction: column; text-align: center; gap: 15px; }
+            .modal-window { flex-direction: column; width: 95%; max-height: 90vh; }
             
-            /* Contenedor 1:1 en la parte superior */
             .modal-img-container {
-                width: 100%; aspect-ratio: 1/1; flex: none;
+                width: 90%; aspect-ratio: 1/1; margin: 5% auto 0 auto; flex: none; border-radius: 10px; overflow: hidden;
             }
-            .modal-info { flex: 1; padding: 15px; }
-            .btn-nav { top: 45%; }
+            .modal-info { flex: 1; padding: 20px; }
+            .btn-nav { top: 40%; }
         }
     </style>
 </head>
 <body>
 
 <div class="search-container">
-    <input id="userInput" placeholder="iasuarezv.com">
+    <input id="userInput" placeholder="Nombre de usuario (ej: iasuarezv.com)">
     <button id="goBtn">Buscar</button>
 </div>
 
-<div id="profile"></div>
+<div id="profileTarget"></div>
 <div id="gallery" class="grid"></div>
 
 <div id="modal" class="modal-overlay">
-    <div class="modal-window">
-        <button class="btn-close" id="closeBtn">✕</button>
+    <div class="modal-window" id="modalWindow">
         <button class="btn-nav btn-prev" id="prevBtn">❮</button>
         <button class="btn-nav btn-next" id="nextBtn">❯</button>
 
@@ -136,28 +133,31 @@
         </div>
 
         <div class="modal-info">
-            <div class="modal-meta">
-                <div id="modalLikes" style="font-weight: bold; color: var(--accent);"></div>
-                <a id="bskyLink" href="#" target="_blank" style="color: #666; text-decoration: none; font-size: 12px;">Ver post original</a>
-            </div>
+            <div id="modalLikes" class="modal-likes"></div>
             <div id="modalText" class="modal-text"></div>
         </div>
     </div>
 </div>
 
 <script>
-const DEFAULT_USER = "iasuarezv.com";
 let allImages = [];
 let currentIndex = 0;
 
 const input = document.getElementById("userInput");
 const goBtn = document.getElementById("goBtn");
 const modal = document.getElementById("modal");
+const modalWindow = document.getElementById("modalWindow");
 
-// BUSCAR AL DAR ENTER
-input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") goBtn.click();
-});
+// ENTER PARA BUSCAR
+input.addEventListener("keypress", (e) => { if (e.key === "Enter") goBtn.click(); });
+
+// CERRAR AL CLICAR AFUERA
+modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+
+function closeModal() {
+    modal.classList.remove("active");
+    document.body.style.overflow = "auto";
+}
 
 goBtn.onclick = () => {
     const user = input.value.trim().replace("@","");
@@ -178,34 +178,45 @@ async function load(handle) {
         allImages = [];
         data.feed.forEach(item => {
             const post = item.post;
-            const rkey = post.uri.split('/').pop();
-            const imgs = post.embed?.images || post.embed?.media?.images || post.record?.embed?.images || [];
             
-            imgs.forEach(img => {
+            // LÓGICA DE BÚSQUEDA PROFUNDA DE IMÁGENES
+            let rawImgs = [];
+            if (post.embed?.images) rawImgs = post.embed.images;
+            else if (post.embed?.media?.images) rawImgs = post.embed.media.images;
+            else if (post.record?.embed?.images) rawImgs = post.record.embed.images;
+            else if (post.embed?.record?.embed?.images) rawImgs = post.embed.record.embed.images;
+            else if (post.embed?.record?.record?.embed?.images) rawImgs = post.embed.record.record.embed.images;
+
+            rawImgs.forEach(img => {
                 const cid = img.image?.ref?.$link || img.image?.$link;
-                allImages.push({
-                    thumb: `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
-                    full: `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
-                    text: post.record?.text || "",
-                    likes: post.likeCount || 0,
-                    link: `https://bsky.app/profile/${handle}/post/${rkey}`
-                });
+                if (cid) {
+                    allImages.push({
+                        thumb: `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
+                        full: `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
+                        text: post.record?.text || "",
+                        likes: post.likeCount || 0
+                    });
+                }
             });
         });
 
-        document.getElementById("profile").innerHTML = `
+        document.getElementById("profileTarget").innerHTML = `
             <div class="profile">
                 <img src="${prof.avatar || ''}">
                 <div class="profile-info">
                     <h2>${prof.displayName || handle}</h2>
                     <p>${prof.description || ""}</p>
+                    <span class="img-count">📸 ${allImages.length} imágenes</span>
                 </div>
-                <a href="https://bsky.app/profile/${handle}" target="_blank" class="btn-follow">Seguir</a>
+                <a href="https://bsky.app/profile/${handle}" target="_blank" class="btn-view">Ver perfil</a>
             </div>
         `;
 
         renderGallery();
-    } catch (e) { console.error(e); }
+    } catch (e) { 
+        console.error(e);
+        document.getElementById("gallery").innerHTML = "<p style='text-align:center'>No se pudo cargar el perfil.</p>";
+    }
 }
 
 function renderGallery() {
@@ -227,21 +238,15 @@ function openModal(i) {
     document.getElementById("modalImg").src = data.full;
     document.getElementById("modalText").innerText = data.text;
     document.getElementById("modalLikes").innerText = `❤️ ${data.likes}`;
-    document.getElementById("bskyLink").href = data.link;
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
 }
 
-document.getElementById("closeBtn").onclick = () => {
-    modal.classList.remove("active");
-    document.body.style.overflow = "auto";
-};
-
-document.getElementById("nextBtn").onclick = () => openModal(currentIndex + 1);
-document.getElementById("prevBtn").onclick = () => openModal(currentIndex - 1);
+document.getElementById("nextBtn").onclick = (e) => { e.stopPropagation(); openModal(currentIndex + 1); };
+document.getElementById("prevBtn").onclick = (e) => { e.stopPropagation(); openModal(currentIndex - 1); };
 
 // Cargar por defecto
-load(DEFAULT_USER);
+load("iasuarezv.com");
 </script>
 </body>
 </html>
