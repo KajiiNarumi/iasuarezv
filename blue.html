@@ -28,7 +28,7 @@ body {
   background:#111;
   border:1px solid #222;
   color:#fff;
-  padding:10px;
+  padding:12px;
   border-radius:6px 0 0 6px;
   width:220px;
 }
@@ -37,7 +37,7 @@ body {
   background:#222;
   border:none;
   color:#fff;
-  padding:10px 14px;
+  padding:12px 16px;
   cursor:pointer;
   border-radius:0 6px 6px 0;
 }
@@ -51,19 +51,19 @@ body {
 }
 
 .profile img {
-  width:60px;
-  height:60px;
+  width:64px;
+  height:64px;
   border-radius:50%;
 }
 
 .profile-info h2 {
   margin:0;
-  font-size:16px;
+  font-size:18px;
 }
 
 .profile-info p {
-  margin:2px 0;
-  font-size:13px;
+  margin:4px 0;
+  font-size:14px;
   color:#aaa;
 }
 
@@ -72,7 +72,7 @@ body {
   background:#fff;
   color:#000;
   border:none;
-  padding:6px 12px;
+  padding:8px 14px;
   border-radius:20px;
   cursor:pointer;
 }
@@ -99,7 +99,7 @@ body {
 .lightbox {
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.95);
+  background:rgba(0,0,0,0.96);
   display:none;
   z-index:999;
 }
@@ -108,12 +108,21 @@ body {
   display:flex;
 }
 
+.lb-close {
+  position:absolute;
+  top:20px;
+  right:20px;
+  font-size:22px;
+  cursor:pointer;
+  color:#fff;
+}
+
 .lb-content {
   margin:auto;
   width:90%;
   height:90%;
   display:flex;
-  gap:30px;
+  gap:20px;
 }
 
 .lb-img {
@@ -121,7 +130,6 @@ body {
   display:flex;
   justify-content:center;
   align-items:center;
-  overflow:hidden;
 }
 
 .lb-img img {
@@ -132,14 +140,27 @@ body {
 }
 
 .lb-text {
-  width:320px;
+  width:340px;
   overflow-y:auto;
-  color:#ccc;
-  line-height:1.5;
+  font-size:16px;
+  line-height:1.6;
+  color:#ddd;
 }
 
 /* móvil */
 @media(max-width:700px){
+
+.profile-info h2 {
+  font-size:20px;
+}
+
+.profile-info p {
+  font-size:15px;
+}
+
+.follow {
+  padding:10px 16px;
+}
 
 .grid {
   gap:6px;
@@ -152,12 +173,13 @@ body {
 }
 
 .lb-img {
-  height:60%;
+  height:55%;
 }
 
 .lb-text {
   width:100%;
-  height:40%;
+  height:45%;
+  font-size:17px;
 }
 
 }
@@ -180,6 +202,8 @@ body {
 <div class="grid" id="gallery"></div>
 
 <div class="lightbox" id="lightbox">
+  <div class="lb-close" id="closeBtn">✕</div>
+
   <div class="lb-content">
     <div class="lb-img">
       <img id="lbImg">
@@ -197,8 +221,10 @@ const profile = document.getElementById("profile");
 const lightbox = document.getElementById("lightbox");
 const lbImg = document.getElementById("lbImg");
 const lbText = document.getElementById("lbText");
+const closeBtn = document.getElementById("closeBtn");
 
 let scale = 1;
+let currentHandle = "";
 
 const saved = localStorage.getItem("user");
 if(saved){
@@ -212,6 +238,7 @@ input.addEventListener("keydown",e=>{if(e.key==="Enter")start();});
 function start(){
   const user=input.value.trim();
   if(!user)return;
+  currentHandle=user;
   localStorage.setItem("user",user);
   gallery.innerHTML="";
   load(user);
@@ -219,12 +246,12 @@ function start(){
 
 async function load(handle){
 
+  currentHandle = handle;
+
   const didRes=await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
   const {did}=await didRes.json();
-
   if(!did) return;
 
-  /* PROFILE */
   const profRes=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
   const prof=await profRes.json();
 
@@ -234,10 +261,13 @@ async function load(handle){
       <h2>${prof.displayName||handle}</h2>
       <p>${prof.description||""}</p>
     </div>
-    <button class="follow">Follow</button>
+    <button class="follow" id="followBtn">Follow</button>
   `;
 
-  /* FEED */
+  document.getElementById("followBtn").onclick=()=>{
+    window.open(`https://bsky.app/profile/${handle}`,"_blank");
+  };
+
   const res=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=50`);
   const data=await res.json();
 
@@ -252,7 +282,6 @@ async function load(handle){
     if(post.record?.embed?.images) imgs=post.record.embed.images;
 
     imgs.forEach(img=>{
-
       const cid = img.image?.ref?.$link || img.image?.$link;
       if(!cid) return;
 
@@ -278,7 +307,6 @@ async function load(handle){
 
   });
 
-  /* ZOOM */
   lbImg.onwheel=(e)=>{
     e.preventDefault();
     scale+=e.deltaY*-0.001;
@@ -286,14 +314,15 @@ async function load(handle){
     lbImg.style.transform=`scale(${scale})`;
   };
 
-  /* CLOSE */
-  lightbox.onclick=(e)=>{
-    if(e.target===lightbox){
-      lightbox.classList.remove("active");
-    }
-  };
-
 }
+
+closeBtn.onclick=()=>lightbox.classList.remove("active");
+
+lightbox.onclick=(e)=>{
+  if(e.target===lightbox){
+    lightbox.classList.remove("active");
+  }
+};
 </script>
 
 </body>
