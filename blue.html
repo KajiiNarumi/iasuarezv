@@ -91,6 +91,14 @@ padding:6px 12px;
 border-radius:20px;
 cursor:pointer;
 font-size:13px;
+text-decoration:none;
+}
+
+/* contador */
+.count{
+font-size:13px;
+color:var(--dim);
+margin-top:4px;
 }
 
 /* albums */
@@ -185,8 +193,17 @@ object-fit:contain;
 flex:1;
 padding:20px;
 overflow:auto;
+display:flex;
+flex-direction:column;
+gap:10px;
 }
 
+.post-btn{
+align-self:flex-start;
+margin-bottom:10px;
+}
+
+/* cerrar */
 .close{
 position:absolute;
 top:10px;
@@ -258,7 +275,7 @@ border-radius:50%;
 </div>
 
 <div class="modal-info">
-<a id="postLink" class="btn" target="_blank">Ver publicación</a>
+<a id="postLink" class="btn post-btn" target="_blank">Ver publicación</a>
 <div id="mText"></div>
 <div id="mLikes"></div>
 </div>
@@ -321,8 +338,10 @@ imgs.forEach(img=>{
 const cid=img.image?.ref?.$link||img.image?.$link;
 if(!cid)return;
 
-const obj={
-thumb:`https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
+const thumb=`https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`;
+
+const imageObj={
+thumb,
 full:`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
 text,
 likes:p.likeCount||0,
@@ -330,14 +349,25 @@ uri:p.uri,
 tags
 };
 
-images.push(obj);
+images.push(imageObj);
 
 tags.forEach(tag=>{
 if(!tagMap[tag]) tagMap[tag]=[];
-tagMap[tag].push(obj);
+tagMap[tag].push(imageObj);
 });
 });
 });
+
+/* filtrar imágenes rotas */
+images = await Promise.all(images.map(img=>{
+return new Promise(resolve=>{
+const test=new Image();
+test.src=img.thumb;
+test.onload=()=>resolve(img);
+test.onerror=()=>resolve(null);
+});
+}));
+images = images.filter(Boolean);
 
 /* perfil */
 profile.innerHTML=`
@@ -346,6 +376,7 @@ profile.innerHTML=`
 <div class="profile-info">
 <h2>${prof.displayName||handle}</h2>
 <p>${prof.description||""}</p>
+<div class="count">${images.length} imágenes</div>
 </div>
 
 <div class="profile-actions">
@@ -374,12 +405,13 @@ allBtn.onclick=()=>{filtered=[...images];setActive(allBtn);render();};
 albums.appendChild(allBtn);
 
 Object.keys(tagMap).forEach(tag=>{
-if(tagMap[tag].length===0)return;
+const list=tagMap[tag].filter(i=>images.includes(i));
+if(list.length===0)return;
 
 const b=document.createElement("div");
 b.className="album-btn";
 b.innerText=tag.replace("#","");
-b.onclick=()=>{filtered=tagMap[tag];setActive(b);render();};
+b.onclick=()=>{filtered=list;setActive(b);render();};
 albums.appendChild(b);
 });
 }
