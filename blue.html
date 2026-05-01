@@ -2,220 +2,288 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>ATProto Viewer</title>
+<title>ATProto Feed</title>
 
 <style>
 body {
-  margin: 0;
-  background: #000;
-  color: #fff;
-  font-family: system-ui, sans-serif;
+  margin:0;
+  background:#000;
+  color:#fff;
+  font-family:system-ui;
 }
 
-header {
-  padding: 16px;
-  text-align: center;
-  border-bottom: 1px solid #111;
+/* HEADER */
+
+.header {
+  border-bottom:1px solid #111;
+  padding:16px;
 }
 
-input {
-  padding: 10px 14px;
-  background: #111;
-  border: 1px solid #222;
-  color: #fff;
-  width: 260px;
-  border-radius: 6px;
+.search {
+  display:flex;
+  justify-content:center;
+  margin-bottom:16px;
 }
+
+.search input {
+  background:#111;
+  border:1px solid #222;
+  color:#fff;
+  padding:10px;
+  border-radius:6px 0 0 6px;
+  width:220px;
+}
+
+.search button {
+  background:#222;
+  border:none;
+  color:#fff;
+  padding:10px 14px;
+  cursor:pointer;
+  border-radius:0 6px 6px 0;
+}
+
+.profile {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  max-width:900px;
+  margin:auto;
+}
+
+.profile img {
+  width:60px;
+  height:60px;
+  border-radius:50%;
+}
+
+.profile-info h2 {
+  margin:0;
+  font-size:16px;
+}
+
+.profile-info p {
+  margin:2px 0;
+  font-size:13px;
+  color:#aaa;
+}
+
+.follow {
+  margin-left:auto;
+  background:#fff;
+  color:#000;
+  border:none;
+  padding:6px 12px;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+/* GRID */
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  padding: 16px;
+  max-width:900px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  padding:16px;
 }
 
 .card img {
-  width: 100%;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-  border-radius: 8px;
-  cursor: pointer;
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:6px;
+  cursor:pointer;
 }
 
-/* MODAL */
+/* LIGHTBOX */
 
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.96);
-  display: none;
-  z-index: 999;
+.lightbox {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.95);
+  display:none;
+  z-index:999;
 }
 
-.modal.active {
-  display: flex;
+.lightbox.active {
+  display:flex;
 }
 
-.modal-wrapper {
-  display: flex;
-  width: 90%;
-  height: 90%;
-  margin: auto;
-  gap: 40px;
+.lb-content {
+  margin:auto;
+  width:90%;
+  height:90%;
+  display:flex;
+  gap:30px;
 }
 
-.modal-img {
-  flex: 1.2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.lb-img {
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
 }
 
-.modal-img img {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 10px;
+.lb-img img {
+  max-width:100%;
+  max-height:100%;
+  cursor:grab;
+  transition:transform 0.2s;
 }
 
-.modal-text {
-  flex: 0.8;
-  overflow-y: auto;
-  padding-right: 10px;
-}
-
-.modal-text p {
-  line-height: 1.5;
-  font-size: 15px;
-  color: #ccc;
-}
-
-/* botón cerrar */
-.close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 22px;
-  cursor: pointer;
-  color: #aaa;
+.lb-text {
+  width:320px;
+  overflow-y:auto;
+  color:#ccc;
 }
 
 /* móvil */
-@media (max-width: 700px) {
-  .grid {
-    gap: 6px;
-    padding: 6px;
-  }
 
-  .modal-wrapper {
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    padding: 20px;
-    gap: 20px;
-  }
+@media(max-width:700px){
 
-  .modal-img {
-    flex: none;
-    max-height: 60%;
-  }
+.grid {
+  gap:6px;
+  padding:6px;
+}
 
-  .modal-text {
-    flex: none;
-    max-height: 40%;
-    overflow-y: auto;
-  }
+.lb-content {
+  flex-direction:column;
+  height:100%;
+}
 
-  .modal-text p {
-    font-size: 16px;
-  }
+.lb-img {
+  height:60%;
+}
+
+.lb-text {
+  width:100%;
+  height:40%;
+}
+
 }
 </style>
 </head>
 
 <body>
 
-<header>
+<div class="header">
+
+<div class="search">
   <input id="userInput" placeholder="usuario">
-</header>
+  <button id="goBtn">→</button>
+</div>
+
+<div class="profile" id="profile"></div>
+
+</div>
 
 <div class="grid" id="gallery"></div>
 
-<div class="modal" id="modal">
-  <div class="close" id="closeBtn">✕</div>
-
-  <div class="modal-wrapper">
-    <div class="modal-img">
-      <img id="modalImg">
+<div class="lightbox" id="lightbox">
+  <div class="lb-content">
+    <div class="lb-img">
+      <img id="lbImg">
     </div>
-
-    <div class="modal-text">
-      <p id="modalText"></p>
-    </div>
+    <div class="lb-text" id="lbText"></div>
   </div>
 </div>
 
 <script>
 const input = document.getElementById("userInput");
+const btn = document.getElementById("goBtn");
 const gallery = document.getElementById("gallery");
-const modal = document.getElementById("modal");
-const modalImg = document.getElementById("modalImg");
-const modalText = document.getElementById("modalText");
-const closeBtn = document.getElementById("closeBtn");
+const profile = document.getElementById("profile");
 
-const saved = localStorage.getItem("atproto_user");
-if (saved) {
-  input.value = saved;
+const lightbox = document.getElementById("lightbox");
+const lbImg = document.getElementById("lbImg");
+const lbText = document.getElementById("lbText");
+
+let scale = 1;
+
+const saved = localStorage.getItem("user");
+if(saved){
+  input.value=saved;
   load(saved);
 }
 
-input.addEventListener("keydown", e => {
-  if (e.key === "Enter") {
-    const user = input.value.trim();
-    if (!user) return;
+btn.onclick = () => start();
+input.addEventListener("keydown",e=>{if(e.key==="Enter")start();});
 
-    localStorage.setItem("atproto_user", user);
-    gallery.innerHTML = "";
-    load(user);
-  }
-});
+function start(){
+  const user=input.value.trim();
+  if(!user)return;
+  localStorage.setItem("user",user);
+  gallery.innerHTML="";
+  load(user);
+}
 
-closeBtn.onclick = () => modal.classList.remove("active");
-modal.onclick = (e) => {
-  if (e.target === modal) modal.classList.remove("active");
+async function load(handle){
+
+const didRes=await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
+const {did}=await didRes.json();
+
+const profRes=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
+const prof=await profRes.json();
+
+/* header */
+profile.innerHTML=`
+<img src="${prof.avatar}">
+<div class="profile-info">
+<h2>${prof.displayName||handle}</h2>
+<p>${prof.description||""}</p>
+</div>
+<button class="follow">Follow</button>
+`;
+
+/* feed */
+const res=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=50`);
+const data=await res.json();
+
+data.feed.forEach(item=>{
+const post=item.post;
+const text=post.record.text||"";
+
+let imgs=[];
+if(post.embed?.images)imgs=post.embed.images;
+if(post.embed?.media?.images)imgs=post.embed.media.images;
+
+imgs.forEach(img=>{
+const cid=img.image.ref.$link;
+const src=`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`;
+
+const el=document.createElement("img");
+el.src=src;
+
+el.onclick=()=>{
+lightbox.classList.add("active");
+lbImg.src=src;
+lbText.innerText=text;
+scale=1;
+lbImg.style.transform="scale(1)";
 };
 
-async function load(handle) {
-  const didRes = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
-  const { did } = await didRes.json();
+gallery.appendChild(el);
+});
+});
 
-  let res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=50`);
-  let data = await res.json();
+/* zoom */
+lbImg.onwheel=(e)=>{
+e.preventDefault();
+scale+=e.deltaY*-0.001;
+scale=Math.min(Math.max(.5,scale),4);
+lbImg.style.transform=`scale(${scale})`;
+};
 
-  data.feed.forEach(item => {
-    const post = item.post;
-    const text = post.record.text || "";
+/* cerrar */
+lightbox.onclick=(e)=>{
+if(e.target===lightbox){
+lightbox.classList.remove("active");
+}
+};
 
-    let images = [];
-    if (post.embed?.images) images = post.embed.images;
-    if (post.embed?.media?.images) images = post.embed.media.images;
-    if (post.record?.embed?.images) images = post.record.embed.images;
-
-    images.forEach(img => {
-      const cid = img.image.ref.$link;
-      const src = `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`;
-
-      const image = document.createElement("img");
-      image.src = src;
-
-      image.onclick = () => {
-        modal.classList.add("active");
-        modalImg.src = src;
-        modalText.innerText = text;
-      };
-
-      gallery.appendChild(image);
-    });
-  });
 }
 </script>
 
