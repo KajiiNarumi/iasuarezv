@@ -310,7 +310,9 @@ thumb:`https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
 full:`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
 text:post.record?.text||"",
 likes:post.likeCount||0,
-uri: post.uri   // 👈 ESTE ES EL IMPORTANTE
+uri: post.uri
+});
+});
 });
 
 /* perfil */
@@ -344,10 +346,11 @@ const d=images[i];
 document.getElementById("mImg").src=d.full;
 document.getElementById("mText").innerText=d.text;
 document.getElementById("mLikes").innerText=`❤️ ${d.likes}`;
+
+/* URL REAL */
 const parts = d.uri.split('/');
 const postId = parts[parts.length - 1];
-
-document.getElementById("postLink").href = `https://bsky.app/profile/${input.value}/post/${postId}`;
+document.getElementById("postLink").href=`https://bsky.app/profile/${input.value}/post/${postId}`;
 
 modal.classList.add("active");
 }
