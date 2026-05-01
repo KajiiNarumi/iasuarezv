@@ -62,9 +62,34 @@ height:80px;
 border-radius:50%;
 }
 
-.profile-info h2{margin:0;font-size:22px;}
-.profile-info p{margin:6px 0;color:var(--dim);}
-.profile-info span{font-size:14px;color:var(--dim);}
+.profile-info{
+flex:1;
+}
+
+.profile-info h2{
+margin:0;
+font-size:22px;
+}
+
+.profile-info p{
+margin:6px 0;
+color:var(--dim);
+}
+
+.profile-info span{
+font-size:14px;
+color:var(--dim);
+}
+
+.btn-view{
+background:#111;
+border:1px solid #444;
+color:#fff;
+padding:8px 18px;
+border-radius:20px;
+text-decoration:none;
+font-size:14px;
+}
 
 /* grid */
 .grid{
@@ -80,8 +105,8 @@ padding:6px;
 aspect-ratio:1/1;
 overflow:hidden;
 border-radius:10px;
-cursor:pointer;
 background:#111;
+cursor:pointer;
 }
 
 .card img{
@@ -101,7 +126,9 @@ align-items:center;
 z-index:999;
 }
 
-.modal.active{display:flex;}
+.modal.active{
+display:flex;
+}
 
 .modal-box{
 width:95%;
@@ -209,7 +236,7 @@ const gallery=document.getElementById("gallery");
 const modal=document.getElementById("modal");
 
 input.addEventListener("keypress",e=>{if(e.key==="Enter")btn.click();});
-btn.onclick=()=>{const u=input.value.trim();if(u)load(u);};
+btn.onclick=()=>{const u=input.value.trim().replace("@","");if(u)load(u);};
 
 modal.onclick=e=>{if(e.target===modal)modal.classList.remove("active");};
 
@@ -226,13 +253,16 @@ const data=await feedRes.json();
 
 images=[];
 
-/* SOLO IMÁGENES REALES */
 data.feed.forEach(item=>{
 const post=item.post;
 
 let imgs=[];
-if(post.embed?.images) imgs=post.embed.images;
-if(post.embed?.media?.images) imgs=post.embed.media.images;
+
+/* 🔥 TODAS LAS RUTAS REALES */
+if(post.embed?.images) imgs.push(...post.embed.images);
+if(post.embed?.media?.images) imgs.push(...post.embed.media.images);
+if(post.record?.embed?.images) imgs.push(...post.record.embed.images);
+if(post.record?.embed?.media?.images) imgs.push(...post.record.embed.media.images);
 
 imgs.forEach(img=>{
 const cid=img.image?.ref?.$link||img.image?.$link;
@@ -247,7 +277,7 @@ likes:post.likeCount||0
 });
 });
 
-/* perfil */
+/* PERFIL */
 document.getElementById("profile").innerHTML=`
 <div class="profile">
 <img src="${prof.avatar||''}">
@@ -256,10 +286,11 @@ document.getElementById("profile").innerHTML=`
 <p>${prof.description||""}</p>
 <span>${images.length} imágenes</span>
 </div>
+<a href="https://bsky.app/profile/${user}" target="_blank" class="btn-view">Ver perfil</a>
 </div>
 `;
 
-/* grid */
+/* GRID */
 gallery.innerHTML="";
 images.forEach((img,i)=>{
 const d=document.createElement("div");
@@ -270,7 +301,6 @@ gallery.appendChild(d);
 });
 }
 
-/* modal */
 function open(i){
 index=i;
 const d=images[i];
@@ -290,7 +320,6 @@ e.stopPropagation();
 if(index>0)open(index-1);
 };
 
-/* inicio */
 load("iasuarezv.com");
 </script>
 
