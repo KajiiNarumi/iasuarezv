@@ -146,10 +146,8 @@
             font-size: 35px;
             cursor: pointer;
             z-index: 1010;
-            text-shadow: 0 0 10px #000;
         }
 
-        /* Botones de navegación */
         .nav-btn {
             position: absolute;
             top: 50%;
@@ -162,8 +160,10 @@
             font-size: 24px;
             z-index: 1005;
             border-radius: 5px;
+            transition: opacity 0.3s;
         }
-        .nav-btn:hover { background: rgba(255,255,255,0.2); }
+        .nav-btn:disabled { opacity: 0; cursor: default; }
+
         .prev-btn { left: 10px; }
         .next-btn { right: 10px; }
 
@@ -175,7 +175,6 @@
             display: flex;
             border-radius: 12px;
             overflow: hidden;
-            position: relative;
         }
 
         .lb-img {
@@ -184,8 +183,7 @@
             justify-content: center;
             align-items: center;
             background: #000;
-            padding: 10px;
-            min-height: 0; /* Fix para flexbox */
+            min-height: 0;
         }
 
         .lb-img img {
@@ -200,8 +198,6 @@
             display: flex;
             flex-direction: column;
             border-left: 1px solid #222;
-            background: #111;
-            min-height: 0;
         }
 
         .lb-text {
@@ -209,7 +205,6 @@
             overflow-y: auto;
             font-size: 17px;
             line-height: 1.5;
-            padding-right: 10px;
         }
 
         .lb-stats {
@@ -219,29 +214,12 @@
             font-weight: bold;
         }
 
-        /* MÓVIL - PUNTO 1 CORREGIDO */
+        /* MÓVIL */
         @media(max-width:768px){
-            .nav-btn { padding: 15px 10px; background: rgba(0,0,0,0.5); }
-            
-            .lb-content { 
-                flex-direction: column; 
-                height: 95vh;
-            }
-
-            .lb-img { 
-                flex: 0 0 60%; /* Ocupa el 60% exacto de la altura */
-                width: 100%;
-            }
-
-            .lb-text-area { 
-                flex: 0 0 40%; /* Ocupa el 40% exacto de la altura */
-                border-left: none; 
-                border-top: 1px solid #222; 
-                padding: 15px;
-            }
-
-            .lb-text { font-size: 15px; }
-            .grid { grid-template-columns: repeat(3, 1fr); gap: 2px; }
+            .lb-content { flex-direction: column; height: 95vh; }
+            .lb-img { flex: 0 0 60%; }
+            .lb-text-area { flex: 0 0 40%; border-left: none; border-top: 1px solid #222; padding: 15px; }
+            .nav-btn { background: rgba(0,0,0,0.5); padding: 15px 10px; }
         }
     </style>
 </head>
@@ -250,7 +228,7 @@
 
 <div class="header">
     <div class="search">
-        <input id="userInput" placeholder="usuario.bsky.social">
+        <input id="userInput">
         <button id="goBtn">Buscar</button>
     </div>
     <div id="profile" class="profile"></div>
@@ -263,7 +241,7 @@
     <button class="nav-btn prev-btn" id="prevBtn">❮</button>
     <button class="nav-btn next-btn" id="nextBtn">❯</button>
     
-    <div class="lb-content" id="lbMainContent">
+    <div class="lb-content">
         <div class="lb-img">
             <img id="lbImg">
         </div>
@@ -275,23 +253,25 @@
 </div>
 
 <script>
-const DEFAULT_USER = "iasuarezv.com";
+// ==========================================
+// CONFIGURACIÓN DE USUARIO POR DEFECTO
+// ==========================================
+const DEFAULT_USER = "iasuarezv.com"; 
+// ==========================================
 
 const input = document.getElementById("userInput");
 const btn = document.getElementById("goBtn");
 const gallery = document.getElementById("gallery");
 const profile = document.getElementById("profile");
-
 const lightbox = document.getElementById("lightbox");
 const lbImg = document.getElementById("lbImg");
 const lbText = document.getElementById("lbText");
 const lbStats = document.getElementById("lbStats");
 const closeBtn = document.getElementById("closeBtn");
-
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
-let allImages = []; // Array para guardar datos de las imágenes
+let allImages = [];
 let currentIndex = -1;
 
 const saved = localStorage.getItem("user") || DEFAULT_USER;
@@ -316,32 +296,37 @@ async function load(handle){
         const {did} = await didRes.json();
         if(!did) return;
 
-        /* PERFIL */
         const profRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
         const prof = await profRes.json();
 
-        /* FEED */
-        const res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=80`);
+        const res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=100`);
         const data = await res.json();
 
         data.feed.forEach(item => {
             const post = item.post;
             const text = post.record?.text || "";
             const likes = post.likeCount || 0;
-            let imgs = post.embed?.images || post.embed?.media?.images || post.record?.embed?.images || post.record?.embed?.media?.images || [];
 
-            imgs.forEach(img => {
+            let rawImgs = [];
+            // 🔥 FORMATOS COMPLETOS REESTABLECIDOS
+            if(post.embed?.images) rawImgs = post.embed.images;
+            else if(post.embed?.media?.images) rawImgs = post.embed.media.images;
+            else if(post.record?.embed?.images) rawImgs = post.record.embed.images;
+            else if(post.record?.embed?.media?.images) rawImgs = post.record.embed.media.images;
+
+            rawImgs.forEach(img => {
                 const cid = img.image?.ref?.$link || img.image?.$link;
                 if(!cid) return;
 
-                const thumb = `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`;
-                const full = `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`;
-
-                allImages.push({ thumb, full, text, likes });
+                allImages.push({
+                    thumb: `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
+                    full: `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
+                    text: text,
+                    likes: likes
+                });
             });
         });
 
-        // Actualizar UI Perfil con contador (PUNTO 3)
         profile.innerHTML = `
             <img src="${prof.avatar||''}">
             <div class="profile-info">
@@ -352,44 +337,37 @@ async function load(handle){
             <button class="follow" onclick="window.open('https://bsky.app/profile/${handle}')">Ver</button>
         `;
 
-        // Renderizar Galería
-        allImages.forEach((imgData, index) => {
+        allImages.forEach((img, idx) => {
             const card = document.createElement("div");
             card.className = "card";
-            card.innerHTML = `<img src="${imgData.thumb}"><div class="card-stats">❤️ ${imgData.likes}</div>`;
-            card.onclick = () => openLightbox(index);
+            card.innerHTML = `<img src="${img.thumb}" loading="lazy"><div class="card-stats">❤️ ${img.likes}</div>`;
+            card.onclick = () => openLightbox(idx);
             gallery.appendChild(card);
         });
 
-    } catch (err) {
-        console.error(err);
-    }
+    } catch (e) { console.error(e); }
 }
 
 function openLightbox(index) {
-    if (index < 0 || index >= allImages.length) return;
     currentIndex = index;
     const data = allImages[currentIndex];
-    
     lbImg.src = data.full;
     lbText.innerText = data.text;
     lbStats.innerText = `❤️ ${data.likes} likes`;
+    
+    // Actualizar estado de botones
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex === allImages.length - 1;
+    
     lightbox.classList.add("active");
 }
 
-/* NAVEGACIÓN (PUNTO 2) */
-function nextImg() {
-    if (currentIndex < allImages.length - 1) openLightbox(currentIndex + 1);
-}
-
-function prevImg() {
-    if (currentIndex > 0) openLightbox(currentIndex - 1);
-}
+function nextImg() { if (currentIndex < allImages.length - 1) openLightbox(currentIndex + 1); }
+function prevImg() { if (currentIndex > 0) openLightbox(currentIndex - 1); }
 
 nextBtn.onclick = (e) => { e.stopPropagation(); nextImg(); };
 prevBtn.onclick = (e) => { e.stopPropagation(); prevImg(); };
 
-// Flechas del teclado
 document.addEventListener("keydown", e => {
     if (!lightbox.classList.contains("active")) return;
     if (e.key === "ArrowRight") nextImg();
@@ -397,13 +375,8 @@ document.addEventListener("keydown", e => {
     if (e.key === "Escape") lightbox.classList.remove("active");
 });
 
-/* cerrar */
 closeBtn.onclick = () => lightbox.classList.remove("active");
-lightbox.onclick = (e) => { 
-    if(e.target === lightbox || e.target.id === "lbMainContent") {
-        lightbox.classList.remove("active"); 
-    }
-};
+lightbox.onclick = (e) => { if(e.target === lightbox) lightbox.classList.remove("active"); };
 
 </script>
 </body>
