@@ -10,7 +10,7 @@
             --accent: #1da1f2;
             --text-main: #fff;
             --text-dim: #aaa;
-            --card-bg: #111;
+            --line: rgba(255, 255, 255, 0.15); /* Línea casi blanca estética */
         }
 
         body {
@@ -18,135 +18,129 @@
             background: var(--bg);
             color: var(--text-main);
             font-family: -apple-system, system-ui, sans-serif;
-            overflow-x: hidden;
         }
 
-        /* HEADER */
-        .header { 
-            padding: 30px 20px; 
-            max-width: 900px; 
-            margin: auto; 
+        /* BUSCADOR */
+        .search-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
         }
-        
-        .search { display: flex; margin-bottom: 25px; }
-        .search input {
+        .search-container input {
             flex: 1; padding: 12px 20px; background: #111; border: 1px solid #333;
             color: #fff; border-radius: 25px 0 0 25px; outline: none;
         }
-        .search button {
+        .search-container button {
             padding: 0 25px; border: none; background: #fff;
             border-radius: 0 25px 25px 0; cursor: pointer; font-weight: bold;
         }
 
-        .profile { 
-            display: flex; gap: 20px; align-items: center; 
-            background: #0b0b0b; padding: 20px; border-radius: 15px;
+        /* PERFIL SIN CUADRO GRIS */
+        .profile {
+            max-width: 900px;
+            margin: 0 auto 20px auto;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 1px solid var(--line); /* Línea delgada estética */
         }
-        .profile img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
+        .profile img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; }
         .profile-info { flex: 1; }
-        .profile-info h2 { margin: 0; font-size: 22px; }
-        .profile-info p { color: var(--text-dim); margin: 5px 0; font-size: 14px; line-height: 1.3; }
-        .img-count { color: var(--accent); font-weight: bold; font-size: 13px; }
+        .profile-info h2 { margin: 0; font-size: 20px; }
+        .profile-info p { color: var(--text-dim); margin: 5px 0; font-size: 14px; }
         
         .btn-follow {
-            background: #fff; color: #000; padding: 8px 18px; 
-            border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 14px;
+            background: var(--accent); color: #fff; padding: 6px 15px;
+            border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold;
         }
 
-        /* GRID - 3 COLUMNAS SIEMPRE */
+        /* GRID */
         .grid {
-            max-width: 1000px; margin: 10px auto; 
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3px; padding: 3px;
+            max-width: 1000px; margin: auto;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 2px; padding: 2px;
         }
         .card { aspect-ratio: 1/1; overflow: hidden; background: #111; cursor: pointer; }
         .card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* LIGHTBOX MODAL */
-        .lightbox {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.98);
-            display: none; flex-direction: column; z-index: 10000;
+        /* MODAL / LIGHTBOX (No cubre toda la pantalla) */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            display: none; justify-content: center; align-items: center; z-index: 10000;
+            padding: 20px;
         }
-        .lightbox.active { display: flex; }
+        .modal-overlay.active { display: flex; }
 
-        .lb-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 20px;
-        }
-        .close-x { font-size: 32px; cursor: pointer; }
-        .lb-bsky-btn { color: var(--accent); text-decoration: none; font-size: 14px; font-weight: bold; }
-
-        .lb-content {
-            flex: 1; display: flex; overflow: hidden; position: relative;
+        .modal-window {
+            background: #111; border-radius: 12px; overflow: hidden;
+            width: 95%; max-width: 900px; max-height: 90vh;
+            display: flex; flex-direction: row; position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
 
-        /* NAVEGACIÓN LATERAL */
-        .nav-side {
-            position: absolute; top: 0; bottom: 0; width: 50px;
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.2); border: none; color: #fff;
-            font-size: 24px; cursor: pointer; z-index: 5;
+        /* NAVEGACIÓN DENTRO DEL MODAL */
+        .btn-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255,255,255,0.1); border: none; color: #fff;
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10;
         }
-        .prev-s { left: 0; }
-        .next-s { right: 0; }
+        .btn-prev { left: 10px; }
+        .btn-next { right: 10px; }
+        .btn-close { position: absolute; top: 10px; right: 10px; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; z-index: 11; }
 
-        /* IMAGEN: VER COMPLETA */
-        .lb-viewport {
-            flex: 2; display: flex; align-items: center; justify-content: center;
-            background: #000; padding: 5px;
+        /* PC: Imagen Izquierda, Texto Derecha */
+        .modal-img-container {
+            flex: 1.5; background: #000; display: flex; align-items: center; justify-content: center;
         }
-        .lb-viewport img { 
-            max-width: 100%; max-height: 100%; 
-            object-fit: contain; /* Esto evita el recorte */
-        }
+        .modal-img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-        /* INFO INFERIOR / LATERAL */
-        .lb-details {
-            flex: 1; background: #000; padding: 20px; border-left: 1px solid #222;
-            overflow-y: auto; display: flex; flex-direction: column;
+        .modal-info {
+            flex: 1; padding: 25px; display: flex; flex-direction: column; overflow-y: auto;
         }
-        .lb-text { font-size: 16px; line-height: 1.4; margin-bottom: 15px; }
-        .lb-stats { color: var(--accent); font-weight: bold; margin-top: auto; border-top: 1px solid #222; padding-top: 10px; }
+        .modal-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .modal-text { font-size: 16px; line-height: 1.5; color: #ddd; }
 
-        /* MÓVIL: AJUSTE DE MODAL */
+        /* MÓVIL: Imagen Arriba, Texto Abajo */
         @media (max-width: 768px) {
-            .profile { flex-direction: column; text-align: center; }
-            .lb-content { flex-direction: column; }
-            .lb-viewport { flex: 0 0 60%; } /* La imagen ocupa el 60% de la ventana */
-            .lb-details { flex: 1; border-left: none; border-top: 1px solid #222; }
-            .nav-side { width: 40px; background: rgba(0,0,0,0.4); height: 60%; top: 0; }
+            .modal-window { flex-direction: column; width: 90%; }
+            
+            /* Contenedor 1:1 en la parte superior */
+            .modal-img-container {
+                width: 100%; aspect-ratio: 1/1; flex: none;
+            }
+            .modal-info { flex: 1; padding: 15px; }
+            .btn-nav { top: 45%; }
         }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <div class="search">
-        <input id="userInput" placeholder="iasuarezv.com">
-        <button id="goBtn">Buscar</button>
-    </div>
-    <div id="profile"></div>
+<div class="search-container">
+    <input id="userInput" placeholder="iasuarezv.com">
+    <button id="goBtn">Buscar</button>
 </div>
 
+<div id="profile"></div>
 <div id="gallery" class="grid"></div>
 
-<div id="lightbox" class="lightbox">
-    <div class="lb-header">
-        <a id="bskyLink" class="lb-bsky-btn" target="_blank">Ver en Bluesky</a>
-        <div class="close-x" id="closeBtn">✕</div>
-    </div>
-    
-    <div class="lb-content">
-        <button class="nav-side prev-s" id="prevBtn">❮</button>
-        <div class="lb-viewport">
-            <img id="lbImg">
-        </div>
-        <button class="nav-side next-s" id="nextBtn">❯</button>
+<div id="modal" class="modal-overlay">
+    <div class="modal-window">
+        <button class="btn-close" id="closeBtn">✕</button>
+        <button class="btn-nav btn-prev" id="prevBtn">❮</button>
+        <button class="btn-nav btn-next" id="nextBtn">❯</button>
 
-        <div class="lb-details">
-            <div id="lbText" class="lb-text"></div>
-            <div id="lbStats" class="lb-stats"></div>
+        <div class="modal-img-container">
+            <img id="modalImg">
+        </div>
+
+        <div class="modal-info">
+            <div class="modal-meta">
+                <div id="modalLikes" style="font-weight: bold; color: var(--accent);"></div>
+                <a id="bskyLink" href="#" target="_blank" style="color: #666; text-decoration: none; font-size: 12px;">Ver post original</a>
+            </div>
+            <div id="modalText" class="modal-text"></div>
         </div>
     </div>
 </div>
@@ -157,28 +151,21 @@ let allImages = [];
 let currentIndex = 0;
 
 const input = document.getElementById("userInput");
-const profile = document.getElementById("profile");
-const gallery = document.getElementById("gallery");
-const lightbox = document.getElementById("lightbox");
-const lbImg = document.getElementById("lbImg");
+const goBtn = document.getElementById("goBtn");
+const modal = document.getElementById("modal");
 
-const saved = localStorage.getItem("user") || DEFAULT_USER;
-input.value = saved;
-load(saved);
+// BUSCAR AL DAR ENTER
+input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") goBtn.click();
+});
 
-document.getElementById("goBtn").onclick = () => {
+goBtn.onclick = () => {
     const user = input.value.trim().replace("@","");
-    if(user) {
-        localStorage.setItem("user", user);
-        load(user);
-    }
+    if(user) load(user);
 };
 
 async function load(handle) {
     try {
-        gallery.innerHTML = "<p>Cargando...</p>";
-        allImages = [];
-
         const didRes = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
         const { did } = await didRes.json();
         
@@ -188,87 +175,73 @@ async function load(handle) {
         const feedRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=100`);
         const data = await feedRes.json();
 
+        allImages = [];
         data.feed.forEach(item => {
             const post = item.post;
-            const text = post.record?.text || "";
-            const likes = post.likeCount || 0;
             const rkey = post.uri.split('/').pop();
-            const link = `https://bsky.app/profile/${handle}/post/${rkey}`;
-
-            let imgs = [];
-            // Búsqueda exhaustiva de imágenes en todos los niveles
-            if (post.embed?.images) imgs.push(...post.embed.images);
-            if (post.embed?.media?.images) imgs.push(...post.embed.media.images);
-            if (post.record?.embed?.images) imgs.push(...post.record.embed.images);
-            if (post.embed?.record?.embed?.images) imgs.push(...post.embed.record.embed.images);
-
+            const imgs = post.embed?.images || post.embed?.media?.images || post.record?.embed?.images || [];
+            
             imgs.forEach(img => {
                 const cid = img.image?.ref?.$link || img.image?.$link;
-                if (cid) {
-                    allImages.push({
-                        thumb: `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
-                        full: `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
-                        text, likes, link
-                    });
-                }
+                allImages.push({
+                    thumb: `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
+                    full: `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
+                    text: post.record?.text || "",
+                    likes: post.likeCount || 0,
+                    link: `https://bsky.app/profile/${handle}/post/${rkey}`
+                });
             });
         });
 
-        profile.innerHTML = `
+        document.getElementById("profile").innerHTML = `
             <div class="profile">
                 <img src="${prof.avatar || ''}">
                 <div class="profile-info">
                     <h2>${prof.displayName || handle}</h2>
                     <p>${prof.description || ""}</p>
-                    <span class="img-count">📸 ${allImages.length} imágenes</span>
                 </div>
                 <a href="https://bsky.app/profile/${handle}" target="_blank" class="btn-follow">Seguir</a>
             </div>
         `;
 
         renderGallery();
-    } catch (e) {
-        gallery.innerHTML = "<p>Error al cargar el perfil de Bluesky.</p>";
-    }
+    } catch (e) { console.error(e); }
 }
 
 function renderGallery() {
-    gallery.innerHTML = "";
+    const gal = document.getElementById("gallery");
+    gal.innerHTML = "";
     allImages.forEach((img, i) => {
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `<img src="${img.thumb}" loading="lazy">`;
-        card.onclick = () => openLightbox(i);
-        gallery.appendChild(card);
+        card.onclick = () => openModal(i);
+        gal.appendChild(card);
     });
 }
 
-function openLightbox(i) {
+function openModal(i) {
     if (i < 0 || i >= allImages.length) return;
     currentIndex = i;
     const data = allImages[i];
-    lbImg.src = data.full;
-    document.getElementById("lbText").innerText = data.text;
-    document.getElementById("lbStats").innerText = `❤️ ${data.likes} likes`;
+    document.getElementById("modalImg").src = data.full;
+    document.getElementById("modalText").innerText = data.text;
+    document.getElementById("modalLikes").innerText = `❤️ ${data.likes}`;
     document.getElementById("bskyLink").href = data.link;
-    lightbox.classList.add("active");
+    modal.classList.add("active");
     document.body.style.overflow = "hidden";
 }
 
 document.getElementById("closeBtn").onclick = () => {
-    lightbox.classList.remove("active");
+    modal.classList.remove("active");
     document.body.style.overflow = "auto";
 };
 
-document.getElementById("nextBtn").onclick = (e) => { e.stopPropagation(); openLightbox(currentIndex + 1); };
-document.getElementById("prevBtn").onclick = (e) => { e.stopPropagation(); openLightbox(currentIndex - 1); };
+document.getElementById("nextBtn").onclick = () => openModal(currentIndex + 1);
+document.getElementById("prevBtn").onclick = () => openModal(currentIndex - 1);
 
-document.addEventListener("keydown", e => {
-    if (!lightbox.classList.contains("active")) return;
-    if (e.key === "ArrowRight") openLightbox(currentIndex + 1);
-    if (e.key === "ArrowLeft") openLightbox(currentIndex - 1);
-    if (e.key === "Escape") document.getElementById("closeBtn").onclick();
-});
+// Cargar por defecto
+load(DEFAULT_USER);
 </script>
 </body>
 </html>
