@@ -13,7 +13,6 @@ body {
 }
 
 /* HEADER */
-
 .header {
   border-bottom:1px solid #111;
   padding:16px;
@@ -79,7 +78,6 @@ body {
 }
 
 /* GRID */
-
 .grid {
   max-width:900px;
   margin:auto;
@@ -98,7 +96,6 @@ body {
 }
 
 /* LIGHTBOX */
-
 .lightbox {
   position:fixed;
   inset:0;
@@ -138,10 +135,10 @@ body {
   width:320px;
   overflow-y:auto;
   color:#ccc;
+  line-height:1.5;
 }
 
 /* móvil */
-
 @media(max-width:700px){
 
 .grid {
@@ -209,7 +206,7 @@ if(saved){
   load(saved);
 }
 
-btn.onclick = () => start();
+btn.onclick = start;
 input.addEventListener("keydown",e=>{if(e.key==="Enter")start();});
 
 function start(){
@@ -222,67 +219,79 @@ function start(){
 
 async function load(handle){
 
-const didRes=await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
-const {did}=await didRes.json();
+  const didRes=await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
+  const {did}=await didRes.json();
 
-const profRes=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
-const prof=await profRes.json();
+  if(!did) return;
 
-/* header */
-profile.innerHTML=`
-<img src="${prof.avatar}">
-<div class="profile-info">
-<h2>${prof.displayName||handle}</h2>
-<p>${prof.description||""}</p>
-</div>
-<button class="follow">Follow</button>
-`;
+  /* PROFILE */
+  const profRes=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
+  const prof=await profRes.json();
 
-/* feed */
-const res=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=50`);
-const data=await res.json();
+  profile.innerHTML=`
+    <img src="${prof.avatar||''}">
+    <div class="profile-info">
+      <h2>${prof.displayName||handle}</h2>
+      <p>${prof.description||""}</p>
+    </div>
+    <button class="follow">Follow</button>
+  `;
 
-data.feed.forEach(item=>{
-const post=item.post;
-const text=post.record.text||"";
+  /* FEED */
+  const res=await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=50`);
+  const data=await res.json();
 
-let imgs=[];
-if(post.embed?.images)imgs=post.embed.images;
-if(post.embed?.media?.images)imgs=post.embed.media.images;
+  data.feed.forEach(item=>{
+    const post=item.post;
+    const text=post.record?.text||"";
 
-imgs.forEach(img=>{
-const cid=img.image.ref.$link;
-const src=`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`;
+    let imgs=[];
 
-const el=document.createElement("img");
-el.src=src;
+    if(post.embed?.images) imgs=post.embed.images;
+    if(post.embed?.media?.images) imgs=post.embed.media.images;
+    if(post.record?.embed?.images) imgs=post.record.embed.images;
 
-el.onclick=()=>{
-lightbox.classList.add("active");
-lbImg.src=src;
-lbText.innerText=text;
-scale=1;
-lbImg.style.transform="scale(1)";
-};
+    imgs.forEach(img=>{
 
-gallery.appendChild(el);
-});
-});
+      const cid = img.image?.ref?.$link || img.image?.$link;
+      if(!cid) return;
 
-/* zoom */
-lbImg.onwheel=(e)=>{
-e.preventDefault();
-scale+=e.deltaY*-0.001;
-scale=Math.min(Math.max(.5,scale),4);
-lbImg.style.transform=`scale(${scale})`;
-};
+      const src=`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`;
 
-/* cerrar */
-lightbox.onclick=(e)=>{
-if(e.target===lightbox){
-lightbox.classList.remove("active");
-}
-};
+      const wrapper=document.createElement("div");
+      wrapper.className="card";
+
+      const el=document.createElement("img");
+      el.src=src;
+
+      el.onclick=()=>{
+        lightbox.classList.add("active");
+        lbImg.src=src;
+        lbText.innerText=text;
+        scale=1;
+        lbImg.style.transform="scale(1)";
+      };
+
+      wrapper.appendChild(el);
+      gallery.appendChild(wrapper);
+    });
+
+  });
+
+  /* ZOOM */
+  lbImg.onwheel=(e)=>{
+    e.preventDefault();
+    scale+=e.deltaY*-0.001;
+    scale=Math.min(Math.max(.5,scale),4);
+    lbImg.style.transform=`scale(${scale})`;
+  };
+
+  /* CLOSE */
+  lightbox.onclick=(e)=>{
+    if(e.target===lightbox){
+      lightbox.classList.remove("active");
+    }
+  };
 
 }
 </script>
