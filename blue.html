@@ -1,206 +1,256 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Galesky</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Galesky</title>
 
-<style>
-:root {
-    --bg: #000;
-    --accent: #1da1f2;
-    --text-main: #fff;
-    --text-dim: #aaa;
-    --card-bg: #111;
-}
+    <style>
+        :root {
+            --bg: #000;
+            --accent: #1da1f2;
+            --text-main: #fff;
+            --text-dim: #aaa;
+            --card-bg: #111;
+        }
 
-body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text-main);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            overflow-x: hidden;
+        }
 
-/* HEADER */
-.header {
-    border-bottom: 1px solid #222;
-    padding: 20px 16px;
-}
+        /* HEADER */
+        .header {
+            border-bottom: 1px solid #222;
+            padding: 20px 16px;
+        }
 
-.search {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 24px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
+        .search {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+            max-width: 600px;
+            margin: auto;
+        }
 
-.search input {
-    background: #111;
-    border: 2px solid #333;
-    color: #fff;
-    padding: 14px 20px;
-    border-radius: 30px 0 0 30px;
-    flex-grow: 1;
-    font-size: 18px;
-    outline: none;
-}
+        .search input {
+            background: #111;
+            border: 2px solid #333;
+            color: #fff;
+            padding: 14px 20px;
+            border-radius: 30px 0 0 30px;
+            flex-grow: 1;
+            font-size: 18px;
+            outline: none;
+        }
 
-.search button {
-    background: #fff;
-    border: none;
-    color: #000;
-    padding: 0 25px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 0 30px 30px 0;
-    font-size: 18px;
-}
+        .search button {
+            background: #fff;
+            border: none;
+            color: #000;
+            padding: 0 25px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0 30px 30px 0;
+            font-size: 18px;
+        }
 
-.profile {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    max-width: 900px;
-    margin: auto;
-    flex-wrap: wrap;
-}
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            max-width: 900px;
+            margin: auto;
+            flex-wrap: wrap;
+        }
 
-.profile img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #222;
-}
+        .profile img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #222;
+        }
 
-.profile-info { flex: 1; min-width: 200px; }
-.profile-info h2 { margin: 0; font-size: 22px; }
-.profile-info p { margin: 6px 0; font-size: 15px; color: var(--text-dim); }
+        .profile-info { flex: 1; min-width: 200px; }
+        .profile-info h2 { margin: 0; font-size: 22px; }
+        .profile-info p { margin: 4px 0; font-size: 15px; color: var(--text-dim); }
+        .img-count { font-size: 13px; color: var(--accent); font-weight: bold; margin-top: 5px; }
 
-.follow {
-    background: #fff;
-    color: #000;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-weight: bold;
-    cursor: pointer;
-}
+        .follow {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-/* GRID */
-.grid {
-    max-width: 1000px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
-    padding: 4px;
-}
+        /* GRID */
+        .grid {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            padding: 4px;
+        }
 
-.card {
-    position: relative;
-    background: var(--card-bg);
-    aspect-ratio: 1/1;
-    overflow: hidden;
-    cursor: pointer;
-}
+        .card {
+            position: relative;
+            background: var(--card-bg);
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            cursor: pointer;
+        }
 
-.card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.2s;
+        }
+        .card:hover img { opacity: 0.7; }
 
-.card-stats {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    background: rgba(0,0,0,0.6);
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-}
+        .card-stats {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.6);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
 
-/* LIGHTBOX */
-.lightbox {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.95);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-    padding: 20px;
-}
+        /* LIGHTBOX */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.98);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
 
-.lightbox.active { display: flex; }
+        .lightbox.active { display: flex; }
 
-.lb-close {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 30px;
-    cursor: pointer;
-}
+        .lb-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 35px;
+            cursor: pointer;
+            z-index: 1010;
+            text-shadow: 0 0 10px #000;
+        }
 
-.lb-content {
-    background: #111;
-    width: 90%;
-    max-width: 1100px;
-    height: 85%;
-    display: flex;
-    border-radius: 12px;
-    overflow: hidden;
-}
+        /* Botones de navegación */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            padding: 20px 15px;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 1005;
+            border-radius: 5px;
+        }
+        .nav-btn:hover { background: rgba(255,255,255,0.2); }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
 
-.lb-img {
-    flex: 1.5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        .lb-content {
+            background: #111;
+            width: 95%;
+            max-width: 1200px;
+            height: 90vh;
+            display: flex;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
 
-.lb-img img {
-    max-width: 100%;
-    max-height: 100%;
-}
+        .lb-img {
+            flex: 1.5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            padding: 10px;
+            min-height: 0; /* Fix para flexbox */
+        }
 
-.lb-text-area {
-    flex: 1;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    border-left: 1px solid #222;
-}
+        .lb-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
 
-.lb-text {
-    flex: 1;
-    overflow-y: auto;
-    font-size: 18px;
-    line-height: 1.6;
-}
+        .lb-text-area {
+            flex: 1;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid #222;
+            background: #111;
+            min-height: 0;
+        }
 
-.lb-stats {
-    padding-top: 15px;
-    border-top: 1px solid #333;
-    color: var(--accent);
-}
+        .lb-text {
+            flex: 1;
+            overflow-y: auto;
+            font-size: 17px;
+            line-height: 1.5;
+            padding-right: 10px;
+        }
 
-/* MÓVIL */
-@media(max-width:768px){
-    .lb-content { flex-direction: column; }
-    .lb-text-area { height: 40%; border-left: none; border-top: 1px solid #222; }
-}
-</style>
+        .lb-stats {
+            padding-top: 15px;
+            border-top: 1px solid #333;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* MÓVIL - PUNTO 1 CORREGIDO */
+        @media(max-width:768px){
+            .nav-btn { padding: 15px 10px; background: rgba(0,0,0,0.5); }
+            
+            .lb-content { 
+                flex-direction: column; 
+                height: 95vh;
+            }
+
+            .lb-img { 
+                flex: 0 0 60%; /* Ocupa el 60% exacto de la altura */
+                width: 100%;
+            }
+
+            .lb-text-area { 
+                flex: 0 0 40%; /* Ocupa el 40% exacto de la altura */
+                border-left: none; 
+                border-top: 1px solid #222; 
+                padding: 15px;
+            }
+
+            .lb-text { font-size: 15px; }
+            .grid { grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="header">
     <div class="search">
-        <input id="userInput">
+        <input id="userInput" placeholder="usuario.bsky.social">
         <button id="goBtn">Buscar</button>
     </div>
     <div id="profile" class="profile"></div>
@@ -210,7 +260,10 @@ body {
 
 <div id="lightbox" class="lightbox">
     <div id="closeBtn" class="lb-close">✕</div>
-    <div class="lb-content">
+    <button class="nav-btn prev-btn" id="prevBtn">❮</button>
+    <button class="nav-btn next-btn" id="nextBtn">❯</button>
+    
+    <div class="lb-content" id="lbMainContent">
         <div class="lb-img">
             <img id="lbImg">
         </div>
@@ -235,6 +288,12 @@ const lbText = document.getElementById("lbText");
 const lbStats = document.getElementById("lbStats");
 const closeBtn = document.getElementById("closeBtn");
 
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+let allImages = []; // Array para guardar datos de las imágenes
+let currentIndex = -1;
+
 const saved = localStorage.getItem("user") || DEFAULT_USER;
 input.value = saved;
 load(saved);
@@ -247,79 +306,105 @@ function start(){
     if(!user) return;
     localStorage.setItem("user", user);
     gallery.innerHTML="";
+    allImages = [];
     load(user);
 }
 
 async function load(handle){
+    try {
+        const didRes = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
+        const {did} = await didRes.json();
+        if(!did) return;
 
-const didRes = await fetch(`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`);
-const {did} = await didRes.json();
-if(!did) return;
+        /* PERFIL */
+        const profRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
+        const prof = await profRes.json();
 
-/* PERFIL */
-const profRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${did}`);
-const prof = await profRes.json();
+        /* FEED */
+        const res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=80`);
+        const data = await res.json();
 
-profile.innerHTML = `
-<img src="${prof.avatar||''}">
-<div class="profile-info">
-<h2>${prof.displayName||handle}</h2>
-<p>${prof.description||""}</p>
-</div>
-<button class="follow" onclick="window.open('https://bsky.app/profile/${handle}')">Ver</button>
-`;
+        data.feed.forEach(item => {
+            const post = item.post;
+            const text = post.record?.text || "";
+            const likes = post.likeCount || 0;
+            let imgs = post.embed?.images || post.embed?.media?.images || post.record?.embed?.images || post.record?.embed?.media?.images || [];
 
-/* FEED */
-const res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${did}&limit=60`);
-const data = await res.json();
+            imgs.forEach(img => {
+                const cid = img.image?.ref?.$link || img.image?.$link;
+                if(!cid) return;
 
-data.feed.forEach(item=>{
-const post=item.post;
-const text=post.record?.text||"";
-const likes=post.likeCount||0;
+                const thumb = `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`;
+                const full = `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`;
 
-let imgs=[];
+                allImages.push({ thumb, full, text, likes });
+            });
+        });
 
-/* 🔥 FIX REAL */
-if(post.embed?.images) imgs = post.embed.images;
-if(post.embed?.media?.images) imgs = post.embed.media.images;
-if(post.record?.embed?.images) imgs = post.record.embed.images;
-if(post.record?.embed?.media?.images) imgs = post.record.embed.media.images;
+        // Actualizar UI Perfil con contador (PUNTO 3)
+        profile.innerHTML = `
+            <img src="${prof.avatar||''}">
+            <div class="profile-info">
+                <h2>${prof.displayName||handle}</h2>
+                <p>${prof.description||""}</p>
+                <div class="img-count">📸 ${allImages.length} imágenes detectadas</div>
+            </div>
+            <button class="follow" onclick="window.open('https://bsky.app/profile/${handle}')">Ver</button>
+        `;
 
-imgs.forEach(img=>{
+        // Renderizar Galería
+        allImages.forEach((imgData, index) => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `<img src="${imgData.thumb}"><div class="card-stats">❤️ ${imgData.likes}</div>`;
+            card.onclick = () => openLightbox(index);
+            gallery.appendChild(card);
+        });
 
-const cid = img.image?.ref?.$link || img.image?.$link;
-if(!cid) return;
-
-const thumb=`https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`;
-const full=`https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`;
-
-const card=document.createElement("div");
-card.className="card";
-card.innerHTML=`
-<img src="${thumb}">
-<div class="card-stats">❤️ ${likes}</div>
-`;
-
-card.onclick=()=>{
-lbImg.src=full;
-lbText.innerText=text;
-lbStats.innerText=`❤️ ${likes}`;
-lightbox.classList.add("active");
-};
-
-gallery.appendChild(card);
-
-});
-
-});
+    } catch (err) {
+        console.error(err);
+    }
 }
 
+function openLightbox(index) {
+    if (index < 0 || index >= allImages.length) return;
+    currentIndex = index;
+    const data = allImages[currentIndex];
+    
+    lbImg.src = data.full;
+    lbText.innerText = data.text;
+    lbStats.innerText = `❤️ ${data.likes} likes`;
+    lightbox.classList.add("active");
+}
+
+/* NAVEGACIÓN (PUNTO 2) */
+function nextImg() {
+    if (currentIndex < allImages.length - 1) openLightbox(currentIndex + 1);
+}
+
+function prevImg() {
+    if (currentIndex > 0) openLightbox(currentIndex - 1);
+}
+
+nextBtn.onclick = (e) => { e.stopPropagation(); nextImg(); };
+prevBtn.onclick = (e) => { e.stopPropagation(); prevImg(); };
+
+// Flechas del teclado
+document.addEventListener("keydown", e => {
+    if (!lightbox.classList.contains("active")) return;
+    if (e.key === "ArrowRight") nextImg();
+    if (e.key === "ArrowLeft") prevImg();
+    if (e.key === "Escape") lightbox.classList.remove("active");
+});
+
 /* cerrar */
-closeBtn.onclick=()=>lightbox.classList.remove("active");
-lightbox.onclick=(e)=>{ if(e.target===lightbox) lightbox.classList.remove("active"); };
+closeBtn.onclick = () => lightbox.classList.remove("active");
+lightbox.onclick = (e) => { 
+    if(e.target === lightbox || e.target.id === "lbMainContent") {
+        lightbox.classList.remove("active"); 
+    }
+};
 
 </script>
-
 </body>
 </html>
