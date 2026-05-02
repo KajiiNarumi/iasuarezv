@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <title>Alba | Galería de Bluesky</title>
+
+    <!-- SEO y Redes Sociales (Meta Tags Críticos) -->
+    <meta name="description" content="Explora galerías de imágenes de Bluesky con un diseño limpio y minimalista.">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alba.wisp.place/">
+    <meta property="og:title" content="Alba - Galería de Bluesky">
+    <meta property="og:description" content="Tu portafolio visual de Bluesky con estilo elegante.">
+    <!-- IMPORTANTE: URL absoluta para que WhatsApp la lea -->
+    <meta property="og:image" content="https://alba.wisp.place/sunrise.png">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://alba.wisp.place/">
+    <meta name="twitter:title" content="Alba - Galería de Bluesky">
+    <meta name="twitter:description" content="Explora y comparte imágenes de Bluesky de forma sencilla.">
+    <meta name="twitter:image" content="https://alba.wisp.place/sunrise.png">
+
+    <!-- Iconos y PWA -->
+    <link rel="icon" type="image/png" href="sunrise.png">
+    <link rel="apple-touch-icon" href="sunrise.png">
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Navegación -->
+    <header class="navbar">
+        <div id="brand" class="logo">
+            <img src="sunrise.png" alt="Alba Logo" class="nav-icon">
+            <span>Alba</span>
+        </div>
+
+        <div class="search">
+            <input id="userInput" type="text" placeholder="Usuario...">
+            <button id="goBtn"></button>
+        </div>
+    </header>
+
+    <!-- Contenedores Dinámicos -->
+    <main>
+        <div id="profile"></div>
+        <div id="albums" class="albums"></div>
+        <div id="gallery" class="grid"></div>
+    </main>
+
+    <!-- Modal de Imagen -->
+    <div id="modal" class="modal">
+        <div class="modal-box">
+            <div class="close" id="closeBtn">✕</div>
+            <div class="nav prev" id="prevBtn">❮</div>
+            <div class="nav next" id="nextBtn">❯</div>
+
+            <div class="modal-img">
+                <img id="mImg">
+            </div>
+
+            <div class="modal-info">
+                <a id="postLink" class="btn post-btn" target="_blank"></a>
+                <div id="mText"></div>
+                <div id="mLikes"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Usuarios (Seguidores/Seguidos) -->
+    <div id="userModal" class="modal">
+        <div class="modal-box">
+            <div class="close" onclick="userModal.classList.remove('active')">✕</div>
+            <div class="modal-info">
+                <div id="userList" class="user-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lógica Externa -->
+    <script src="script.js"></script>
+
+    <!-- PWA Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js');
+        }
+    </script>
+
+</body>
+</html>
