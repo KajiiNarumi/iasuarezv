@@ -96,6 +96,12 @@ async function load(handle) {
 
         data.feed.forEach(item => {
             const p = item.post;
+
+            // ❌ filtrar basura
+            if (p.record?.reply) return;
+            if (item.reason?.$type === "app.bsky.feed.defs#reasonRepost") return;
+            if (p.embed?.record) return;
+
             const text = p.record?.text || "";
             const tags = (text.match(/#\w+/g) || []).map(t => t.toLowerCase());
 
@@ -110,6 +116,7 @@ async function load(handle) {
                 if (!cid) return;
 
                 const thumb = `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`;
+
                 const imageObj = {
                     thumb,
                     full: `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
@@ -120,6 +127,7 @@ async function load(handle) {
                 };
 
                 images.push(imageObj);
+
                 tags.forEach(tag => {
                     if (!tagMap[tag]) tagMap[tag] = [];
                     tagMap[tag].push(imageObj);
