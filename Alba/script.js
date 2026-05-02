@@ -53,7 +53,7 @@ const t = i18n[lang] || i18n.en;
 let images = [], filtered = [], index = 0, currentHandle = "";
 
 const params = new URLSearchParams(location.search);
-const user = params.get("user") || localStorage.getItem("user") || "iasuarezv.com";
+const user = params.get("user") || localStorage.getItem("user") || "";
 
 // Traducir elementos iniciales del HTML
 userInput.value = user;
@@ -268,4 +268,64 @@ brand.onclick = () => {
         load(currentHandle);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+};
+
+
+/* Lógica del Botón de Apoyo (Publicación Fija) */
+const infoBtn = document.getElementById("infoBtn");
+
+infoBtn.onclick = () => {
+    // Configuramos el contenido del modal manualmente
+    mImg.src = "iasuarezv.jpg"; // Imagen del logo
+
+    // Texto de apoyo
+    mText.innerHTML = `
+    <div style="font-size: 16px; line-height: 1.6; color: #fff;">
+    <strong style="font-size: 18px;">¡Gracias por ser parte de Alba!</strong><br><br>
+
+    Este es un proyecto <strong>independiente y gratuito</strong> creado para que la comunidad de Bluesky disfrute de sus imágenes de una forma limpia y organizada.
+    <br><br>
+
+    <strong>¿Cómo crear tus propios álbumes?</strong><br>
+    Es muy fácil: solo incluye un hashtag en tus publicaciones de Bluesky (ejemplo: <span style="color: #29abe0;">#Portafolio</span> o <span style="color: #29abe0;">#Naturaleza</span>). Alba las agrupará automáticamente en la sección de pestañas.
+    <br><br>
+
+    <hr style="border: 0; border-top: 1px solid #333; margin: 15px 0;">
+
+    <p style="color: #aaa; font-size: 14px;">
+    Mantener este servidor y desarrollar nuevas funciones tiene un costo. Si Alba te es útil, tu apoyo con un café es fundamental para que el proyecto siga vivo y sin publicidad.
+    </p>
+    </div>
+
+    `;
+
+    mLikes.innerHTML = `
+    <a href="https://ko-fi.com/iasuarezv" target="_blank" style=" color:inherit; cursor:pointer;">
+    ☕ Invitame un café ☕
+    </a>
+    `;
+
+    // Cambiamos el botón de "Ver publicación" por el link de Ko-fi
+    postLink.innerText = "Conocer al desarrollador";
+    postLink.href = "https://iasuarezv.com/Alba/?user=iasuarezv.com";
+    postLink.style.background = "#222"; // Color distintivo de Ko-fi
+    postLink.style.borderColor = "#222";
+
+    // Abrimos el modal
+    modal.classList.add("active");
+
+    // Limpiamos la función de los botones nav para que no cambie la imagen
+    prevBtn.style.display = "none";
+    nextBtn.style.display = "none";
+};
+
+// Modificamos ligeramente la función open original para restaurar los botones y colores
+const originalOpen = open;
+open = (i) => {
+    prevBtn.style.display = "flex";
+    nextBtn.style.display = "flex";
+    postLink.style.background = ""; // Restaura color original del CSS
+    postLink.style.borderColor = "";
+    postLink.innerText = t.post;
+    originalOpen(i);
 };

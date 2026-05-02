@@ -78,6 +78,56 @@ body {
 
 .search button:hover { background: #333; }
 
+/* --- ICONO INFO ESTILIZADO --- */
+#infoBtn {
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+user-select: none;
+transition: transform 0.2s ease;
+margin-left: 12px; /* Espacio respecto al buscador */
+flex-shrink: 0;   /* Evita que se deforme en móviles */
+}
+
+.info-icon {
+    width: 26px;      /* Tamaño del círculo */
+    height: 26px;
+    border: 1.5px solid var(--dim); /* Gris sutil por defecto */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Tipografía */
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dim);
+    line-height: 1;
+
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efecto al pasar el mouse */
+#infoBtn:hover .info-icon {
+border-color: var(--text);
+color: var(--text);
+background-color: rgba(255, 255, 255, 0.1); /* Brillo tenue */
+box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Efecto al hacer clic */
+#infoBtn:active {
+transform: scale(0.9);
+}
+
+/* Ajuste específico para que el '?' no se vea descentrado */
+.info-icon {
+    padding-bottom: 1px;
+    padding-left: 0.5px;
+}
+
+
 /* --- PERFIL --- */
 .profile {
     max-width: 900px;
@@ -305,4 +355,9 @@ body {
     .modal-info { padding: 20px; text-align: center; }
     .post-btn { align-self: center; margin: 10px 0; }
     .nav { padding: 10px; font-size: 20px; }
+    #infoBtn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    }
 }
