@@ -285,11 +285,18 @@ function share() {
 }
 
 /* Inicialización */
-const initQuery = window.location.search.replace("?", "");
+const params = new URLSearchParams(window.location.search);
+const initQuery = params.get("usuario") || window.location.search.replace("?", "");
 goBtn.innerText = t.search;
 
 if (initQuery) {
     load(initQuery);
 } else {
-    showAbout();
+    // Si no hay URL, intentamos cargar el último del localStorage
+    const lastUser = localStorage.getItem("user");
+    if (lastUser) {
+        load(lastUser);
+    } else {
+        showAbout();
+    }
 }
