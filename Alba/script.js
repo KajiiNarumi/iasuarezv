@@ -169,7 +169,7 @@ async function load(handle) {
 
     } catch (err) {
         console.error("Error cargando perfil:", err);
-        gallery.innerHTML = "Error al cargar el perfil.";
+        gallery.innerHTML = "Escribe el handle de Bluesky sin @ para explorar sus o tusa imágenes en Alba.";
     }
 }
 
