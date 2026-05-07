@@ -52,22 +52,43 @@ const t = i18n[lang] || i18n.en;
 /* Variables Globales */
 let images = [], filtered = [], index = 0, currentHandle = "";
 
-const params = new URLSearchParams(location.search);
-const user = params.get("user") || localStorage.getItem("user") || "";
+/* --- Lógica de URL Limpia (?) --- */
+const parseHandle = (input) => {
+    if (!input) return "";
+    let h = input.trim().toLowerCase();
+    if (h.includes("bsky.app/profile/")) {
+        h = h.split("bsky.app/profile/")[1].split("/")[0].split("?")[0];
+    }
+    return h.replace("@", "");
+};
 
-// Traducir elementos iniciales del HTML
+// Obtenemos el usuario de la URL (el string después del ?) o del localStorage
+const getInitialUser = () => {
+    const query = location.search.substring(1); // Quita el "?" inicial
+    // Si hay un parámetro con "=", intentamos extraer el valor (por compatibilidad)
+    if (query.includes("=")) {
+        const p = new URLSearchParams(location.search);
+        return parseHandle(p.get("u") || p.get("user") || "");
+    }
+    // Si no hay "=", el query entero es el handle
+    return parseHandle(query || localStorage.getItem("user") || "");
+};
+
+const user = getInitialUser();
+
+// Traducir elementos iniciales
 userInput.value = user;
 goBtn.innerText = t.search;
 postLink.innerText = t.post;
 
-load(user);
+if (user) load(user);
 
-/* Lógica de Búsqueda (Botón y Enter) */
+/* Lógica de Búsqueda */
 const handleSearch = () => {
-    const u = userInput.value.trim().replace("@", "");
+    const u = parseHandle(userInput.value);
     if (!u) return;
     localStorage.setItem("user", u);
-    history.pushState({}, "", "?user=" + u);
+    history.pushState({}, "", "?" + u); // URL limpia: ?usuario.com
     load(u);
 };
 
@@ -77,9 +98,8 @@ userInput.onkeydown = (e) => { if (e.key === "Enter") handleSearch(); };
 /* Función Principal de Carga */
 async function load(handle) {
     currentHandle = handle;
-    history.replaceState({}, "", "?user=" + handle);
+    history.replaceState({}, "", "?" + handle);
 
-    // Mostrar Skeletons mientras carga
     gallery.innerHTML = '<div class="card skeleton"></div>'.repeat(9);
     profile.innerHTML = '<div class="profile skeleton" style="height:100px; border:none;"></div>';
     albums.innerHTML = '';
@@ -96,11 +116,7 @@ async function load(handle) {
 
         data.feed.forEach(item => {
             const p = item.post;
-
-            // ❌ filtrar basura
-            if (p.record?.reply) return;
-            if (item.reason?.$type === "app.bsky.feed.defs#reasonRepost") return;
-            if (p.embed?.record) return;
+            if (p.record?.reply || item.reason?.$type === "app.bsky.feed.defs#reasonRepost" || p.embed?.record) return;
 
             const text = p.record?.text || "";
             const tags = (text.match(/#\w+/g) || []).map(t => t.toLowerCase());
@@ -108,17 +124,13 @@ async function load(handle) {
             let imgs = [];
             if (p.embed?.images) imgs.push(...p.embed.images);
             if (p.embed?.media?.images) imgs.push(...p.embed.media.images);
-            if (p.record?.embed?.images) imgs.push(...p.record.embed.images);
-            if (p.record?.embed?.media?.images) imgs.push(...p.record.embed.media.images);
 
             imgs.forEach(img => {
                 const cid = img.image?.ref?.$link || img.image?.$link;
                 if (!cid) return;
 
-                const thumb = `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`;
-
                 const imageObj = {
-                    thumb,
+                    thumb: `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${cid}@jpeg`,
                     full: `https://cdn.bsky.app/img/feed_fullsize/plain/${did}/${cid}@jpeg`,
                     text,
                     likes: p.likeCount || 0,
@@ -127,7 +139,6 @@ async function load(handle) {
                 };
 
                 images.push(imageObj);
-
                 tags.forEach(tag => {
                     if (!tagMap[tag]) tagMap[tag] = [];
                     tagMap[tag].push(imageObj);
@@ -135,32 +146,30 @@ async function load(handle) {
             });
         });
 
-        /* Filtrar imágenes rotas */
-        images = await Promise.all(images.map(img => {
+        // Filtrar imágenes rotas
+        images = (await Promise.all(images.map(img => {
             return new Promise(resolve => {
                 const test = new Image();
                 test.src = img.thumb;
                 test.onload = () => resolve(img);
                 test.onerror = () => resolve(null);
             });
-        }));
-        images = images.filter(Boolean);
+        }))).filter(Boolean);
 
-        /* Renderizar Perfil */
         profile.innerHTML = `
         <div class="profile">
-        <img src="${prof.avatar || ''}">
-        <div class="profile-info">
-        <h2>${prof.displayName || handle}</h2>
-        <p>${prof.description || ""}</p>
-        <div class="count">${images.length} ${t.images}</div>
-        </div>
-        <div class="profile-actions">
-        <a class="btn" href="https://bsky.app/profile/${handle}" target="_blank">${t.profile}</a>
-        <button class="btn" onclick="share()">${t.share}</button>
-        <button class="btn" onclick="followers('${did}')">${t.followers}</button>
-        <button class="btn" onclick="follows('${did}')">${t.following}</button>
-        </div>
+            <img src="${prof.avatar || ''}">
+            <div class="profile-info">
+                <h2>${prof.displayName || handle}</h2>
+                <p>${prof.description || ""}</p>
+                <div class="count">${images.length} ${t.images}</div>
+            </div>
+            <div class="profile-actions">
+                <a class="btn" href="https://bsky.app/profile/${handle}" target="_blank">${t.profile}</a>
+                <button class="btn" onclick="share()">${t.share}</button>
+                <button class="btn" onclick="followers('${did}')">${t.followers}</button>
+                <button class="btn" onclick="follows('${did}')">${t.following}</button>
+            </div>
         </div>`;
 
         renderAlbums(tagMap);
@@ -168,12 +177,11 @@ async function load(handle) {
         render();
 
     } catch (err) {
-        console.error("Error cargando perfil:", err);
-        gallery.innerHTML = "Escribe el handle de Bluesky sin @ para explorar sus o tusa imágenes en Alba.";
+        gallery.innerHTML = "Usuario no encontrado. Asegúrate de usar el handle correcto.";
     }
 }
 
-/* Renderizado de Álbumes */
+/* Renderizado */
 function renderAlbums(tagMap) {
     albums.innerHTML = "";
     const allBtn = document.createElement("div");
@@ -183,12 +191,10 @@ function renderAlbums(tagMap) {
     albums.appendChild(allBtn);
 
     Object.keys(tagMap).forEach(tag => {
-        const list = tagMap[tag].filter(i => images.includes(i));
-        if (list.length === 0) return;
         const b = document.createElement("div");
         b.className = "album-btn";
         b.innerText = tag.replace("#", "");
-        b.onclick = () => { filtered = list; setActive(b); render(); };
+        b.onclick = () => { filtered = tagMap[tag]; setActive(b); render(); };
         albums.appendChild(b);
     });
 }
@@ -198,7 +204,6 @@ function setActive(el) {
     el.classList.add("active");
 }
 
-/* Renderizado de Galería */
 function render() {
     gallery.innerHTML = "";
     filtered.forEach((img, i) => {
@@ -210,7 +215,7 @@ function render() {
     });
 }
 
-/* Modal de Imagen */
+/* Modal */
 function open(i) {
     index = i;
     const d = filtered[i];
@@ -219,6 +224,14 @@ function open(i) {
     mLikes.innerText = "❤️ " + d.likes;
     const id = d.uri.split("/").pop();
     postLink.href = `https://bsky.app/profile/${currentHandle}/post/${id}`;
+    
+    // Restaurar estilos por si venimos del modal de apoyo
+    prevBtn.style.display = "flex";
+    nextBtn.style.display = "flex";
+    postLink.style.background = "";
+    postLink.style.borderColor = "";
+    postLink.innerText = t.post;
+    
     modal.classList.add("active");
 }
 
@@ -227,7 +240,7 @@ nextBtn.onclick = e => { e.stopPropagation(); if (index < filtered.length - 1) o
 closeBtn.onclick = () => modal.classList.remove("active");
 modal.onclick = e => { if (e.target === modal) modal.classList.remove("active"); };
 
-/* Seguidores y Seguidos */
+/* Usuarios y Compartir */
 async function followers(did) {
     const res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.graph.getFollowers?actor=${did}`);
     const data = await res.json();
@@ -252,80 +265,34 @@ function showUsers(list) {
     userModal.classList.add("active");
 }
 
-/* Compartir */
 function share() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        alert("Enlace copiado al portapapeles");
-    }).catch(() => {
-        prompt(t.copyMsg, url);
-    });
+    const url = `${window.location.origin}${window.location.pathname}?${currentHandle}`;
+    navigator.clipboard.writeText(url).then(() => alert("Enlace copiado")).catch(() => prompt(t.copyMsg, url));
 }
 
-/* Refrescar al tocar Logo */
-brand.onclick = () => {
-    if (currentHandle) {
-        load(currentHandle);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-};
+brand.onclick = () => { if (currentHandle) { load(currentHandle); window.scrollTo({ top: 0, behavior: 'smooth' }); } };
 
-
-/* Lógica del Botón de Apoyo (Publicación Fija) */
+/* --- Lógica del Botón de Apoyo --- */
 const infoBtn = document.getElementById("infoBtn");
-
 infoBtn.onclick = () => {
-    // Configuramos el contenido del modal manualmente
-    mImg.src = "iasuarezv.jpg"; // Imagen del logo
-
-    // Texto de apoyo
+    mImg.src = "iasv.jpg"; 
     mText.innerHTML = `
     <div style="font-size: 16px; line-height: 1.6; color: #fff;">
-    <strong style="font-size: 18px;">¡Gracias por ser parte de Alba!</strong><br><br>
+        <strong style="font-size: 18px;">¡Gracias por ser parte de Alba!</strong><br><br>
+        Este es un proyecto <strong>independiente y gratuito</strong> para la comunidad de Bluesky.<br><br>
+        <strong>¿Cómo crear álbumes?</strong><br>
+        Usa un hashtag en tus posts (ej: <span style="color: #29abe0;">#Portafolio</span>). Alba los agrupará automáticamente.<br><br>
+        <hr style="border: 0; border-top: 1px solid #333; margin: 15px 0;">
+        <p style="color: #aaa; font-size: 14px;">Tu apoyo con un café permite mantener los servidores activos y sin publicidad.</p>
+    </div>`;
 
-    Este es un proyecto <strong>independiente y gratuito</strong> creado para que la comunidad de Bluesky disfrute de sus imágenes de una forma limpia y organizada.
-    <br><br>
-
-    <strong>¿Cómo crear tus propios álbumes?</strong><br>
-    Es muy fácil: solo incluye un hashtag en tus publicaciones de Bluesky (ejemplo: <span style="color: #29abe0;">#Portafolio</span> o <span style="color: #29abe0;">#Naturaleza</span>). Alba las agrupará automáticamente en la sección de pestañas.
-    <br><br>
-
-    <hr style="border: 0; border-top: 1px solid #333; margin: 15px 0;">
-
-    <p style="color: #aaa; font-size: 14px;">
-    Mantener este servidor y desarrollar nuevas funciones tiene un costo. Si Alba te es útil, tu apoyo con un café es fundamental para que el proyecto siga vivo y sin publicidad.
-    </p>
-    </div>
-
-    `;
-
-    mLikes.innerHTML = `
-    <a href="https://ko-fi.com/iasuarezv" target="_blank" style=" color:inherit; cursor:pointer;">
-    ☕ Invitame un café ☕
-    </a>
-    `;
-
-    // Cambiamos el botón de "Ver publicación" por el link de Ko-fi
+    mLikes.innerHTML = `<a href="https://ko-fi.com/iasuarezv" target="_blank" style="color:inherit; text-decoration:none;">☕ Invitame un café ☕</a>`;
     postLink.innerText = "Conocer al desarrollador";
-    postLink.href = "https://iasuarezv.com/Alba/?user=iasuarezv.com";
-    postLink.style.background = "#222"; // Color distintivo de Ko-fi
-    postLink.style.borderColor = "#222";
+    postLink.href = "https://iasuarezv.com/Alba/?iasuarezv.com";
+    postLink.style.background = "#222";
+    postLink.style.borderColor = "#444";
 
-    // Abrimos el modal
-    modal.classList.add("active");
-
-    // Limpiamos la función de los botones nav para que no cambie la imagen
     prevBtn.style.display = "none";
     nextBtn.style.display = "none";
-};
-
-// Modificamos ligeramente la función open original para restaurar los botones y colores
-const originalOpen = open;
-open = (i) => {
-    prevBtn.style.display = "flex";
-    nextBtn.style.display = "flex";
-    postLink.style.background = ""; // Restaura color original del CSS
-    postLink.style.borderColor = "";
-    postLink.innerText = t.post;
-    originalOpen(i);
+    modal.classList.add("active");
 };
