@@ -8,7 +8,7 @@ sitemap: false
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Alice & Suisse Intl -->
+    <!-- Fuentes -->
     <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
@@ -16,7 +16,6 @@ sitemap: false
         body {
             background-color: #000;
             color: #fff;
-
             margin: 0;
             padding: 40px;
             font-family: 'Inter', sans-serif;
@@ -76,7 +75,7 @@ sitemap: false
             background: rgba(0, 0, 0, 0.4);
             color: #fff;
             text-decoration: none;
-            font-family: "Inter", sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 15px;
             font-weight: bold;
             border-radius: 0;
@@ -92,8 +91,10 @@ sitemap: false
 </head>
 
 <body>
+
     <div class="container">
         <h1>Últimas publicaciones</h1>
+
         <div id="feed"></div>
 
         <div class="kn-readmore-container">
@@ -108,26 +109,29 @@ async function loadFeed() {
     const container = document.getElementById("feed");
 
     try {
-        const response = await fetch(
-            "https://api.rss2json.com/v1/api.json?rss_url=https://blog.kajiinarumi.com/rss.xml"
-        );
+        const response = await fetch("https://blog.kajiinarumi.com/feed.xml");
+        const text = await response.text();
 
-        const data = await response.json();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(text, "application/xml");
 
-        const posts = data.items.slice(0, 3);
+        const items = xml.querySelectorAll("item");
 
-        posts.forEach(post => {
-            const published = new Date(post.pubDate)
-                .toLocaleDateString("es-MX");
+        [...items].slice(0, 3).forEach(item => {
+            const title = item.querySelector("title").textContent;
+            const link = item.querySelector("link").textContent;
+            const pubDate = new Date(
+                item.querySelector("pubDate").textContent
+            ).toLocaleDateString("es-MX");
 
             const html = `
                 <div class="post">
                     <div class="post-title">
-                        <a href="${post.link}" target="_blank">
-                            ${post.title}
+                        <a href="${link}" target="_blank">
+                            ${title}
                         </a>
                     </div>
-                    <div class="date">${published}</div>
+                    <div class="date">${pubDate}</div>
                 </div>
             `;
 
@@ -135,6 +139,8 @@ async function loadFeed() {
         });
 
     } catch (error) {
+        console.error(error);
+
         container.innerHTML = `
             <div class="post">
                 Error cargando publicaciones.
