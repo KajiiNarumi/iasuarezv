@@ -8,7 +8,7 @@ sitemap: false
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Alice & Suisse Intl (Inter como fallback) -->
+    <!-- Alice & Suisse Intl -->
     <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
@@ -16,6 +16,7 @@ sitemap: false
         body {
             background-color: #000;
             color: #fff;
+
             margin: 0;
             padding: 40px;
             font-family: 'Inter', sans-serif;
@@ -64,28 +65,28 @@ sitemap: false
         }
 
         .kn-readmore-container {
-          text-align: center;
-          margin-top: 20px;
+            text-align: center;
+            margin-top: 20px;
         }
 
         .kn-readmore-btn {
-          display: inline-block;
-          padding: 10px 22px;
-          border: 2px solid #333;
-          background: rgba(0, 0, 0, 0.4);
-          color: #fff;
-          text-decoration: none;
-          font-family: "Inter", sans-serif;
-          font-size: 15px;
-          font-weight: bold;
-          border-radius: 0;
-          transition: all 0.25s ease;
+            display: inline-block;
+            padding: 10px 22px;
+            border: 2px solid #333;
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            text-decoration: none;
+            font-family: "Inter", sans-serif;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 0;
+            transition: all 0.25s ease;
         }
 
         .kn-readmore-btn:hover {
-          background: rgba(255, 255, 255, 0.05);
-          border-color: #555;
-          transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #555;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -94,69 +95,56 @@ sitemap: false
     <div class="container">
         <h1>Últimas publicaciones</h1>
         <div id="feed"></div>
+
+        <div class="kn-readmore-container">
+            <a href="https://blog.kajiinarumi.com/" target="_blank" class="kn-readmore-btn">
+                Leer más
+            </a>
+        </div>
     </div>
 
 <script>
-async function loadHashnodePosts() {
+async function loadFeed() {
     const container = document.getElementById("feed");
-    
-    // Consulta GraphQL para Hashnode
-    const query = `
-      query GetPosts {
-        publication(host: "blog.kajiinarumi.com") {
-          posts(first: 3) {
-            edges {
-              node {
-                title
-                url
-                publishedAt
-              }
-            }
-          }
-        }
-      }
-    `;
 
     try {
-        const response = await fetch('https://gql.hashnode.com/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query })
-        });
-        
-        const result = await response.json();
-        const posts = result.data.publication.posts.edges;
+        const response = await fetch(
+            "https://api.rss2json.com/v1/api.json?rss_url=https://blog.kajiinarumi.com/rss.xml"
+        );
+
+        const data = await response.json();
+
+        const posts = data.items.slice(0, 3);
 
         posts.forEach(post => {
-            const node = post.node;
-            const title = node.title;
-            const link = node.url;
-            const published = new Date(node.publishedAt).toLocaleDateString("es-MX");
+            const published = new Date(post.pubDate)
+                .toLocaleDateString("es-MX");
 
             const html = `
                 <div class="post">
-                    <div class="post-title"><a href="${link}" target="_blank">${title}</a></div>
+                    <div class="post-title">
+                        <a href="${post.link}" target="_blank">
+                            ${post.title}
+                        </a>
+                    </div>
                     <div class="date">${published}</div>
                 </div>
             `;
 
             container.innerHTML += html;
         });
+
     } catch (error) {
-        console.error("Error cargando el feed de Hashnode:", error);
-        container.innerHTML = "<p>No se pudieron cargar las publicaciones.</p>";
+        container.innerHTML = `
+            <div class="post">
+                Error cargando publicaciones.
+            </div>
+        `;
     }
 }
 
-// Ejecutar la carga al iniciar
-loadHashnodePosts();
+loadFeed();
 </script>
-
-<div class="kn-readmore-container">
-  <a href="https://blog.kajiinarumi.com/" target="_blank" class="kn-readmore-btn">
-    Leer más
-  </a>
-</div>
 
 </body>
 </html>
