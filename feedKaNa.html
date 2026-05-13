@@ -1,159 +1,149 @@
+---
+sitemap: false
+---
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
-<style>
-body {
-    background: #000;
-    color: #fff;
-    margin: 0;
-    padding: 40px;
-    font-family: 'Inter', sans-serif;
-    display: flex;
-    justify-content: center;
-}
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+        }
 
-.container {
-    width: 100%;
-    max-width: 650px;
-}
+        .container {
+            width: 100%;
+            max-width: 650px;
+        }
 
-h1 {
-    font-family: 'Alice', serif;
-    font-size: 30px;
-    font-weight: normal;
-    margin-bottom: 30px;
-}
+        h1 {
+            font-family: 'Alice', serif;
+            font-size: 30px;
+            font-weight: normal;
+            margin-bottom: 30px;
+        }
 
-.post {
-    margin-bottom: 28px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid #333;
-}
+        .post {
+            margin-bottom: 28px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #333;
+        }
 
-.post-title {
-    font-family: 'Alice', serif;
-    font-size: 22px;
-    margin-bottom: 4px;
-}
+        .post-title {
+            font-family: 'Alice', serif;
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
 
-.post-title a {
-    color: #fff;
-    text-decoration: none;
-}
+        .post-title a {
+            color: #fff;
+            text-decoration: none;
+        }
 
-.post-title a:hover {
-    opacity: 0.8;
-}
+        .post-title a:hover {
+            opacity: 0.8;
+        }
 
-.date {
-    font-size: 13px;
-    color: #aaa;
-}
+        .date {
+            font-size: 13px;
+            margin-top: 0;
+            color: #aaa;
+            font-family: 'Inter', sans-serif;
+        }
 
-.kn-readmore-container {
-    text-align: center;
-    margin-top: 20px;
-}
+        .kn-readmore-container {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-.kn-readmore-btn {
-    display: inline-block;
-    padding: 10px 22px;
-    border: 2px solid #333;
-    background: rgba(0,0,0,.4);
-    color: #fff;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: bold;
-    transition: .25s ease;
-}
+        .kn-readmore-btn {
+            display: inline-block;
+            padding: 10px 22px;
+            border: 2px solid #333;
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 0;
+            transition: all 0.25s ease;
+        }
 
-.kn-readmore-btn:hover {
-    background: rgba(255,255,255,.05);
-    border-color: #555;
-    transform: translateY(-2px);
-}
-</style>
+        .kn-readmore-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #555;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>Últimas publicaciones</h1>
+    <h1>Últimas publicaciones</h1>
 
-<div id="feed"></div>
+    <div id="feed"></div>
 
-<div class="kn-readmore-container">
-    <a href="https://blog.kajiinarumi.com/" target="_blank" class="kn-readmore-btn">
-        Leer más
-    </a>
-</div>
+    <div class="kn-readmore-container">
+        <a href="https://blog.kajiinarumi.com/" target="_blank" class="kn-readmore-btn">
+            Leer más
+        </a>
+    </div>
 
 </div>
 
 <script>
-async function cargarFeed() {
+function parseFeed(json) {
 
-    const feed = document.getElementById("feed");
+    const container = document.getElementById("feed");
+    const entries = json.items || [];
 
-    try {
+    entries.slice(0, 3).forEach(entry => {
 
-        const response = await fetch(
-            "https://api.rss2json.com/v1/api.json?rss_url=https://blog.kajiinarumi.com/feed.xml"
-        );
+        const title = entry.title;
+        const link = entry.link;
 
-        const data = await response.json();
+        const published = new Date(entry.pubDate)
+            .toLocaleDateString("es-MX");
 
-        if (!data.items || data.items.length === 0) {
-            feed.innerHTML = `
-                <div class="post">
-                    No hay publicaciones disponibles.
-                </div>
-            `;
-            return;
-        }
-
-        data.items.slice(0, 3).forEach(post => {
-
-            const fecha = new Date(post.pubDate)
-                .toLocaleDateString("es-MX");
-
-            feed.innerHTML += `
-                <div class="post">
-
-                    <div class="post-title">
-                        <a href="${post.link}" target="_blank">
-                            ${post.title}
-                        </a>
-                    </div>
-
-                    <div class="date">
-                        ${fecha}
-                    </div>
-
-                </div>
-            `;
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        feed.innerHTML = `
+        const html = `
             <div class="post">
-                Error cargando publicaciones.
+
+                <div class="post-title">
+                    <a href="${link}" target="_blank">
+                        ${title}
+                    </a>
+                </div>
+
+                <div class="date">
+                    ${published}
+                </div>
+
             </div>
         `;
-    }
+
+        container.innerHTML += html;
+    });
 }
 
-cargarFeed();
+const script = document.createElement("script");
+
+script.src =
+"https://api.rss2json.com/v1/api.json?rss_url=https://blog.kajiinarumi.com/rss.xml&callback=parseFeed";
+
+document.body.appendChild(script);
 </script>
 
 </body>
