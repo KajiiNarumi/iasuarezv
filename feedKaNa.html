@@ -8,13 +8,15 @@ sitemap: false
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Alice & Suisse Intl -->
     <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet"> <!-- Usaremos Inter como equivalente cercano a Suisse Intl -->
 
     <style>
         body {
             background-color: #000;
             color: #fff;
+
             margin: 0;
             padding: 40px;
             font-family: 'Inter', sans-serif;
@@ -62,75 +64,57 @@ sitemap: false
             font-family: 'Inter', sans-serif;
         }
 
-        .kn-readmore-container {
-            text-align: center;
-            margin-top: 20px;
-        }
+.kn-readmore-container {
+  text-align: center;
+  margin-top: 20px;
+}
 
-        .kn-readmore-btn {
-            display: inline-block;
-            padding: 10px 22px;
-            border: 2px solid #333;
-            background: rgba(0, 0, 0, 0.4);
-            color: #fff;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: bold;
-            border-radius: 0;
-            transition: all 0.25s ease;
-        }
+.kn-readmore-btn {
+  display: inline-block;
+  padding: 10px 22px;
+  border: 2px solid #333; /* gris oscuro */
+  background: rgba(0, 0, 0, 0.4); /* negro semi-transparente */
+  color: #fff; /* texto blanco */
+  text-decoration: none;
+  font-family: "Suisse Intl", sans-serif;
+  font-size: 15px;
+  font-weight: bold; /* texto en negrita */
+  border-radius: 0; /* sin esquinas redondeadas */
+  transition: all 0.25s ease;
+}
 
-        .kn-readmore-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: #555;
-            transform: translateY(-2px);
-        }
+.kn-readmore-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #555;
+  transform: translateY(-2px);
+}
+
+
+        
     </style>
 </head>
 
 <body>
-
-<div class="container">
-
-    <h1>Últimas publicaciones</h1>
-
-    <div id="feed"></div>
-
-    <div class="kn-readmore-container">
-        <a href="https://blog.kajiinarumi.com/" target="_blank" class="kn-readmore-btn">
-            Leer más
-        </a>
+    <div class="container">
+        <h1>Últimas publicaciones</h1>
+        <div id="feed"></div>
     </div>
 
-</div>
-
 <script>
+// JSONP callback
 function parseFeed(json) {
-
     const container = document.getElementById("feed");
-    const entries = json.items || [];
+    const entries = json.feed.entry || [];
 
-    entries.slice(0, 3).forEach(entry => {
-
-        const title = entry.title;
-        const link = entry.link;
-
-        const published = new Date(entry.pubDate)
-            .toLocaleDateString("es-MX");
+    entries.forEach(entry => {
+        const title = entry.title.$t;
+        const link = entry.link.find(l => l.rel === "alternate").href;
+        const published = new Date(entry.published.$t).toLocaleDateString("es-MX");
 
         const html = `
             <div class="post">
-
-                <div class="post-title">
-                    <a href="${link}" target="_blank">
-                        ${title}
-                    </a>
-                </div>
-
-                <div class="date">
-                    ${published}
-                </div>
-
+                <div class="post-title"><a href="${link}" target="_blank">${title}</a></div>
+                <div class="date">${published}</div>
             </div>
         `;
 
@@ -138,13 +122,16 @@ function parseFeed(json) {
     });
 }
 
-const script = document.createElement("script");
-
-script.src =
-"https://api.rss2json.com/v1/api.json?rss_url=https://blog.kajiinarumi.com/rss.xml&callback=parseFeed";
-
+// Insert JSONP script
+const script = document.createElement('script');
+script.src = "https://codigokajiinarumi.blogspot.com/feeds/posts/default?alt=json-in-script&max-results=3&callback=parseFeed";
 document.body.appendChild(script);
 </script>
+<div class="kn-readmore-container">
+  <a href="https://codigokajiinarumi.blogspot.com/" target="_blank" class="kn-readmore-btn">
+    Leer más
+  </a>
+</div>
 
 </body>
 </html>
