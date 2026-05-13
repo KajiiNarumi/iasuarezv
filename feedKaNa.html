@@ -1,7 +1,3 @@
----
-sitemap: false
----
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,7 +9,7 @@ sitemap: false
 
 <style>
 body {
-    background-color: #000;
+    background: #000;
     color: #fff;
     margin: 0;
     padding: 40px;
@@ -102,46 +98,62 @@ h1 {
 </div>
 
 <script>
-fetch("https://api.allorigins.win/raw?url=https://blog.kajiinarumi.com/feed.xml")
-.then(response => response.text())
-.then(str => {
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(str, "text/xml");
+async function cargarFeed() {
 
-    const items = xml.querySelectorAll("item");
-    const container = document.getElementById("feed");
+    const feed = document.getElementById("feed");
 
-    Array.from(items).slice(0, 3).forEach(item => {
+    try {
 
-        const title = item.querySelector("title").textContent;
-        const link = item.querySelector("link").textContent;
-        const date = new Date(
-            item.querySelector("pubDate").textContent
-        ).toLocaleDateString("es-MX");
+        const response = await fetch(
+            "https://api.rss2json.com/v1/api.json?rss_url=https://blog.kajiinarumi.com/feed.xml"
+        );
 
-        container.innerHTML += `
+        const data = await response.json();
+
+        if (!data.items || data.items.length === 0) {
+            feed.innerHTML = `
+                <div class="post">
+                    No hay publicaciones disponibles.
+                </div>
+            `;
+            return;
+        }
+
+        data.items.slice(0, 3).forEach(post => {
+
+            const fecha = new Date(post.pubDate)
+                .toLocaleDateString("es-MX");
+
+            feed.innerHTML += `
+                <div class="post">
+
+                    <div class="post-title">
+                        <a href="${post.link}" target="_blank">
+                            ${post.title}
+                        </a>
+                    </div>
+
+                    <div class="date">
+                        ${fecha}
+                    </div>
+
+                </div>
+            `;
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        feed.innerHTML = `
             <div class="post">
-                <div class="post-title">
-                    <a href="${link}" target="_blank">
-                        ${title}
-                    </a>
-                </div>
-
-                <div class="date">
-                    ${date}
-                </div>
+                Error cargando publicaciones.
             </div>
         `;
-    });
-})
-.catch(error => {
-    document.getElementById("feed").innerHTML = `
-        <div class="post">
-            Error cargando publicaciones.
-        </div>
-    `;
-    console.error(error);
-});
+    }
+}
+
+cargarFeed();
 </script>
 
 </body>
