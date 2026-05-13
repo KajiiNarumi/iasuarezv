@@ -1,5 +1,4 @@
 ---
-layout: none
 sitemap: false
 ---
 
@@ -14,7 +13,7 @@ sitemap: false
 
 <style>
 body {
-    background: #000;
+    background-color: #000;
     color: #fff;
     margin: 0;
     padding: 40px;
@@ -92,31 +91,58 @@ h1 {
 
 <h1>Últimas publicaciones</h1>
 
-{% assign latest_posts = site.posts | slice: 0, 3 %}
-
-{% for post in latest_posts %}
-<div class="post">
-
-    <div class="post-title">
-        <a href="{{ post.url | relative_url }}">
-            {{ post.title }}
-        </a>
-    </div>
-
-    <div class="date">
-        {{ post.date | date: "%d/%m/%Y" }}
-    </div>
-
-</div>
-{% endfor %}
+<div id="feed"></div>
 
 <div class="kn-readmore-container">
-    <a href="https://blog.kajiinarumi.com/" class="kn-readmore-btn">
+    <a href="https://blog.kajiinarumi.com/" target="_blank" class="kn-readmore-btn">
         Leer más
     </a>
 </div>
 
 </div>
+
+<script>
+fetch("https://api.allorigins.win/raw?url=https://blog.kajiinarumi.com/feed.xml")
+.then(response => response.text())
+.then(str => {
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(str, "text/xml");
+
+    const items = xml.querySelectorAll("item");
+    const container = document.getElementById("feed");
+
+    Array.from(items).slice(0, 3).forEach(item => {
+
+        const title = item.querySelector("title").textContent;
+        const link = item.querySelector("link").textContent;
+        const date = new Date(
+            item.querySelector("pubDate").textContent
+        ).toLocaleDateString("es-MX");
+
+        container.innerHTML += `
+            <div class="post">
+                <div class="post-title">
+                    <a href="${link}" target="_blank">
+                        ${title}
+                    </a>
+                </div>
+
+                <div class="date">
+                    ${date}
+                </div>
+            </div>
+        `;
+    });
+})
+.catch(error => {
+    document.getElementById("feed").innerHTML = `
+        <div class="post">
+            Error cargando publicaciones.
+        </div>
+    `;
+    console.error(error);
+});
+</script>
 
 </body>
 </html>
