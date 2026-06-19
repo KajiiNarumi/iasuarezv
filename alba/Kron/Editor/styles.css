@@ -1,0 +1,271 @@
+:root {
+    --bg: #000000;
+    --surface: #0a0a0a;
+    --card: #111111;
+    --text: #e0e0e0;
+    --dim: #aaaaaa;
+    --line: #333333;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+}
+
+.navbar {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--line);
+}
+
+.logo {
+    font-size: 1.65rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.brand-alba, .brand-kron {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.brand-alba:hover, .brand-kron:hover {
+    color: #777;
+}
+
+/* ==================== CONTENEDORES ==================== */
+.main-container {
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+}
+
+.panel, .archive-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 28px;
+}
+
+.panel h2, .archive-card h3 {
+    margin-top: 0;
+    color: #fff;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 12px;
+}
+
+/* ==================== INPUTS ==================== */
+.input, textarea, .date-input {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 14px 16px;
+    border-radius: 6px;
+    width: 100%;
+    margin: 10px 0 16px 0;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.input:focus, textarea:focus, .date-input:focus {
+    outline: none;
+    border-color: #555;
+    background: #1a1a1a;
+}
+
+.dates {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 15px 0;
+}
+
+.dates label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--dim);
+    font-size: 0.9rem;
+}
+
+/* ==================== TAREAS ==================== */
+.tasks-editor {
+    background: #0a0a0a;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px;
+    margin: 20px 0;
+}
+
+.current-tasks div {
+    background: var(--surface);
+    padding: 10px 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* ==================== BOTONES ==================== */
+.actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+button {
+    background: #1a1a1a;
+    color: var(--text);
+    border: 1px solid var(--line);
+    padding: 12px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+button:hover {
+    background: #222;
+    border-color: #555;
+    color: #fff;
+}
+
+.btn-primary {
+    background: #222;
+    font-weight: 600;
+}
+
+/* ==================== TARJETAS ==================== */
+.project-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 18px;
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.project-info {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.toggle-btn {
+    font-size: 1.5rem;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a1a;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+}
+
+.project-details {
+    display: none;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--line);
+}
+
+.project-card.expanded .project-details {
+    display: block;
+}
+
+.checklist label {
+    display: block;
+    padding: 8px 0;
+    cursor: pointer;
+}
+
+/* ==================== MODAL (CORREGIDO) ==================== */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.96);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #111111;
+    width: 90%;
+    max-width: 420px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close {
+    font-size: 28px;
+    cursor: pointer;
+    color: #777;
+}
+
+.close:hover {
+    color: #fff;
+}
+
+.nav-menu-links a {
+    display: block;
+    padding: 18px 28px;
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 1.25rem;
+    border-bottom: 1px solid #222;
+}
+
+.nav-menu-links a:hover {
+    background: #1a1a1a;
+}
+
+.nav-menu-links a:last-child {
+    border-bottom: none;
+}
+
+/* ==================== ARCHIVO ==================== */
+.archive-card {
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 28px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+}

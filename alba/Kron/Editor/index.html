@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alba Kron</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <span class="brand-alba" onclick="window.location.href='../../'">Alba</span> •
+      <span class="brand-kron" onclick="openNavMenu()">Kron</span>
+    </div>
+    <div id="userStatus" class="logged">Cargando sesión...</div>
+  </nav>
+
+  <div class="main-container">
+    <!-- Editor -->
+    <div class="panel editor-panel">
+      <h2>Nuevo Proyecto</h2>
+
+      <input id="projectTitle" class="input" placeholder="Nombre del proyecto" maxlength="80">
+      <textarea id="description" class="input" placeholder="Descripción corta" maxlength="200"></textarea>
+      <input id="category" class="input" placeholder="Categorías (#ejemplo #urgente)">
+
+      <div class="dates">
+        <div>
+          <label>Fecha de inicio</label>
+          <input type="date" id="startDate" class="date-input">
+        </div>
+        <div>
+          <label>Fecha de fin</label>
+          <input type="date" id="endDate" class="date-input">
+        </div>
+      </div>
+
+      <!-- Tareas siempre visibles -->
+      <h3 style="margin: 20px 0 10px 0;">Tareas del proyecto</h3>
+      <div id="tasksEditor" class="tasks-editor">
+        <input id="taskName" class="input" placeholder="Nombre de la nueva tarea">
+        <input type="date" id="taskDate" class="date-input">
+        <div class="actions" style="margin-bottom: 15px;">
+          <button onclick="addTaskToList()">Agregar Tarea</button>
+        </div>
+        <div id="currentTasksList" class="current-tasks"></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" onclick="saveProject()">Iniciar</button>
+        <button onclick="clearEditor()">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Proyectos Activos -->
+    <div class="panel active-panel">
+      <h2>Proyectos Activos</h2>
+      <div id="activeProjects"></div>
+    </div>
+  </div>
+
+  <!-- Archivo -->
+  <div class="archive-card">
+    <h3>Archivo</h3>
+    <div id="archiveList"></div>
+  </div>
+
+  <!-- Modal Menú -->
+  <div id="navMenuModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Módulos Alba</h3>
+        <span class="close" onclick="closeNavMenu()">✕</span>
+      </div>
+      <div class="nav-menu-links">
+        <a href="../../Lux/">Lux</a>
+        <a href="../../Ink">Ink</a>
+        <a href="../">Kron (Visor)</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

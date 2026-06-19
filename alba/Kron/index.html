@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <title>Alba • Kron</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <span class="brand-alba" onclick="window.location.href='../'">Alba</span> • <span class="brand-kron" onclick="openNavMenu()">Kron</span><span id="navMe" class="brand-me" style="display:none;" onclick="loadMe()"> • Me</span>
+        </div>
+
+        <div class="search">
+            <input id="userInput" type="text" placeholder="Usuario...">
+            <button id="goBtn">Buscar</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="profile"></div>
+        <div id="albums" class="albums"></div>
+        <div id="postsContainer"></div>
+    </main>
+
+    <div id="navMenuModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Módulos Alba</h3>
+                <span class="close" onclick="closeNavMenu()">✕</span>
+            </div>
+            <div class="nav-menu-links">
+                <a href="../Lux/">Lux</a>
+                <a href="../Ink/">Ink</a>
+                <a href="Editor/">Editor</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"></h3>
+                <span class="close" onclick="closeModal()">✕</span>
+            </div>
+            <div id="userList"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

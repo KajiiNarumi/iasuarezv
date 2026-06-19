@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alba Editor Ink</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root {
+      --bg: #000000;
+      --surface: #0a0a0a;
+      --card: #111111;
+      --text: #e0e0e0;
+      --dim: #888888;
+      --line: #333333;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.7;
+    }
+
+    /* ==================== NAVBAR ==================== */
+    .navbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      user-select: none;
+    }
+
+    .brand-alba, .brand-ink {
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .brand-alba:hover, .brand-ink:hover {
+      color: #aaa;
+    }
+
+    /* ==================== MODAL MENÚ ==================== */
+    .modal {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+        display: none; align-items: center; justify-content: center; z-index: 1000;
+    }
+    .modal-content {
+        background: #111; width: 90%; max-width: 450px; max-height: 80vh;
+        overflow-y: auto; border: 1px solid #333; border-radius: 8px;
+    }
+    .modal-header {
+        padding: 15px 20px; border-bottom: 1px solid #333; display: flex;
+        justify-content: space-between; align-items: center;
+    }
+    .close { font-size: 28px; cursor: pointer; color: var(--dim); }
+    .close:hover { color: #fff; }
+
+    .nav-menu-links {
+        display: flex;
+        flex-direction: column;
+        padding: 15px 0;
+    }
+
+    .nav-menu-links a {
+        padding: 15px 25px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.3rem;
+        font-weight: 600;
+        border-bottom: 1px solid #1a1a1a;
+        transition: background 0.2s;
+    }
+
+    .nav-menu-links a:last-child { border-bottom: none; }
+    .nav-menu-links a:hover { background: #161616; opacity: 1; }
+
+    /* ==================== CONTENEDORES ==================== */
+    .editor-container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .card, .editor-panel, .preview-panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    /* ==================== INPUTS ==================== */
+    .input, .title-input, textarea {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 14px 16px;
+      border-radius: 6px;
+      width: 100%;
+      margin: 10px 0;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .input:focus, textarea:focus {
+      outline: none;
+      border-color: #666;
+    }
+
+    .title-input {
+      font-size: 1.5rem;
+      font-weight: 600;
+      padding: 16px;
+    }
+
+    textarea#content {
+      min-height: 420px;
+      resize: vertical;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    textarea#synopsis {
+      min-height: 80px;
+      resize: none;
+    }
+
+    .char-counter {
+      text-align: right;
+      font-size: 0.85rem;
+      color: var(--dim);
+      margin-top: -5px;
+      margin-bottom: 15px;
+    }
+
+    /* ==================== GRID ==================== */
+    .editor-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .markdown-preview {
+      background: var(--surface);
+      padding: 25px;
+      border-radius: 6px;
+      min-height: 420px;
+      overflow-y: auto;
+      border: 1px solid var(--line);
+    }
+
+    .markdown-preview img {
+      display: block;
+      max-width: 80%;
+      height: auto;
+      margin: 24px auto;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+
+    /* ==================== BOTONES ==================== */
+    button {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--line);
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    button:hover {
+      background: #1a1a1a;
+      border-color: #555;
+      color: #fff;
+    }
+
+    .btn-primary {
+      background: #e0e0e0;
+      color: #000;
+      border: none;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: #ffffff;
+    }
+
+    .btn-publish {
+      background: #0055ff;
+      color: #fff;
+      border: none;
+    }
+    .btn-publish:hover { background: #3377ff; }
+
+    .actions {
+      margin: 20px 0;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ==================== LISTA Y ESTADOS ==================== */
+    .record {
+      background: var(--surface);
+      padding: 20px;
+      margin: 15px 0;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+    }
+
+    .record-tags {
+      color: var(--dim);
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+    }
+
+    .logged {
+      color: #aaaaaa;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .editor-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">
+      <span class="brand-alba" onclick="window.location.href='../../'">Alba</span> •
+      <span class="brand-ink" onclick="openNavMenu()">Ink-Editor</span>
+    </div>
+    <div id="userStatus" class="logged">Cargando sesión...</div>
+  </nav>
+
+  <div class="editor-container">
+    <div id="mainSection" style="display:none;">
+      <div class="actions">
+        <button onclick="logout()">Cerrar Sesión</button>
+        <button onclick="clearForm()">Nuevo Escrito</button>
+        <button onclick="listTexts()">Refrescar Lista</button>
+      </div>
+
+      <div class="editor-grid">
+        <div class="editor-panel">
+          <input class="title-input" id="title" placeholder="Título del escrito" maxlength="60">
+          <input class="input" id="category" placeholder="Categorías (ej. #tecnologia #filosofia)">
+          <textarea id="synopsis" class="input" placeholder="Sinopsis breve..." maxlength="120"></textarea>
+          <div id="synopsisCounter" class="char-counter">0 / 120</div>
+          <textarea id="content" placeholder="Escribe tu contenido en Markdown..."></textarea>
+          <div class="actions">
+            <button class="btn-primary" onclick="saveText()">Guardar Escrito</button>
+          </div>
+        </div>
+
+        <div class="preview-panel">
+          <h3>Vista Previa</h3>
+          <div id="preview" class="markdown-preview"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Archivo</h3>
+        <div id="recordsList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="navMenuModal" class="modal">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h3>Módulos Alba</h3>
+              <span class="close" onclick="closeNavMenu()">✕</span>
+          </div>
+          <div class="nav-menu-links">
+              <a href="../../Lux/">Lux</a>
+              <a href="../../Kron/">Kron</a>
+              <a href="../">Ink (Visor)</a>
+          </div>
+      </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

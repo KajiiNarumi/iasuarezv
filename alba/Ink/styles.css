@@ -1,0 +1,266 @@
+:root {
+    --bg: #000000;
+    --text: #e0e0e0;
+    --dim: #888888;
+    --line: #222222;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, sans-serif;
+    line-height: 1.75;
+}
+
+/* ==================== ESTILO DE ENLACES ==================== */
+a:link, a:visited {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+a:hover, a:active {
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+/* ==================== NAVBAR ==================== */
+.navbar {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #ddd;
+    user-select: none;
+}
+
+.brand-alba, .brand-ink {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.brand-alba:hover, .brand-ink:hover {
+    color: #fff;
+}
+.brand-alba, .brand-ink, .brand-me {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.brand-alba:hover, .brand-ink:hover, .brand-me:hover {
+    color: #fff;
+}
+
+.search { display: flex; flex: 1; max-width: 420px; }
+
+.search input {
+    flex: 1;
+    padding: 12px 16px;
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+}
+
+.search button {
+    padding: 0 24px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-left: none;
+    color: #fff;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+}
+
+/* ==================== PROFILE (CON LÍNEA DIVISORIA INFERIOR) ==================== */
+.profile {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px 20px 30px 20px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+}
+
+.profile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.profile-info { flex: 1; }
+.profile-info h2 { margin: 0; font-size: 1.65rem; }
+.profile-info p { color: var(--dim); margin: 6px 0; }
+
+.profile-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.btn {
+    background: #111;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 7px 14px;
+    border-radius: 9999px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn:hover { background: #222; color: #fff; }
+
+/* ==================== ÁLBUMES ==================== */
+.albums {
+    max-width: 900px;
+    margin: 10px auto;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px 20px;
+    scrollbar-width: thin;
+}
+
+.album-btn {
+    padding: 6px 16px;
+    background: #111;
+    border: 1px solid #333;
+    color: var(--dim);
+    border-radius: 9999px;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 0.95rem;
+    text-transform: capitalize;
+}
+
+.album-btn:hover { background: #1a1a1a; }
+.album-btn.active { background: #222; color: #fff; border-color: #666; }
+
+/* ==================== POSTS ==================== */
+.post {
+    max-width: 780px;
+    margin: 25px auto;
+    background: #0a0a0a;
+    padding: 30px;
+    border: 1px solid #1f1f1f;
+    border-radius: 8px;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.post-title {
+    font-size: 1.55rem;
+    color: #e0e0e0;
+    cursor: pointer;
+    flex: 1;
+}
+
+.post-title:hover { color: #fff; }
+
+.toggle-btn { font-size: 1.5rem; color: #666; cursor: pointer; padding-right: 8px; }
+
+.post-date {
+    color: var(--dim);
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+.post-synopsis {
+    color: #aaaaaa;
+    font-style: italic;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    padding-left: 12px;
+    border-left: 2px solid #333;
+}
+
+.post-category-label {
+    display: inline-block;
+    color: #666;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.post-content {
+    display: none;
+    white-space: pre-wrap;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #ddd;
+    margin-top: 20px;
+    border-top: 1px dashed #222;
+    padding-top: 20px;
+}
+
+/* ==================== IMÁGENES EN MARKDOWN ==================== */
+.post-content img {
+    display: block;
+    max-width: 80%;
+    height: auto;
+    margin: 24px auto;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+}
+
+/* ==================== MODALES ==================== */
+.modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+    display: none; align-items: center; justify-content: center; z-index: 1000;
+}
+.modal-content {
+    background: #111; width: 90%; max-width: 450px; max-height: 80vh;
+    overflow-y: auto; border: 1px solid #333; border-radius: 8px;
+}
+.modal-header {
+    padding: 15px 20px; border-bottom: 1px solid #333; display: flex;
+    justify-content: space-between; align-items: center;
+}
+.close { font-size: 28px; cursor: pointer; color: var(--dim); }
+.close:hover { color: #fff; }
+
+.user-item { padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #1a1a1a; cursor: pointer; }
+.user-item:hover { background: #1a1a1a; }
+.user-item img { width: 48px; height: 48px; border-radius: 50%; }
+
+/* Opciones dedicadas del Modal de Navegación */
+.nav-menu-links {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0;
+}
+
+.nav-menu-links a {
+    padding: 15px 25px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-bottom: 1px solid #1a1a1a;
+    transition: background 0.2s;
+}
+
+.nav-menu-links a:last-child {
+    border-bottom: none;
+}
+
+.nav-menu-links a:hover {
+    background: #161616;
+    opacity: 1;
+}

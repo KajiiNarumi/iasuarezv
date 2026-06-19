@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <title>Alba | Galería de Bluesky</title>
+
+    <meta name="description" content="Explora galerías de imágenes de Bluesky con un diseño limpio y minimalista.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alba.wisp.place/">
+    <meta property="og:title" content="Alba - Galería de Bluesky">
+    <meta property="og:description" content="Tu portafolio visual de Bluesky con estilo elegante.">
+    <meta property="og:image" content="https://alba.wisp.place/sunrise.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://alba.wisp.place/">
+    <meta name="twitter:title" content="Alba - Galería de Bluesky">
+    <meta name="twitter:description" content="Explora y comparte imágenes de Bluesky de forma sencilla.">
+    <meta name="twitter:image" content="https://alba.wisp.place/sunrise.png">
+
+    <link rel="icon" type="image/png" href="sunrise.png">
+    <link rel="apple-touch-icon" href="sunrise.png">
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <span class="brand-alba" onclick="window.location.href='../'">Alba</span>
+            <span style="margin: 0 4px;">·</span>
+            <span class="brand-lux" onclick="openNavMenu()">Lux</span>
+            <span id="brand-me-separator" style="margin: 0 4px; display: none;">·</span>
+            <span id="brand-me" class="brand-me" style="display: none;" onclick="loadMyProfile()">Me</span>
+        </div>
+
+        <div class="search">
+            <input id="userInput" type="text" placeholder="Usuario...">
+            <button id="goBtn"></button>
+        </div>
+    </header>
+
+    <main>
+        <div id="profile"></div>
+        <div id="albums" class="albums"></div>
+        <div id="gallery" class="grid"></div>
+    </main>
+
+    <div id="modal" class="modal">
+        <div class="modal-box">
+            <div class="close" id="closeBtn">✕</div>
+            <div class="nav prev" id="prevBtn">❮</div>
+            <div class="nav next" id="nextBtn">❯</div>
+
+            <div class="modal-img">
+                <img id="mImg">
+            </div>
+
+            <div class="modal-info">
+                <a id="postLink" class="btn post-btn" target="_blank"></a>
+                <div id="mText"></div>
+                <div id="mLikes"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="userModal" class="modal">
+        <div class="modal-box">
+            <div class="close" onclick="document.getElementById('userModal').classList.remove('active')">✕</div>
+            <div class="modal-info">
+                <div id="userList" class="user-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="navMenuModal" class="nav-modal">
+        <div class="nav-modal-content">
+            <div class="nav-modal-header">
+                <h3>Módulos Alba</h3>
+                <span class="close-nav" onclick="closeNavMenu()">✕</span>
+            </div>
+            <div class="nav-menu-links">
+                <a href="../Ink/">Ink</a>
+                <a href="../Kron/">Kron</a>
+                <a href="./Editor/">Editor</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js');
+        }
+    </script>
+
+</body>
+</html>

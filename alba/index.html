@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+
+    <title>Alba</title>
+
+    <meta name="description" content="Cliente minimalista para Bluesky. Publica imágenes, escribe artículos y gestiona objetivos desde una interfaz limpia y libre de distracciones.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alba.wisp.place/">
+    <meta property="og:title" content="Alba">
+    <meta property="og:description" content="Cliente minimalista para Bluesky basado en el protocolo AT.">
+    <meta property="og:image" content="https://alba.wisp.place/sunrise.png">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://alba.wisp.place/">
+    <meta name="twitter:title" content="Alba">
+    <meta name="twitter:description" content="Cliente minimalista para Bluesky basado en el protocolo AT.">
+    <meta name="twitter:image" content="https://alba.wisp.place/sunrise.png">
+
+    <!-- Iconos -->
+    <link rel="icon" type="image/png" href="sunrise.png">
+    <link rel="apple-touch-icon" href="sunrise.png">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="dynamic-logo">
+            <a href="index.html">Alba</a>
+            <span class="separator">·</span>
+            <button id="authTrigger" class="menu-trigger">Login</button>
+        </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <!-- MODAL DE LOGIN -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModalBtn">&times;</button>
+            <h2>Acceso PDS</h2>
+            <input class="input" id="identifier" placeholder="Handle (ej. iasuarezv.com)">
+            <input class="input" id="password" type="password" placeholder="App Password">
+            <button class="btn-primary" id="loginBtn">Iniciar Sesión</button>
+
+            <p class="bsky-legend">
+                ¿No tienes cuenta? <br>
+                <a href="https://bsky.app" target="_blank" rel="noopener noreferrer">Regístrate en Bluesky</a>
+            </p>
+        </div>
+    </div>
+
+    <main>
+        <section class="module">
+            <div class="module-text">
+                <h2>Fototeca</h2>
+                <p>Publica y visualiza galerías de imágenes</p>
+            </div>
+            <a href="Lux/" class="module-btn">Lux</a>
+        </section>
+
+        <section class="module">
+            <div class="module-text">
+                <h2>Grafoteca</h2>
+                <p>Escribe y lee artículos largos <br><a href="Ink/Editor/"><b>Crear registro</b></a></p>
+            </div>
+            <a href="Ink/" class="module-btn">Ink</a>
+        </section>
+
+        <section class="module">
+            <div class="module-text">
+                <h2>Praxoteca</h2>
+                <p>Gestiona o analiza objetivos con plazo de tiempo <br><a href="Kron/Editor/"><b>Crear registro</b></a></p>
+            </div>
+            <a href="Kron/" class="module-btn">Kron</a>
+        </section>
+
+
+        <section class="content-section">
+            <h2>¿Qué es Alba?</h2>
+            <p>
+                Es una aplicación diseñada para crear y gestionar tus publicaciones en la red
+                descentralizada "Bluesky". Su objetivo principal es ofrecerte una nueva experiencia
+                para consumir contenido, manteniendo un enfoque minimalista, limpio y libre de
+                distracciones que te permita concentrarte en lo que realmente importa: las ideas.
+            </p>
+        </section>
+
+        <section class="content-section">
+            <h2>¿Bluesky?</h2>
+            <p>
+                Es la red social del momento que está demostrando que otra forma de conectar es posible.
+                A diferencia de las plataformas tradicionales, en Bluesky tú eres el dueño de tu experiencia,
+                tus datos y tu algoritmo.
+            </p>
+        </section>
+
+        <section class="content-section">
+            <h2>¿Protocolo AT?</h2>
+            <p>
+                Es la tecnología abierta e innovadora sobre la que está construida "Bluesky". Funciona como
+                una columna vertebral descentralizada (atproto) que permite la portabilidad de tu identidad
+                y la interconexión entre diferentes aplicaciones. Alba aprovecha esta arquitectura para darte
+                acceso a la red con total soberanía digital.
+            </p>
+        </section>
+
+        <section class="content-section">
+            <h2>¿Colecciones?</h2>
+            <p>
+                Es nuestra forma de organizar el contenido sin saturar tu interfaz. En Alba, las colecciones
+                se gestionan utilizando el símbolo # (hashtags). De este modo, puedes aplicar filtros de
+                visualización dinámicos para agrupar temas y leer solo lo que te interesa en cada momento.
+            </p>
+        </section>
+
+        <section class="content-section">
+            <h2>Gratis</h2>
+            <p>
+                Alba es y seguirá siendo un proyecto gratuito. Sin embargo, mantener el desarrollo
+                independiente, la infraestructura y añadir mejoras constantes requiere tiempo y esfuerzo.
+                Si la aplicación te resulta útil, considera realizar una
+                <a href="https://ko-fi.com/iasuarezv" target="_blank" rel="noopener noreferrer">donación</a>
+                voluntaria. Tu apoyo es la mayor motivación para continuar desarrollando y expandiendo esta
+                herramienta.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <a href="https://bsky.app/profile/iasuarezv.com" target="_blank" rel="noopener noreferrer" class="footer-link">
+            Follow me @iASuarezV
+        </a>
+    </footer>
+
+    <!-- LÓGICA DE AUTENTICACIÓN GLOBAL -->
+    <script src="app.js"></script>
+</body>
+</html>
