@@ -456,6 +456,13 @@ function showMain(e){
   mainContent.classList.remove("hidden");
 }
 </script>
-
+<script>
+document.addEventListener('click', function() {
+  if (document.body.classList.contains('light')) {
+    document.getElementById('linksRow').style.opacity = '1';
+    document.getElementById('linksRow').style.pointerEvents = 'auto';
+  }
+});
+</script>
 </body>
 </html>
