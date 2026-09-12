@@ -54,8 +54,6 @@ liquid:
 # Build settings
 permalink: /:categories/:title/
 markdown: kramdown
-feed:
-  path: atom.xml
 
 # Pagination - https://jekyllrb.com/docs/pagination/
 paginate: 10
